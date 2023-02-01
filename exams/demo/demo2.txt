@@ -1,0 +1,16 @@
+Exam A
+QUESTION 1
+Given the following input stream:
+<i>txt1.txt
+atxt.txt
+txtB.txt</i>
+  <img src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" alt="Red dot" />
+Which of the following regular expressions turns this input stream into the following output stream?
+txt1.bak.txt
+atxt.bak.txt
+txtB.bak.txt
+Correct Answer: s/txt$/bak.txt/
+Section: (none)
+Explanation: sed
+Explanation/Reference: lpi 101 add normal html text i.e. <br><a href="test.com" target="_blank">Test</a>
+Reference: https://google.com/

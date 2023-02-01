@@ -1,0 +1,33 @@
+Exam A
+QUESTION 1
+Single choise question
+<span class="s4">comand/code/special text</span>
+A. Answer 1
+B. Answer 2
+C. Answer 3
+D. Answer 4
+Correct Answer: A
+Section: (none)
+Explanation: Explanation why this is correct
+Explanation/Reference: https://anyurl_put_here
+QUESTION 2
+Multiple choise question
+you can use any html tags to pretify the questions
+<img src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" alt="Red dot" />
+A. Answer 1
+B. Answer 2
+C. Answer 3
+D. Answer 4
+Correct Answer: AD
+Section: (none)
+Explanation: Explanation why this is correct
+Explanation/Reference:
+Reference: https://anyurl.put_here
+QUESTION 3
+Free text question
+2+2=?
+Correct Answer: 4
+Section: (none)
+Explanation: Explanation why this is correct
+Explanation/Reference: 
+Reference: https://anyurl.put_here
