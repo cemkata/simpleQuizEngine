@@ -86,6 +86,8 @@ https://www.sitepoint.com/simple-javascript-quiz/
 
     // show number of correct answers out of total
     resultsContainer.innerHTML = `${numCorrect} out of ${numberOfQuestion.value}`;
+	clearTimeout(timer);
+	timerTxt.textContent = "";
   }
 
   function checkAnswer(currentQuestion, questionNumber){
