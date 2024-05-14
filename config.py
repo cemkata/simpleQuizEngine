@@ -3,5 +3,3 @@ examFolder = "exams"
 serverAddres = "127.0.0.1"
 # Port of the web interface
 serverPort = 8080
-
-ver = '0.13'
