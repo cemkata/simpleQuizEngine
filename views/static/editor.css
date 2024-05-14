@@ -1,0 +1,45 @@
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+  height: 300px;
+}
+
+.left {
+  width: 66%;
+}
+
+.right {
+  width: 33%;
+  /*background-color: lightblue;*/
+  /*Debug*/
+  height: 66%;
+  /*overflow-y: scroll;
+  overflow-x: hidden;*/
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+#title {
+  width: 100%;
+  /*background-color: blueviolet;*/
+}
+
+.area{
+  width: 100%;
+}
+
+.showinline {
+    display: flex;
+    align-items: center;
+}
