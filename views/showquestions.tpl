@@ -44,13 +44,14 @@
 <table style="width:100%" class="pretyPrint">
   <tr><button style="width:100%" onclick="confirmEdit(-1)">New question</button> </tr>
   <tr>
-    <th class="w3-dark-grey">Questions</th>
+    <th class="w3-dark-grey">Total number of question(s): {{len(questions)}}</th>
+  </tr>
+  <tr><td colspan="3"><hr></td></tr>
+  <tr>
+    <th class="w3-dark-grey">Question</th>
     <th class="w3-dark-grey" colspan="2">Action</th>
   </tr>
-  <tr>
-  <td colspan="3"><hr>
-  </td>
-  </tr>
+  <tr><td colspan="3"><hr></td></tr>
 % for qstn in questions:
   <tr class="question_rows">
     <td>
