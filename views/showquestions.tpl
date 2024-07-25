@@ -56,37 +56,54 @@
   <tr class="question_rows">
     <td>
 	<br><h2>Question {{qstn["id"]}}:</h2><hr>
-      {{!qstn["question"]}}
+	  %if type(qstn["question"]) is list:
+	    %for q in qstn["question"]:
+		    {{!q}}</br>
+		%end ##for q in qstn["question"]
+	  % else:
+        {{!qstn["question"]}}
+	  %end ## if type(qstn["question"]) is list:
 	<br><h3>Answer(s):</h3><hr>
 	  %if len(qstn["answers"]) == 0:
 			<input type="text" size="80" value="{{qstn["correctAnswer"]}}" readonly>
 	  %else:
-		    %if len(qstn["correctAnswer"]) != 1:
-			    %j = 0
-				%for i in range(len(qstn["answers"])):
-				  %if str(i) == qstn["correctAnswer"][j]:
-				     <input type="checkbox" checked disabled>
-					 <label> {{qstn["answers"][str(i)]}}</label><br>
-					 %j = j + 1
-					 %if j >= len(qstn["correctAnswer"]):
-					 %j = j - 1
-					 %end ##if j >= len(qstn["correctAnswer"]):
-				  %else:
-				     <input type="checkbox" disabled>
-					 <label> {{qstn["answers"][str(i)]}}</label><br>
-				  %end ##%if str(i) == qstn["correctAnswer"]:
-				%end ##%for i in range(len(answers)):
+	        %if type(qstn["question"]) is list:
+			    <p><u>Correct answers:</u></p>
+			    %for answer in qstn["correctAnswer"]:
+			    <label> {{answer}}</label><br>
+				%end ## for answer in qstn["correctAnswer"]:
+			    <p><u>Possible answers:</u></p>
+			    %for answer in qstn["answers"]:
+			    <label> {{answer}}</label><br>
+				%end ## for answer in qstn["answers"]:
 			%else:
-				%for i in range(len(qstn["answers"])):
-				  %if str(i) == qstn["correctAnswer"]:
-				     <input type="radio" checked disabled>
-					 <label> {{qstn["answers"][str(i)]}}</label><br>
-				  %else:
-				     <input type="radio" disabled>
-					 <label> {{qstn["answers"][str(i)]}}</label><br>
-				  %end ##%if str(i) == qstn["correctAnswer"]:
-				%end ##%for i in range(len(answers)):
-			%end ##if len(qstn["correctAnswer"]) != 1:
+				%if len(qstn["correctAnswer"]) != 1:
+					%j = 0
+					%for i in range(len(qstn["answers"])):
+					  %if str(i) == qstn["correctAnswer"][j]:
+						 <input type="checkbox" checked disabled>
+						 <label> {{qstn["answers"][str(i)]}}</label><br>
+						 %j = j + 1
+						 %if j >= len(qstn["correctAnswer"]):
+						 %j = j - 1
+						 %end ##if j >= len(qstn["correctAnswer"]):
+					  %else:
+						 <input type="checkbox" disabled>
+						 <label> {{qstn["answers"][str(i)]}}</label><br>
+					  %end ##%if str(i) == qstn["correctAnswer"]:
+					%end ##%for i in range(len(answers)):
+				%else:
+					%for i in range(len(qstn["answers"])):
+					  %if str(i) == qstn["correctAnswer"]:
+						 <input type="radio" checked disabled>
+						 <label> {{qstn["answers"][str(i)]}}</label><br>
+					  %else:
+						 <input type="radio" disabled>
+						 <label> {{qstn["answers"][str(i)]}}</label><br>
+					  %end ##%if str(i) == qstn["correctAnswer"]:
+					%end ##%for i in range(len(answers)):
+				%end ##if len(qstn["correctAnswer"]) != 1:
+			%end ##if type(qstn["question"]) is list:
 	  %end ##if len(qstn["answers"]) == 0:
 	  <br><br><h3>Explanation:</h3><hr>
 	  <div style="width: 75%;">{{!qstn["explanation"]}}</div>

@@ -120,6 +120,22 @@ def SaveQuestion():
     answers =  json.loads(request.forms.get("answers"))
     correctAnswer =  request.forms.get("correctAnswer")
     dump_file = proccesFile(os.path.join(examFolder, courseID, quizID))
+    
+    if("$?__" in questionTxt):
+        resultingQuestionTxt = []
+        for q in questionTxt.split("$?__"):
+            if(len(q) == 0 or q == "<br>" or q == "</br>"):
+                continue
+            if q.startswith("<br>"):
+                q = q.replace("<br>", "", 1)
+            if q.startswith("</br>"):
+                q = q.replace("</br>", "", 1)
+            resultingQuestionTxt.append(q)
+        questionTxt = resultingQuestionTxt
+        correctAnswer = json.loads(correctAnswer)
+        print(correctAnswer)
+        print(questionTxt)
+    
     for i in range(len(dump_file["dump"])):
         if dump_file["dump"][i]["id"] == questionID:
             dump_file["dump"][i]['explanation'] = explnTxt

@@ -12,7 +12,44 @@ https://www.sitepoint.com/simple-javascript-quiz/
 
     // for each question...
     for(let i = 0; i<numberOfQuestion.value; i++){
-        if(Object.keys(myQuestions[i].answers).length == 0){ //Fill the blank question
+		
+		if(typeof myQuestions[i].question == 'object'){ //drag-drop question
+			const questions = [];
+			for(let j = 0; j < myQuestions[i].question.length; j++){
+				  questions.push(
+					`<h5 class="dragdrop_question">${myQuestions[i].question[j]}<div class="droptarget"></div>`
+				  );
+			}
+			const question_box = `<div class="question_box">${questions.join("")}</div>`
+			
+			const answers = []
+			for(let j = 0; j < myQuestions[i].answers.length; j++){
+			  answers.push(
+				`<p draggable="true" class="dragtarget">${myQuestions[i].answers[j]}</p>`
+			  );
+			}
+			const answer_box = `<div class="answers_container" id="drag_drop-answer"><p>Answers:</p>${answers.join("")}</div>`
+
+			if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
+			else{reftxt = ""}
+			
+			const correctAnsweredQuestions = []
+			for(let j = 0; j < myQuestions[i].question.length; j++){
+				  correctAnsweredQuestions.push(
+					`<h5 class="dragdrop_question">${myQuestions[i].question[j]}<div class="droptarget">${myQuestions[i].correctAnswer[j]}</div>`
+				  );
+			}
+			
+            output.push(
+              `<div class="slide">
+                <div class="question"> ${answer_box} </div>
+                <div class="answers"> ${question_box} </div>
+                
+                <div class="explanation hidden"> Correct answer: </br>${correctAnsweredQuestions.join("")}</br>${myQuestions[i].explanation} ${reftxt}</div><hr>
+              </div>`
+			  //TODO
+            );
+		}else if(Object.keys(myQuestions[i].answers).length == 0){ //Fill the blank question
               const answers = [];
               answers.push(
                 `<label>
@@ -109,6 +146,33 @@ https://www.sitepoint.com/simple-javascript-quiz/
       if(userAnswer === ""){
           var tmpQuestion = answerContainer.querySelectorAll(selectorAll);
           if(tmpQuestion.length < 2){ //if there is only text box there will be only one input
+		      if (tmpQuestion.length == 0){
+					// here should be the logic to check the answer
+					let result = true
+					dragDropAnswers = answerContainer.getElementsByTagName("p");
+					
+					if(dragDropAnswers.length == 0){
+						result = false
+					}else{
+						dragDropQuestions = answerContainer.getElementsByClassName("dragdrop_question");
+						for (let i = 0; i < currentQuestion.correctAnswer.length; i++) {
+							currentAnswer = dragDropQuestions[i].getElementsByClassName("dragtarget");
+							if(currentAnswer.length == 0){
+								result = false;
+								continue;
+							}else{
+								currentAnswer = currentAnswer[0];
+							}
+							if(currentAnswer.textContent === currentQuestion.correctAnswer[i]){
+								currentAnswer.style.color = 'lightgreen'; // color the answers green
+							}else{
+								currentAnswer.style.color = 'red'; // color the answers red
+								result = false;
+							}
+						}
+					}
+					return result;
+			  }
               if(tmpQuestion[0].value === currentQuestion.correctAnswer){
                 tmpQuestion[0].style.color = 'lightgreen'; // color the answers green
                 return true;
@@ -321,3 +385,67 @@ xmlhttp.onreadystatechange = function() {
 xmlhttp.open("GET", url, true);
 xmlhttp.send();
 
+document.addEventListener("dragstart", function (event) {
+    // The dataTransfer.setData() method sets the data type and the value of the dragged data
+    // event.dataTransfer.setData("Text", event.target.id);
+    dragP = event.target;
+
+    // Output some text when starting to drag the p element
+    //document.getElementById("demo").innerHTML = "Started to drag the p element.";
+
+    // Change the opacity of the draggable element
+    event.target.style.opacity = "0.4";
+});
+
+// While dragging the p element, change the color of the output text
+document.addEventListener("drag", function (event) {
+    //document.getElementById("demo").style.color = "red";
+});
+
+// Output some text when finished dragging the p element and reset the opacity
+document.addEventListener("dragend", function (event) {
+    //document.getElementById("demo").innerHTML = "Finished dragging the p element.";
+    event.target.style.opacity = "1";
+});
+
+/* Events fired on the drop target */
+
+// When the draggable p element enters the droptarget, change the DIVS's border style
+document.addEventListener("dragenter", function (event) {
+    if (event.target.className == "droptarget") {
+        event.target.style.border = "3px dotted red";
+    }
+});
+
+// By default, data/elements cannot be dropped in other elements. To allow a drop, we must prevent the default handling of the element
+document.addEventListener("dragover", function (event) {
+    event.preventDefault();
+});
+
+// When the draggable p element leaves the droptarget, reset the DIVS's border style
+document.addEventListener("dragleave", function (event) {
+    if (event.target.className == "droptarget") {
+        event.target.style.border = "";
+    }
+});
+
+/* On drop - Prevent the browser default handling of the data (default is open as link on drop)
+   Reset the color of the output text and DIV's border-color
+   Get the dragged data with the dataTransfer.getData() method
+   The dragged data is the id of the dragged element ("drag1")
+   Append the dragged element into the drop element
+*/
+document.addEventListener("drop", function (event) {
+    event.preventDefault();
+    let targetDiv = event.target;
+    if (targetDiv.className == "droptarget") {
+        //document.getElementById("demo").style.color = "";
+        targetDiv.style.border = "hidden";
+        if (targetDiv.childElementCount != 0){
+            let childP = targetDiv.getElementsByTagName("p")[0];
+            document.getElementById("drag_drop-answer").appendChild(childP);
+        }
+        targetDiv.appendChild(dragP);
+        dragP = null;
+    }
+});
