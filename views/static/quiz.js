@@ -28,7 +28,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
 				`<p draggable="true" class="dragtarget">${myQuestions[i].answers[j]}</p>`
 			  );
 			}
-			const answer_box = `<div class="answers_container" id="drag_drop-answer"><p>Answers:</p>${answers.join("")}</div>`
+			const answer_box = `<div class="answers_container" id="drag_drop-answer_slide${i}"><p>Answers:</p>${answers.join("")}</div>`
 
 			if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
 			else{reftxt = ""}
@@ -42,8 +42,8 @@ https://www.sitepoint.com/simple-javascript-quiz/
 			
             output.push(
               `<div class="slide">
-                <div class="question"> ${answer_box} </div>
                 <div class="answers"> ${question_box} </div>
+                <div class="question"> ${answer_box} </div>
                 
                 <div class="explanation hidden"> Correct answer: </br>${correctAnsweredQuestions.join("")}</br>${myQuestions[i].explanation} ${reftxt}</div><hr>
               </div>`
@@ -385,6 +385,8 @@ xmlhttp.onreadystatechange = function() {
 xmlhttp.open("GET", url, true);
 xmlhttp.send();
 
+var dragP;
+/* Events fired on the drag target */
 document.addEventListener("dragstart", function (event) {
     // The dataTransfer.setData() method sets the data type and the value of the dragged data
     // event.dataTransfer.setData("Text", event.target.id);
@@ -443,7 +445,7 @@ document.addEventListener("drop", function (event) {
         targetDiv.style.border = "hidden";
         if (targetDiv.childElementCount != 0){
             let childP = targetDiv.getElementsByTagName("p")[0];
-            document.getElementById("drag_drop-answer").appendChild(childP);
+            document.getElementById("drag_drop-answer_slide"+currentSlide).appendChild(childP);
         }
         targetDiv.appendChild(dragP);
         dragP = null;
