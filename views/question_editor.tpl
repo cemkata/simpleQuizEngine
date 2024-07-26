@@ -73,7 +73,8 @@
   <div class="showinline">
           <input type="text" id="referenceLink" style = "width: 100%;" value="{{questionContent['referenceLink']}}">
   </div>
-
+  <br>
+<div><button class="btn btn-primary" onclick="saveQuestion()">Save</button></div>
 </div> <div class="column right">
     <p><b>Question settings:</b></p>
     <table id = "questionOptions">
@@ -103,6 +104,15 @@
 	  </tr>
 	  <tr>
         <td><u>!!The questions must end with</u> $?__</td>
+      </tr>
+	  <tr>
+        <td></td>
+      </tr>
+	  <tr>
+        <td>You can save using the icon of the formaing</td>
+      </tr>
+	  <tr>
+        <td> area or the button at the bottom</td>
       </tr>
      </table>
   </div>
