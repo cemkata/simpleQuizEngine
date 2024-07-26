@@ -170,3 +170,23 @@ input[type=submit]:hover {
     /*padding: 15px;
     margin: 10px;*/
 }
+
+.scroll-to-top {
+    display: none;
+    position: fixed;
+    bottom: 17px;
+    right: 25px;
+    z-index: 9999;
+    font-size: 21px;
+    border: none;
+    outline: 0;
+    background: rgba(170, 170, 170, .75);
+    color: #fff;
+    cursor: pointer;
+    border-radius: 50%;
+    vertical-align: middle;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    box-shadow: var(--scrollToTopShadow);
+}

@@ -93,6 +93,15 @@
     </table>
     <p><b>Help:</b></p>
      <table id = "help">
+	  <tr>
+        <td>You can save using the icon of the formaing</td>
+      </tr>
+	  <tr>
+        <td> area or the button at the bottom</td>
+      </tr>
+	  <tr>
+        <td></td>
+      </tr>
       <tr>
         <td><b>Applys only to drag and drop<b></td>
 	  </tr>
@@ -104,15 +113,6 @@
 	  </tr>
 	  <tr>
         <td><u>!!The questions must end with</u> $?__</td>
-      </tr>
-	  <tr>
-        <td></td>
-      </tr>
-	  <tr>
-        <td>You can save using the icon of the formaing</td>
-      </tr>
-	  <tr>
-        <td> area or the button at the bottom</td>
       </tr>
      </table>
   </div>

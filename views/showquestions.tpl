@@ -31,6 +31,10 @@
 		  //window.location.href = url
 		} 
 	}
+	
+	function goToTop(){
+		scrollTo(0, 0);
+	}
 	</script>
 	</head>
 	<body>
@@ -122,6 +126,6 @@
 
 </table>
 </div>
-
+<button id="scrollToTopDesktop" class="scroll-to-top" onclick="goToTop()" title="Go to top" style="display: block;"><i>Top</i></button>
 	</body>
 </html>
