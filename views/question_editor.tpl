@@ -18,7 +18,7 @@
 	  %if type(questionContent['question']) is list:
 	    %ansrStr = ""
 	    %for q in questionContent['question']:
-		    %ansrStr += q+'''$?__</br>'''
+		    %ansrStr += q+'''</br>'''
 		%end
 		<textarea id="area_question" class = "area">{{ansrStr}}</textarea>
 	  % else:

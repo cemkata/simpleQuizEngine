@@ -4,7 +4,7 @@ from importQuestions import proccesFile, saveFile
 import os
 from config import * # App config is loaded here
 import json
-ver = '1.11'
+ver = '1.14'
 
 app = Bottle()
 
@@ -124,17 +124,22 @@ def SaveQuestion():
     if("$?__" in questionTxt):
         resultingQuestionTxt = []
         for q in questionTxt.split("$?__"):
-            if(len(q) == 0 or q == "<br>" or q == "</br>"):
-                continue
+            q = q.replace("<div>", "")
+            q = q.replace("</div>", "")
             if q.startswith("<br>"):
                 q = q.replace("<br>", "", 1)
             if q.startswith("</br>"):
                 q = q.replace("</br>", "", 1)
-            resultingQuestionTxt.append(q)
+            if len(q) == 0:
+                continue
+            resultingQuestionTxt.append(q+"$?__")
         questionTxt = resultingQuestionTxt
-        correctAnswer = json.loads(correctAnswer)
-        print(correctAnswer)
         print(questionTxt)
+        newCorrectAnswer = []
+        for answ in json.loads(correctAnswer):
+            if len(answ) != 0:
+                newCorrectAnswer.append(answ)
+        correctAnswer = newCorrectAnswer
     
     for i in range(len(dump_file["dump"])):
         if dump_file["dump"][i]["id"] == questionID:
@@ -148,6 +153,8 @@ def SaveQuestion():
 
     i = int(dump_file["lastID"])
     dump_file["dump"].append({})
+    if i == len(dump_file["dump"]):
+        i = len(dump_file["dump"]) - 1
     dump_file["dump"][i]['explanation'] = explnTxt
     dump_file["dump"][i]['referenceLink'] = referenceLink
     dump_file["dump"][i]['question'] = questionTxt
@@ -159,7 +166,7 @@ def SaveQuestion():
     return "Done!"
 
 @app.route('/editor/deleteQuestion')
-def SaveQuestion():
+def deleteQuestion():
     courseID = request.query.courseID
     quizID = request.query.quizID
     questionID = int(request.query.questionID)
@@ -167,6 +174,9 @@ def SaveQuestion():
     for i in range(len(dump_file["dump"])):
         if dump_file["dump"][i]["id"] == questionID:
             _ = dump_file["dump"].pop(i)
+            for j in range(i, len(dump_file["dump"])):
+                dump_file["dump"][j]["id"] = dump_file["dump"][j]["id"] - 1
+            dump_file["lastID"] = dump_file["lastID"] - 1
             saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
             return "Done!"
     return "Error!"
