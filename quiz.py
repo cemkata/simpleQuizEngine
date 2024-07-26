@@ -134,7 +134,6 @@ def SaveQuestion():
                 continue
             resultingQuestionTxt.append(q+"$?__")
         questionTxt = resultingQuestionTxt
-        print(questionTxt)
         newCorrectAnswer = []
         for answ in json.loads(correctAnswer):
             if len(answ) != 0:
