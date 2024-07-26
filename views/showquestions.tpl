@@ -10,7 +10,14 @@
 		var quiz = document.getElementById("quizID").value;
 		url = '/editor/editQuestion?courseID=' + cource + "&quizID=" + quiz + "&questionID=" + qid;
 		//window.location.href = url
-		window.open(url, '_blank').focus();
+		var win = window.open(url, '_blank');
+		win.focus();
+		var timer = setInterval(function() {
+			if (win.closed) {
+				clearInterval(timer);
+				location.reload();
+			}
+		}, 500);
 	}
 	function confirmDelete(qid) {
 		if (confirm('Are you sure you want to delete this question?')) {
@@ -24,7 +31,7 @@
 		  xhr.onload = () => {
 		    if (xhr.readyState == 4 && xhr.status == 200) {
 		  	    alert(xhr.response);
-			    location.reload();
+				location.reload();
 		    } else {
 		  	    alert(`Error: ${xhr.status}`);
 		    }
