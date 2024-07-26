@@ -24,6 +24,7 @@
 		  xhr.onload = () => {
 		    if (xhr.readyState == 4 && xhr.status == 200) {
 		  	    alert(xhr.response);
+			    location.reload();
 		    } else {
 		  	    alert(`Error: ${xhr.status}`);
 		    }
