@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from importQuestions import proccesFile, saveFile
+from importQuestionsHelper import proccesFile, saveFile
 from config import examFolder
 import re
 import os

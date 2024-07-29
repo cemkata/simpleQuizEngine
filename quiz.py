@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from bottle import Bottle, request, redirect, template, static_file
-from importQuestions import proccesFile, saveFile
+from importQuestionsHelper import proccesFile, saveFile
 import os
 from config import * # App config is loaded here
 import json
