@@ -131,8 +131,10 @@
   </td>
   </tr>
 % end ##% for qstn in questions:
-
 </table>
+%if len(questions) > 3:
+  <tr><button style="width:100%" onclick="confirmEdit(-1)">New question</button> </tr>
+% end ##% if len(questions) > 3:
 </div>
 <button id="scrollToTopDesktop" class="scroll-to-top" onclick="goToTop()" title="Go to top" style="display: block;"><i>Top</i></button>
 	</body>
