@@ -107,6 +107,6 @@ def main():
     
     print("Done!")
     print(f"File is: {outFileName}")
-
+    input("Done press enter...")
 if __name__ == '__main__':
     main()
