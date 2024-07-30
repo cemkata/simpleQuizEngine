@@ -16,10 +16,11 @@ def process_input(coiceList, msg = 'coice'):
         coice = int(input(f"{msg}: ")) -1
     return coice
 
-def getQuestions_numbers():
+def getQuestions_selection():
     done = True
     questionList =[]
-    print('To end the input of values type EOF')
+    print('Input of values separated by , or |')
+    print('To end the input of values (separated by , or |) type EOF')
     while done:
         inStr = input(">")
         if(" " in inStr or "," in inStr):
@@ -40,6 +41,26 @@ def getQuestions_numbers():
                 questionList.append(int(inStr))
             except ValueError:
                 print("The input is not a valid number")
+                
+def getQuestions_range():
+    print('Input range like 1-10')
+    while True:
+        inStr = input(">")
+        if(" " in inStr):
+            inStr = inStr.replace(" ", "")
+
+        try:
+            tmp = inStr.split("-")
+            if(len(tmp) != 2):
+                print("Wrong range")
+                continue
+            begin = int(tmp[0])
+            end = int(tmp[1])
+            questionList = [s for s in range(begin,end)]
+            return questionList
+        except ValueError:
+            print("The input is not a valid number")
+
 
 def exportQuestions(fileName, questionsIDs):
     questions = proccesFile(fileName)
@@ -66,8 +87,20 @@ def main():
     file_list = os.listdir(nextExamFolder)
 
     exam = process_input(file_list)
-
-    exportedQuestionsList = getQuestions_numbers()
+     
+    print("Range for exsample question from 1 to 10.")
+    print("Selection looks like 1,2,4,5,7,10.")
+    print("Do you want range of questions or selection of questions? (r,s)")
+    while True:
+        answ = input(">>")
+        if answ == "r" or answ == "R":
+            exportedQuestionsList = getQuestions_range()
+            break
+        elif answ == "s" or answ == "S":
+            exportedQuestionsList = getQuestions_selection()
+            break
+        else:
+            print("Selection can be either 's' or 'r'!")
     
     outFileName = os.path.join(nextExamFolder, file_list[exam])
     exportQuestions(outFileName, exportedQuestionsList)
