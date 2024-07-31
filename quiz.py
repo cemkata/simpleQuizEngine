@@ -4,7 +4,7 @@ from importQuestionsHelper import proccesFile, saveFile
 import os
 from config import * # App config is loaded here
 import json
-ver = '1.14'
+ver = '1.17'
 
 app = Bottle()
 
@@ -85,8 +85,6 @@ def editor_listquestions():
         redirect("/editor/") 
     q_list = proccesFile(os.path.join(examFolder, courseID, examID))
     return template('showquestions.tpl', questions = q_list['dump'], comand = 4, cid = courseID, dump = examID) #comand 4 shows the dump in given folder
-       
-    return proccesFile(os.path.join(examFolder, courseID, examID))
     
 @app.route('/editor/editQuestion')
 def CardEditor():
