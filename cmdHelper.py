@@ -20,11 +20,11 @@ def process_input(coiceList, msg = 'coice'):
     return coice
     
 def getDump(examFolder):
-    dir_list = os.listdir(examFolder)
+    dir_list = [f for f in os.listdir(examFolder) if not os.path.isfile(os.path.join(examFolder, f))]
     cource = process_input(dir_list)
 
     nextExamFolder = os.path.join(examFolder, dir_list[cource])
-    file_list = os.listdir(nextExamFolder)
+    file_list = [f for f in os.listdir(nextExamFolder) if os.path.isfile(os.path.join(nextExamFolder, f))]
 
     exam = process_input(file_list)
     
