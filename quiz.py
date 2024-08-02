@@ -21,7 +21,7 @@ def favicon():
 
 @app.route('/')
 def index():
-    return template('index.tpl', items = os.listdir(examFolder), comand = 1) #comand 1 shows the dump folders
+    return template('index.tpl', items = [f for f in os.listdir(examFolder) if not os.path.isfile(os.path.join(examFolder, f))], comand = 1) #comand 1 shows the dump folders
 
 @app.route('/showDumps')
 def show_dumps():
@@ -33,7 +33,7 @@ def show_dumps():
     if not os.path.exists(dumpFolder):
         return ""
     try:
-        return template('index.tpl', items = os.listdir(dumpFolder), comand = 2, cid = courseID) #comand 2 shows the dump in given folder
+        return template('index.tpl', items = [f for f in os.listdir(dumpFolder) if os.path.isfile(os.path.join(dumpFolder, f))], comand = 2, cid = courseID) #comand 2 shows the dump in given folder
     except NotADirectoryError:
         redirect("/start?courseID=.&examID="+courseID)
     
@@ -59,7 +59,7 @@ def get_json_dump():
 
 @app.route('/editor/')
 def editor_index():
-    return template('index.tpl', items = os.listdir(examFolder), comand = 3) #comand 3 shows the dump folders
+    return template('index.tpl', items = [f for f in os.listdir(examFolder) if not os.path.isfile(os.path.join(examFolder, f))], comand = 3) #comand 3 shows the dump folders
 
 @app.route('/editor/showDumps')
 def editor_show_dumps():
@@ -71,7 +71,7 @@ def editor_show_dumps():
     if not os.path.exists(dumpFolder):
         return ""
     try:
-        return template('index.tpl', items = os.listdir(dumpFolder), comand = 4, cid = courseID) #comand 4 shows the dump in given folder
+        return template('index.tpl', items = [f for f in os.listdir(dumpFolder) if os.path.isfile(os.path.join(dumpFolder, f))], comand = 4, cid = courseID) #comand 4 shows the dump in given folder
     except NotADirectoryError:
         redirect("/editor/listquestions?courseID=.&examID="+courseID)
 
