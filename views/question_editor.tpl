@@ -102,6 +102,34 @@
 	  <tr>
         <td></td>
       </tr>
+	  <tr>
+        <td><b>Applys only to Single/Multiple choice<b></td>
+      </tr>
+	  <tr>
+        <td>Supports manual html in following format
+	  <tr>
+        <td>&lt;tag&gt;Some text&lt;/tag&gt;</td>
+      </tr>
+	  <tr>
+        <td>Supported formats:</td>
+      </tr>
+	  <tr>
+        <td><ul>
+ <li><code class="w3-codespan">&lt;b&gt;</code> <b>- Bold text</b></li>
+ <li><code class="w3-codespan">&lt;strong&gt;</code> <strong>- Important text</strong></li>
+ <li><code class="w3-codespan">&lt;i&gt;</code> <i>- Italic text</i></li>
+ <li><code class="w3-codespan">&lt;em&gt;</code> <em>- Emphasized text</em></li>
+ <li><code class="w3-codespan">&lt;mark&gt;</code> <mark>- Marked text</mark></li>
+ <li><code class="w3-codespan">&lt;small&gt;</code> <small>- Smaller text</small></li>
+ <li><code class="w3-codespan">&lt;del&gt;</code> <del>- Deleted text</del></li>
+ <li><code class="w3-codespan">&lt;ins&gt;</code> <ins>- Inserted text</ins></li>
+ <li><code class="w3-codespan">&lt;sub&gt;</code> <sub>- Subscript text</sub></li>
+ <li><code class="w3-codespan">&lt;sup&gt;</code> <sup>- Superscript text</sup></li>
+</ul></td>
+      </tr>
+	  <tr>
+        <td></td>
+      </tr>
       <tr>
         <td><b>Applys only to drag and drop<b></td>
 	  </tr>
