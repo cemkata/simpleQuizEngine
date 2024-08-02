@@ -27,6 +27,9 @@ def main(args):
             exitFlag = False
         else:
             print("Wrong selection!")
+    print("")
+    print("")
+    input("Press enter to exit")
 
     
 if __name__ == '__main__':
