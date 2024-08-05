@@ -49,7 +49,12 @@
     background-color: #007bff;
     border-color: #007bff;
 }
-	
+.btn-secondary {
+    color: #fff;
+    background-color: #D2042D;
+    border-color: #D2042D;
+}
+
 .btn {
     display: inline-block;
     font-weight: 400;
