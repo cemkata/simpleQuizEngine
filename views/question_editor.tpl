@@ -252,6 +252,7 @@
         newHtml = `<input type="text" id="freeTextAns" style = "width: 100%;" value="">`;
         ansArea.innerHTML = newHtml;
         document.getElementById("noQuestion").value = 0;
+        document.getElementById("referenceLink").value = ""
 	  }
     </script>
   </body>
