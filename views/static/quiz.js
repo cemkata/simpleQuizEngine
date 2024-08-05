@@ -237,9 +237,11 @@ https://www.sitepoint.com/simple-javascript-quiz/
     currentSlide = n;
     if(currentSlide === 0){
       previousButton.style.display = 'none';
+	  restartButton.classList.remove("quzControl");
     }
     else{
       previousButton.style.display = 'inline-block';
+	  restartButton.style.display = 'none';
     }
     if(currentSlide === slides.length-1){
       nextButton.style.display = 'none';
@@ -287,6 +289,20 @@ https://www.sitepoint.com/simple-javascript-quiz/
     return array;
   }
 
+  function restartQuiz(){
+	  currentSlide = 0;
+	  clearTimeout(timer);
+      nextButton.classList.add("quzControl");
+	  nextButton.style.display = 'none';
+      submitButton.classList.add("quzControl");
+      previousButton.classList.add("quzControl");
+      answerButton.classList.add("quzControl");
+      document.getElementById("config").classList.remove("quzControl");
+	  document.getElementById("pages").innerHTML = "";
+	  restartButton.classList.add("quzControl");
+      // Show empty slide
+      showSlide(currentSlide-1);
+  }
 
   function buildQuiz(){
       if(randomQuestion.checked){
@@ -308,6 +324,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
       pagesContainer = document.getElementById('pages');
       submitButton = document.getElementById('submit');
       answerButton = document.getElementById('answer');
+      restartButton = document.getElementById('restart');
       
       prepareQuiz()
 
@@ -323,12 +340,14 @@ https://www.sitepoint.com/simple-javascript-quiz/
       previousButton.addEventListener("click", showPreviousSlide);
       nextButton.addEventListener("click", showNextSlide);
       answerButton.addEventListener("click", showAnswer);
+      restartButton.addEventListener("click", restartQuiz);
 
       slides = document.querySelectorAll(".slide");
       submitButton.classList.remove("quzControl");
       previousButton.classList.remove("quzControl");
       nextButton.classList.remove("quzControl");
       answerButton.classList.remove("quzControl");
+	  restartButton.classList.remove("quzControl");
       document.getElementById("config").classList.add("quzControl");
       // Show the first slide
       showSlide(currentSlide);
@@ -365,6 +384,7 @@ var resultsContainer;
 var pagesContainer;
 var submitButton;
 var answerButton;
+var restartButton;
 
 var answerContainers;
 var previousButton;

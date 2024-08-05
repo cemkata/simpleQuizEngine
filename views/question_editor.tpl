@@ -74,7 +74,7 @@
           <input type="text" id="referenceLink" style = "width: 100%;" value="{{questionContent['referenceLink']}}">
   </div>
   <br>
-<div><button class="btn btn-primary" onclick="saveQuestion()">Save</button> <button class="btn btn-secondary" onclick="clearPage()">Clear</button></div>
+<div><button class="btn btn-primary" onclick="saveQuestion()">Save</button></div>
 </div> <div class="column right">
     <p><b>Question settings:</b></p>
     <table id = "questionOptions">
@@ -239,21 +239,6 @@
          //xhr.setRequestHeader('Authorization', 'Client-ID c37fc05199a05b7');
          xhr.send(fd);
       }      
-	  
-	  function clearPage(){
-        var options = document.getElementById("questionType").options;
-        options[0].selected = true;
-        let tmpHolder = document.getElementsByClassName(' nicEdit-main ');
-        //var questionTxt = document.getElementById("area_question").value; //do not use the area, but the div and the inner text
-        tmpHolder[0].innerHTML = ""; 
-        //var explnTxt = document.getElementById("area_explanation").value; //do not use the area, but the div and the inner text
-        tmpHolder[1].innerHTML = ""; 
-        var ansArea = document.getElementById("answers_area");
-        newHtml = `<input type="text" id="freeTextAns" style = "width: 100%;" value="">`;
-        ansArea.innerHTML = newHtml;
-        document.getElementById("noQuestion").value = 0;
-        document.getElementById("referenceLink").value = ""
-	  }
     </script>
   </body>
 </html>

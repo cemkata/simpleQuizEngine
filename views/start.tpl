@@ -13,6 +13,7 @@
 		  <div id="quiz"></div>
 		</div>
 		<h4 style="display:none" align="center" id="showTimer"><span id="iTimeShow">Time Remaining: </span><br/><span id='timer' style="font-size:25px;">No limit</span></h4>
+		<button class="quzControl" id="restart">Restart quiz</button>
 		<button class="quzControl" id="previous">Previous Question</button>
 		<!-- if this button is hidden the answer is not shown -->
 		<button class="quzControl" id="answer">Show answer</button> 

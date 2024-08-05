@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Test engine 0.5</title>
+<title>Test engine 0.6</title>
 <link rel='stylesheet' href='/static/style_main.css'>
 <style>
 /*<!--https://www.w3schools.com/css/css_form.asp -->*/
