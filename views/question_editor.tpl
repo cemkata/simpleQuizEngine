@@ -160,6 +160,7 @@
           onSave : saveQuestion,
           iconsPath : '/static/nic/new_nicEditorIcons.png',
           tableURL : '/be/nicShowFiles'}).panelInstance('area_explanation');
+          nicEdit_Scroll_Patch();
       });
 
       function saveQuestion(content, id, instance) {
@@ -253,6 +254,22 @@
         ansArea.innerHTML = newHtml;
         document.getElementById("noQuestion").value = 0;
         document.getElementById("referenceLink").value = ""
+	  }
+	  
+	  function nicEdit_Scroll_Patch(){
+		let tmpHolder = document.getElementsByClassName(' nicEdit-main ')
+		var body = document.body,
+			html = document.documentElement;
+		var width = tmpHolder[0].clientWidth;
+
+		var height = Math.max( body.scrollHeight, body.offsetHeight, 
+							   html.clientHeight, html.scrollHeight, html.offsetHeight ) / 4;
+		for (let i = 0; i < tmpHolder.length; i++){
+			tmpHolder[i].style.setProperty('max-height',height,'');
+			tmpHolder[i].style.setProperty('overflow-y','scroll','');
+			//tmpHolder[i].style.setProperty('max-width',width,'');
+			//tmpHolder[i].style.setProperty('overflow-x','scroll','');
+		}
 	  }
     </script>
   </body>
