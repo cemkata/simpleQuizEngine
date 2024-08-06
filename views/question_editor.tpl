@@ -25,6 +25,11 @@
         <textarea id="area_question" class = "area">{{questionContent['question']}}</textarea>
 	  %end
      <p>Answer(s)</p>
+	<div class="w3-panel w3-red w3-display-container" id="error_no_answer">
+		<span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+		<h3>!</h3>
+		<p>No answer given.</p>
+	</div>
     <div id="answers_area">
   % if len(questionContent['answers']) == 0:
       <input type="text" id="freeTextAns" style = "width: 100%;" value="{{questionContent['correctAnswer']}}">
@@ -223,6 +228,8 @@
          fd.append("correctAnswer", correctAnswer);
          if(correctAnswer.length <= 0){ //add validation
            alert("Please fill the correct answer!")
+           errorDiv = document.getElementById("error_no_answer");
+           errorDiv.style.setProperty('display','block','')
            return;
          }
 			 
@@ -235,6 +242,8 @@
                    titletextLength = document.getElementById("area_question").value.length
                    descriptiontextLength = document.getElementById("area_explanation").value.length
                  }
+                 errorDiv = document.getElementById("error_no_answer");
+                 errorDiv.style.display='none'
          };
          xhr.onerror = xhr.onload;
          //xhr.setRequestHeader('Authorization', 'Client-ID c37fc05199a05b7');
@@ -254,6 +263,8 @@
         ansArea.innerHTML = newHtml;
         document.getElementById("noQuestion").value = 0;
         document.getElementById("referenceLink").value = ""
+        errorDiv = document.getElementById("error_no_answer");
+        errorDiv.style.display='none'
 	  }
 	  
 	  function nicEdit_Scroll_Patch(){
