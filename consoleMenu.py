@@ -5,13 +5,14 @@ import os
 def main(args):
     exitFlag = True
     print(f"Dump wizard cmd helper. ver {ver}")
-    showmenu = args.export or args.offline or args.merge
+    showmenu = args.export or args.offline or args.merge or args.start
     sel = ""
     while exitFlag:
         if not showmenu:
             print("Export questions from quiz/dump ............ [1]")
             print("Export questions to html (without server) .. [2]")
             print("Merge questions from 2 quiz/dump  .......... [3]")
+            print("Start web server ........................... [4]")
             sel = input(">> ")
         if sel == "1" or args.export:
             print("Export questions")
@@ -25,6 +26,10 @@ def main(args):
             print("Merge questions")
             mergeQuestions_main()
             exitFlag = False
+        elif sel == "4" or args.start:
+            import quiz
+            quiz.main()
+            exitFlag = False
         else:
             print("Wrong selection!")
     print("")
@@ -37,6 +42,10 @@ if __name__ == '__main__':
     parser.add_argument('-e', '--export', help='Export questions to file\n', action='store_true')
     parser.add_argument('-o', '--offline', help='Export questions to html file for use without http server\n', action='store_true')
     parser.add_argument('-m', '--merge', help='Merge questions from 2 quiz/dump', action='store_true')
+    parser.add_argument('-s', '--start', help='Start web server', action='store_true')
     parser.add_argument('-v', '--version', action='version', version='%(prog)s v'+str(ver))
     args = parser.parse_args()
-    main(args)
+    try:
+        main(args)
+    except KeyboardInterrupt:
+        print("You exit. Bye bye.")
