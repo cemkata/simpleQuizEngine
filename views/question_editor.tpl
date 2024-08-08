@@ -251,7 +251,7 @@
 	  
 	  function clearPage(){
         if(isModified()) {
-            if(!confirm("Do you want to clear the page?")) {
+            if(!confirm("The question is not saved.\nDo you want to clear the page?")) {
                  event.stopPropagation();
                  event.preventDefault()
                  return;
