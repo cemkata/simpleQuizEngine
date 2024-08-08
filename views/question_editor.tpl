@@ -239,8 +239,7 @@
          xhr.onload = function() {
                  alert("Status: " + xhr.responseText);
                  if(xhr.status == 200){
-                   titletextLength = document.getElementById("area_question").value.length
-                   descriptiontextLength = document.getElementById("area_explanation").value.length
+                   setCheckValues();
                  }
                  errorDiv = document.getElementById("error_no_answer");
                  errorDiv.style.display='none'
@@ -251,6 +250,13 @@
       }      
 	  
 	  function clearPage(){
+        if(isModified()) {
+            if(!confirm("Do you want to clear the page?")) {
+                 event.stopPropagation();
+                 event.preventDefault()
+                 return;
+            }
+        }
         var options = document.getElementById("questionType").options;
         options[0].selected = true;
         let tmpHolder = document.getElementsByClassName(' nicEdit-main ');
@@ -265,6 +271,7 @@
         document.getElementById("referenceLink").value = ""
         errorDiv = document.getElementById("error_no_answer");
         errorDiv.style.display='none'
+		setCheckValues();
 	  }
 	  
 	  function nicEdit_Scroll_Patch(){

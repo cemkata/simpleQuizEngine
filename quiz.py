@@ -4,7 +4,7 @@ from importQuestionsHelper import proccesFile, saveFile
 import os
 from config import * # App config is loaded here
 import json
-ver = '1.18'
+ver = '1.19'
 
 app = Bottle()
 
