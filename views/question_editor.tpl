@@ -282,6 +282,16 @@
 			//tmpHolder[i].style.setProperty('overflow-x','scroll','');
 		}
 	  }
+	  
+	  document.addEventListener('keydown', e => {
+	    if (e.ctrlKey && e.key === 's') {
+	      // Prevent the Save dialog to open
+	      e.preventDefault();
+	      // Place your code here
+	      //console.log('CTRL + S');
+		  saveQuestion();
+	    }
+	  });
     </script>
   </body>
 </html>
