@@ -507,18 +507,22 @@ https://www.sitepoint.com/simple-javascript-quiz/
   }
 
   function restartQuiz(){
-	  currentSlide = 0;
-	  clearTimeout(timer);
+      currentSlide = 0;
+      clearTimeout(timer);
       nextButton.classList.add("quzControl");
-	  nextButton.style.display = 'none';
+      nextButton.style.display = 'none';
       submitButton.classList.add("quzControl");
       previousButton.classList.add("quzControl");
       answerButton.classList.add("quzControl");
       document.getElementById("config").classList.remove("quzControl");
-	  document.getElementById("pages").innerHTML = "";
-	  restartButton.classList.add("quzControl");
-      // Show the first slide
-      showSlide(currentSlide-1);
+      document.getElementById("pages").innerHTML = "";
+      restartButton.classList.add("quzControl");
+      // Show empty slide
+      slidesContainer = document.getElementsByClassName("quiz-container");
+      slidesContainer[0].innerHTML=`<div id="quiz"></div>`;
+      //showSlide(currentSlide);
+      timerTxt.textContent = "No limit";
+      document.getElementById("showTimer").style = "display:none"
   }
 
   function buildQuiz(){
@@ -532,7 +536,13 @@ https://www.sitepoint.com/simple-javascript-quiz/
           countDown = -1;
       }else{
           countDown = parseInt(countDown.value) * 60;
-          if (!isNaN(countDown)) timedCount();
+          if (!isNaN(countDown)) {
+			timedCount();
+		  }else{
+			countDown = document.getElementById("timeInmunites");
+			countDown = parseInt(countDown.value) * 60;
+			timedCount();
+		  }
           document.getElementById("showTimer").style = "display:inline-block;color:#000000;position:absolute;left:65%;top:30%;"
       }
       // Variables
