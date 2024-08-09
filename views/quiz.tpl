@@ -455,9 +455,12 @@ https://www.sitepoint.com/simple-javascript-quiz/
     currentSlide = n;
     if(currentSlide === 0){
       previousButton.style.display = 'none';
+	  restartButton.classList.remove("quzControl");
+	  restartButton.style.display = 'inline-block';
     }
     else{
       previousButton.style.display = 'inline-block';
+	  restartButton.style.display = 'none';
     }
     if(currentSlide === slides.length-1){
       nextButton.style.display = 'none';
@@ -516,6 +519,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
       document.getElementById("config").classList.remove("quzControl");
       document.getElementById("pages").innerHTML = "";
       restartButton.classList.add("quzControl");
+	  restartButton.style.display = 'none';
       // Show empty slide
       slidesContainer = document.getElementsByClassName("quiz-container");
       slidesContainer[0].innerHTML=`<div id="quiz"></div>`;
