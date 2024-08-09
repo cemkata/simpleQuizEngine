@@ -237,6 +237,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
     if(currentSlide === 0){
       previousButton.style.display = 'none';
 	  restartButton.classList.remove("quzControl");
+	  restartButton.style.display = 'inline-block';
     }
     else{
       previousButton.style.display = 'inline-block';
@@ -299,6 +300,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
       document.getElementById("config").classList.remove("quzControl");
       document.getElementById("pages").innerHTML = "";
       restartButton.classList.add("quzControl");
+	  restartButton.style.display = 'none';
       // Show empty slide
       slidesContainer = document.getElementsByClassName("quiz-container");
       slidesContainer[0].innerHTML=`<div id="quiz"></div>`;
