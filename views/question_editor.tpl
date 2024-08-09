@@ -37,7 +37,6 @@
   % else:
       % if type(questionContent['question']) is list:
 	  % selcDropDown = ['', '', '', 'selected']
-	  % # TODO add the drag-drop functions
 		   <div id="select_answers">
 		   <p>Selectable answers</p>
 			%for answer in questionContent['answers']:
@@ -195,7 +194,6 @@
 			    correctAnswer.push(answers_html[i].firstChild.value)
 			}
 			correctAnswer = JSON.stringify(correctAnswer)
-			//TODO
 		}else{ //free text
 			 var freetext = document.getElementById("freeTextAns");
 			 if(freetext == null){
@@ -251,7 +249,7 @@
 	  
 	  function clearPage(){
         if(isModified()) {
-            if(!confirm("The question is not saved.\nDo you want to clear the page?")) {
+            if(!confirm("The question is not saved. \nDo you want to clear the page?")) {
                  event.stopPropagation();
                  event.preventDefault()
                  return;
