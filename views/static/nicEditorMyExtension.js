@@ -385,7 +385,9 @@ if (typeof initPageEditor === 'undefined'){
     try {
       if(nicEditors.nicPlugins[i].o.buttons.image.type == "nicImageButton"){
         nicEditors.nicPlugins.splice(i, 1)
-        nicEditors.registerPlugin(nicPlugin,nicImageOptionsBase64);
+        nicEditors.registerPlugin(nicPlugin,nicImageOptionsBase64); //Insert img as base64
+        //nicEditors.registerPlugin(nicPlugin,nicUploadOptions); //Here we can upload img to the server
+        nicEditors.registerPlugin(nicPlugin,nicCodeOptions);
         i = nicEditors.nicPlugins.length;
       }
     } catch (error) {
