@@ -237,11 +237,11 @@ https://www.sitepoint.com/simple-javascript-quiz/
 			for(let j = 0; j < myQuestions[i].question.length; j++){
 				  if (myQuestions[i].question[j].endsWith("$?__")){
 					  questions.push(
-						`<h5 class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", "")}<div class="droptarget"></div>`
+						`<div class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
 					  );
 				  }else{
 					  questions.push(
-						`<h5>${myQuestions[i].question[j]}`
+						`<div>${myQuestions[i].question[j]}</div>`
 					  );
 				  }
 			}
@@ -262,11 +262,11 @@ https://www.sitepoint.com/simple-javascript-quiz/
 			for(let j = 0; j < myQuestions[i].question.length; j++){
 				  if (myQuestions[i].question[j].endsWith("$?__")){
 					  correctAnsweredQuestions.push(
-						`<h5 class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", "")}<div class="droptarget">${myQuestions[i].correctAnswer[j]}</div>`
+						`<div class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget">${myQuestions[i].correctAnswer[j]}</div></div>`
 					  );
 				  }else{
 					  correctAnsweredQuestions.push(
-						`<h5>${myQuestions[i].question[j]}`
+						`<div>${myQuestions[i].question[j]}</div>`
 					  );
 				  }
 			}

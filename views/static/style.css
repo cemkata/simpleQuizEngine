@@ -107,6 +107,16 @@ button:hover{
   background-color:#f2f2f2 ;
 }
 
+.pretyPrint{
+ img{	
+	object-fit: scale-down;
+	max-width: 100%;
+	height: auto;
+ }
+  tr>th:first-child,tr>td:first-child {
+    word-break: break-all;
+  }
+}
 input[type=text], input[type=number], select, textarea {
   width: 100%;
   padding: 12px 20px;

@@ -15,6 +15,7 @@
     <input type="hidden" id="courseID" value="{{courseID}}">
     <input type="hidden" id="quizID" value="{{quizID}}">
     <p>Question </p>
+	<div class="editor_holder">
 	  %if type(questionContent['question']) is list:
 	    %ansrStr = ""
 	    %for q in questionContent['question']:
@@ -24,6 +25,7 @@
 	  % else:
         <textarea id="area_question" class = "area">{{questionContent['question']}}</textarea>
 	  %end
+	</div>
      <p>Answer(s)</p>
 	<div class="w3-panel w3-red w3-display-container" id="error_no_answer">
 		<span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
@@ -37,6 +39,7 @@
   % else:
       % if type(questionContent['question']) is list:
 	  % selcDropDown = ['', '', '', 'selected']
+	  % # TODO add the drag-drop functions
 		   <div id="select_answers">
 		   <p>Selectable answers</p>
 			%for answer in questionContent['answers']:
@@ -71,8 +74,10 @@
   % end
   </div>
   <p>Explanation</p>
+  <div class="editor_holder">
       <textarea id="area_explanation" class = "area">{{questionContent['explanation']}}</textarea>
 	</p>
+  </div>
   <p>Refrence link</p>
   <div class="showinline">
           <input type="text" id="referenceLink" style = "width: 100%;" value="{{questionContent['referenceLink']}}">
@@ -155,16 +160,7 @@
     <script src="/static/nicEditorRightColumn.js" type="text/javascript"></script>
     <script type="text/javascript">
       bkLib.onDomLoaded(function() {
-          new nicEditor({fullPanel : true, /*uploadImgURI : '/be/nicUploadImg',*/ 
-          onSave : saveQuestion,
-          iconsPath : '/static/nic/new_nicEditorIcons.png',
-          tableURL : '/be/nicShowFiles'}).panelInstance('area_question');
-
-          new nicEditor({fullPanel : true, /*uploadImgURI : '/be/nicUploadImg',*/ 
-          onSave : saveQuestion,
-          iconsPath : '/static/nic/new_nicEditorIcons.png',
-          tableURL : '/be/nicShowFiles'}).panelInstance('area_explanation');
-          nicEdit_Scroll_Patch();
+		initEditors()
       });
 
       function saveQuestion(content, id, instance) {
@@ -194,6 +190,7 @@
 			    correctAnswer.push(answers_html[i].firstChild.value)
 			}
 			correctAnswer = JSON.stringify(correctAnswer)
+			//TODO
 		}else{ //free text
 			 var freetext = document.getElementById("freeTextAns");
 			 if(freetext == null){
@@ -249,7 +246,7 @@
 	  
 	  function clearPage(){
         if(isModified()) {
-            if(!confirm("The question is not saved. \nDo you want to clear the page?")) {
+            if(!confirm("The question is not saved.\nDo you want to clear the page?")) {
                  event.stopPropagation();
                  event.preventDefault()
                  return;
@@ -288,6 +285,27 @@
 		}
 	  }
 	  
+	  function nicEdit_Padding_Patch(){
+		let tmpHolder = document.getElementsByClassName(' nicEdit-main ')
+		for (let i = 0; i < tmpHolder.length; i++){
+			tmpHolder[i].style.setProperty('padding-left','5px','');
+		}
+	  }
+	  
+	  function initEditors(){
+          new nicEditor({fullPanel : true, /*uploadImgURI : '/be/nicUploadImg',*/ 
+          onSave : saveQuestion,
+          iconsPath : '/static/nic/new_nicEditorIcons.png',
+          tableURL : '/be/nicShowFiles'}).panelInstance('area_question');
+
+          new nicEditor({fullPanel : true, /*uploadImgURI : '/be/nicUploadImg',*/ 
+          onSave : saveQuestion,
+          iconsPath : '/static/nic/new_nicEditorIcons.png',
+          tableURL : '/be/nicShowFiles'}).panelInstance('area_explanation');
+          nicEdit_Padding_Patch();
+          nicEdit_Scroll_Patch();	 
+	 }
+	  
 	  document.addEventListener('keydown', e => {
 	    if (e.ctrlKey && e.key === 's') {
 	      // Prevent the Save dialog to open
@@ -297,6 +315,21 @@
 		  saveQuestion();
 	    }
 	  });
+	  
+	  window.addEventListener('resize', e => {
+        let tmpHolder = document.getElementsByClassName(' nicEdit-main ');
+        let value_0 = tmpHolder[0].innerHTML; 
+        let value_1 = tmpHolder[1].innerHTML;  
+		
+		let newtmpHolder = document.getElementsByClassName('editor_holder');
+		
+        newtmpHolder[0].innerHTML = `<textarea id="area_question" class = "area"></textarea>`;
+        newtmpHolder[1].innerHTML = `<textarea id="area_explanation" class = "area"></textarea>`;
+		initEditors();
+        tmpHolder = document.getElementsByClassName(' nicEdit-main ');
+		tmpHolder[0].innerHTML = value_0;
+		tmpHolder[1].innerHTML = value_1;
+	  }, true);
     </script>
   </body>
 </html>

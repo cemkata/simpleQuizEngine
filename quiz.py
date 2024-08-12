@@ -4,7 +4,12 @@ from importQuestionsHelper import proccesFile, saveFile
 import os
 from config import * # App config is loaded here
 import json
-ver = '1.19'
+
+try:
+    with open("./version.nfo", "r") as f:
+	    ver = f.read()
+except FileNotFoundError:
+	ver = "Version ?? unknown ??"
 
 app = Bottle()
 
@@ -136,6 +141,8 @@ def SaveQuestion():
         for answ in json.loads(correctAnswer):
             if len(answ) != 0:
                 newCorrectAnswer.append(answ)
+        if len(newCorrectAnswer) == 0:
+            newCorrectAnswer .append("  ")
         correctAnswer = newCorrectAnswer
     
     for i in range(len(dump_file["dump"])):
