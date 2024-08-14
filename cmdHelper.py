@@ -5,7 +5,12 @@ from config import examFolder
 import os
 import json
 
-ver = 0.5
+try:
+    with open("./version.nfo", "r") as f:
+        data = json.load(f)
+        ver = data['loader']
+except FileNotFoundError or JSONDecodeError:
+	ver = "Version ?? unknown ??"
 
 cwd = os.getcwd()
 examFolder = os.path.join(cwd, examFolder)
@@ -171,7 +176,7 @@ def mergeQuestions_main():
 
     newDump["lastID"] = len(newDump["dump"])
 
-    outFileName = os.path.join(nextExamFolder, f'{selected_dump_file_a}_merged')
+    outFileName = os.path.join(nextExamFolder_a, f'{selected_dump_file_a}_merged')
 
     saveFile(outFileName, newDump)
 

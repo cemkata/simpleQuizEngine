@@ -7,9 +7,10 @@ import json
 
 try:
     with open("./version.nfo", "r") as f:
-	    ver = f.read()
-except FileNotFoundError:
-	ver = "Version ?? unknown ??"
+        data = json.load(f)
+        ver = data['app']
+except FileNotFoundError or JSONDecodeError:
+    ver = "Version ?? unknown ??"
 
 app = Bottle()
 
@@ -126,16 +127,19 @@ def SaveQuestion():
     
     if("$?__" in questionTxt):
         resultingQuestionTxt = []
+        removeDivStrings = ["<div>", "</div>"]
+        removeDivBr = ["<br>", "</br>"]
         for q in questionTxt.split("$?__"):
-            q = q.replace("<div>", "")
-            q = q.replace("</div>", "")
-            if q.startswith("<br>"):
-                q = q.replace("<br>", "", 1)
-            if q.startswith("</br>"):
-                q = q.replace("</br>", "", 1)
+            for htmlElm in removeDivStrings:
+                q = q.replace(htmlElm, "")
+            for htmlElm in removeDivBr:
+                if q.startswith(htmlElm):
+                    q = q.replace(htmlElm, "", 1)
+                    print(f'{q=}')
             if len(q) == 0:
-                continue
-            resultingQuestionTxt.append(q+"$?__")
+                q = removeDivBr[0]
+            else:
+                resultingQuestionTxt.append(q+"$?__")
         questionTxt = resultingQuestionTxt
         newCorrectAnswer = []
         for answ in json.loads(correctAnswer):
