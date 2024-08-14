@@ -135,7 +135,6 @@ def SaveQuestion():
             for htmlElm in removeDivBr:
                 if q.startswith(htmlElm):
                     q = q.replace(htmlElm, "", 1)
-                    print(f'{q=}')
             if len(q) == 0:
                 q = removeDivBr[0]
             else:
