@@ -190,7 +190,9 @@
 			    correctAnswer.push(answers_html[i].firstChild.value)
 			}
 			correctAnswer = JSON.stringify(correctAnswer)
-			//TODO
+			if(!questionTxt.includes("$?__")){
+			    questionTxt += "<div>&nbsp;&nbsp; $?__</div>"
+			}
 		}else{ //free text
 			 var freetext = document.getElementById("freeTextAns");
 			 if(freetext == null){
