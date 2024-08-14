@@ -121,11 +121,11 @@ def SaveQuestion():
     questionTxt =  request.forms.get("questionTxt")
     explnTxt =  request.forms.get("explnTxt")
     referenceLink =  request.forms.get("referenceLink")
-    answers =  json.loads(request.forms.get("answers"))
-    correctAnswer =  request.forms.get("correctAnswer")
+    answers =  json.loads(request.forms.get("answers")) or -1
+    correctAnswer =  request.forms.get("correctAnswer") or -1
     dump_file = proccesFile(os.path.join(examFolder, courseID, quizID))
     
-    if("$?__" in questionTxt):
+    if answers != -1 and correctAnswer != -1:
         resultingQuestionTxt = []
         removeDivStrings = ["<div>", "</div>"]
         removeDivBr = ["<br>", "</br>"]
