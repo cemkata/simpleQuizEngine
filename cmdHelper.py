@@ -2,16 +2,14 @@
 from bottle import template
 from importQuestionsHelper import proccesFile, saveFile
 from config import examFolder
+from versionGetter import getVersion
 import os
 import json
 
-try:
-    with open("./version.nfo", "r") as f:
-        data = json.load(f)
-        ver = data['loader']
-except FileNotFoundError or JSONDecodeError:
-	ver = "Version ?? unknown ??"
 
+ver = getVersion('loader')
+
+#?? is it needed??
 cwd = os.getcwd()
 examFolder = os.path.join(cwd, examFolder)
 

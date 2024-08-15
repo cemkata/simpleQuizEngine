@@ -3,14 +3,10 @@ from bottle import Bottle, request, redirect, template, static_file
 from importQuestionsHelper import proccesFile, saveFile
 import os
 from config import * # App config is loaded here
+from versionGetter import getVersion
 import json
 
-try:
-    with open("./version.nfo", "r") as f:
-        data = json.load(f)
-        ver = data['app']
-except FileNotFoundError or JSONDecodeError:
-    ver = "Version ?? unknown ??"
+ver = getVersion('app')
 
 app = Bottle()
 
