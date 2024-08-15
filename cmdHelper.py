@@ -2,12 +2,8 @@
 from bottle import template
 from importQuestionsHelper import proccesFile, saveFile
 from config import examFolder
-from versionGetter import getVersion
 import os
 import json
-
-
-ver = getVersion('loader')
 
 #?? is it needed??
 cwd = os.getcwd()
@@ -26,7 +22,7 @@ def process_input(coiceList, msg = 'coice', lastChoise = -1):
 def getDump(examFolder, cource = -1):
     dir_list = os.listdir(examFolder)
     if cource > -1:
-        print(f"Last selected folder {cource+1} - {dir_list[cource]}")
+        print(f"Last selected folder [{cource+1} - {dir_list[cource]}]")
         print("Press enter to use old selection")
         cource = process_input(dir_list, lastChoise = cource)
     else:

@@ -1,6 +1,9 @@
-from cmdHelper import ver, exportQuestions_main, export_to_offline_main, mergeQuestions_main
+from cmdHelper import exportQuestions_main, export_to_offline_main, mergeQuestions_main
 import argparse
 import os
+
+from versionGetter import getVersion
+ver = getVersion('loader')
 
 def main(args):
     exitFlag = True
