@@ -20,7 +20,7 @@ def process_input(coiceList, msg = 'coice', lastChoise = -1):
     return coice
 
 def getDump(examFolder, cource = -1):
-    dir_list = os.listdir(examFolder)
+    dir_list = [f for f in os.listdir(examFolder) if not os.path.isfile(os.path.join(examFolder, f))]
     if cource > -1:
         print(f"Last selected folder [{cource+1} - {dir_list[cource]}]")
         print("Press enter to use old selection")
@@ -29,8 +29,8 @@ def getDump(examFolder, cource = -1):
         cource = process_input(dir_list)
 
     nextExamFolder = os.path.join(examFolder, dir_list[cource])
-    file_list = os.listdir(nextExamFolder)
-
+    file_list = items = [f for f in os.listdir(nextExamFolder) if os.path.isfile(os.path.join(nextExamFolder, f))]
+    
     exam = process_input(file_list)
 
     return file_list[exam], nextExamFolder, cource
