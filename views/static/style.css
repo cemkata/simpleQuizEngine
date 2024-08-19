@@ -1,4 +1,7 @@
 /*@import url(https://fonts.googleapis.com/css?family=Work+Sans:300,600);*/
+html {
+    font-size: calc(15px + 0.390625vw);
+}
 
 body{
 	font-size: 20px;
@@ -7,6 +10,9 @@ body{
   font-weight: 300;
   text-align: left;
   background-color: #f8f6f0;
+    margin:0;
+    font-family:-apple-system, BlinkMacSystemFont, “Segoe UI”, Roboto, Helvetica, Arial, sans-serif;
+    line-height:1.5;
 }
 h1{
   font-weight: 300;
@@ -82,16 +88,18 @@ button:hover{
   opacity: 1;
   z-index: 2;
 }
+
 .quiz-container{
   position: relative;
   /*height: 700px;
-  width: 600px;*/
+  width: 600px;
   height: 75%;
+  height: 50%;
   width: 60%;
-  margin-top: 30px;
+  margin-top: 30px;*/
   margin-bottom: 30px;
-  margin-left: 10px;
-  margin-right: 10px;
+  /*margin-left: 10px;
+  margin-right: 10px;*/
   overflow-y: auto;
 }
 
@@ -199,4 +207,79 @@ input[type=submit]:hover {
     height: 56px;
     padding: 0;
     box-shadow: var(--scrollToTopShadow);
+}
+
+#pages{
+	display:inline-block;
+	color:#000000;
+	/*position:absolute;*/
+	left:65%;
+	top:20%;
+	font-size:25px;
+}
+
+#showTimer{
+	display:inline-block;
+	color:#000000;
+	/*position:absolute;*/
+	left:65%;
+	top:30%;
+	font-size:25px;	
+}
+
+#container{
+    min-height: 83vh;
+    max-height: 83vh;
+}
+
+/* grid container */
+.right-sidebar-grid {
+    display:grid;
+    grid-template-areas:
+        'header'
+        'right-sidebar'
+        'main-content'
+        'footer';
+}
+
+/* general column padding */
+.right-sidebar-grid > * {
+    padding:1rem;
+}
+
+/* assign columns to grid areas */
+.right-sidebar-grid > .header {
+    grid-area:header;
+	padding: 0.0rem;
+    /*background:#f97171;*/
+}
+.right-sidebar-grid > .main-content {
+    grid-area:main-content;
+    /*background:#fff;*/
+}
+.right-sidebar-grid > .right-sidebar {
+    grid-area:right-sidebar;
+    /*background:#f5d55f;*/
+}
+.right-sidebar-grid > .footer {
+    grid-area:footer;
+    /*background:#72c2f1;*/
+}
+
+/* tablet breakpoint */
+@media (min-width:768px) {
+    .right-sidebar-grid {
+        grid-template-columns:repeat(3, 1fr);
+        grid-template-areas:
+            'header header header'
+            'main-content main-content right-sidebar'
+            'footer footer footer';
+    }
+}
+
+@media print {
+   table td:nth-last-of-type(-n+2){display:none}
+   table th:last-child {display:none}
+   button {display:none}
+   #scrollToTopDesktop {display:none}
 }

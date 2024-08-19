@@ -1,9 +1,12 @@
 <html lang="en" class="">
 	<head>
-	  <meta charset="UTF-8">
-	  <title>Exam - {{tittle}}</title> 
+      <meta charset="UTF-8">
+      <title>Exam - {{tittle}}</title> 
 <style>
 /*@import url(https://fonts.googleapis.com/css?family=Work+Sans:300,600);*/
+html {
+    font-size: calc(15px + 0.390625vw);
+}
 
 body{
 	font-size: 20px;
@@ -12,6 +15,9 @@ body{
   font-weight: 300;
   text-align: left;
   background-color: #f8f6f0;
+    margin:0;
+    font-family:-apple-system, BlinkMacSystemFont, “Segoe UI”, Roboto, Helvetica, Arial, sans-serif;
+    line-height:1.5;
 }
 h1{
   font-weight: 300;
@@ -87,16 +93,18 @@ button:hover{
   opacity: 1;
   z-index: 2;
 }
+
 .quiz-container{
   position: relative;
   /*height: 700px;
-  width: 600px;*/
+  width: 600px;
   height: 75%;
+  height: 50%;
   width: 60%;
-  margin-top: 30px;
+  margin-top: 30px;*/
   margin-bottom: 30px;
-  margin-left: 10px;
-  margin-right: 10px;
+  /*margin-left: 10px;
+  margin-right: 10px;*/
   overflow-y: auto;
 }
 
@@ -112,6 +120,16 @@ button:hover{
   background-color:#f2f2f2 ;
 }
 
+.pretyPrint{
+ img{	
+	object-fit: scale-down;
+	max-width: 100%;
+	height: auto;
+ }
+  tr>th:first-child,tr>td:first-child {
+    word-break: break-all;
+  }
+}
 input[type=text], input[type=number], select, textarea {
   width: 100%;
   padding: 12px 20px;
@@ -195,27 +213,110 @@ input[type=submit]:hover {
     padding: 0;
     box-shadow: var(--scrollToTopShadow);
 }
+
+#pages{
+	display:inline-block;
+	color:#000000;
+	/*position:absolute;*/
+	left:65%;
+	top:20%;
+	font-size:25px;
+}
+
+#showTimer{
+	display:inline-block;
+	color:#000000;
+	/*position:absolute;*/
+	left:65%;
+	top:30%;
+	font-size:25px;	
+}
+
+#container{
+    min-height: 83vh;
+    max-height: 83vh;
+}
+
+/* grid container */
+.right-sidebar-grid {
+    display:grid;
+    grid-template-areas:
+        'header'
+        'right-sidebar'
+        'main-content'
+        'footer';
+}
+
+/* general column padding */
+.right-sidebar-grid > * {
+    padding:1rem;
+}
+
+/* assign columns to grid areas */
+.right-sidebar-grid > .header {
+    grid-area:header;
+	padding: 0.0rem;
+    /*background:#f97171;*/
+}
+.right-sidebar-grid > .main-content {
+    grid-area:main-content;
+    /*background:#fff;*/
+}
+.right-sidebar-grid > .right-sidebar {
+    grid-area:right-sidebar;
+    /*background:#f5d55f;*/
+}
+.right-sidebar-grid > .footer {
+    grid-area:footer;
+    /*background:#72c2f1;*/
+}
+
+/* tablet breakpoint */
+@media (min-width:768px) {
+    .right-sidebar-grid {
+        grid-template-columns:repeat(3, 1fr);
+        grid-template-areas:
+            'header header header'
+            'main-content main-content right-sidebar'
+            'footer footer footer';
+    }
+}
 </style>
+      <meta name="robots" content="noindex">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="content-language" content="en">
 	</head>
 	<body>
-		<div class="quiz-container">
-		  <div id="quiz"></div>
+	<div class="right-sidebar-grid">
+        <header class="header">
+			<h1>Exam - {{tittle}}</h1>
+		</header>
+		<main class="main-content">
+		<div id="container">
+			<div class="quiz-container">
+		      <div id="quiz"></div>
+			</div>
+			<button class="quzControl" id="restart">Restart quiz</button>
+			<button class="quzControl" id="previous">Previous Question</button>
+			<!-- if this button is hidden the answer is not shown -->
+			<button class="quzControl" id="answer">Show answer</button> 
+			<button class="quzControl" id="next">Next Question</button>
+			<button class="quzControl" id="submit">Submit Quiz</button>
+			<div id="config">
+				<label>Randomize question</label><input type="checkbox" id="random"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<label>Exsam mode</label><input type="checkbox" id="hide_answer_btn"><br>
+				<label>How many question:</label><input type="number" id="n_of_que"><br>
+				<label>Time in minutes:</label><input type="number" id="timeInmunites">
+				<button id="start">Start Quiz</button>
+			</div>
 		</div>
-		<h4 style="display:none" align="center" id="showTimer"><span id="iTimeShow">Time Remaining: </span><br/><span id='timer' style="font-size:25px;">No limit</span></h4>
-		<button class="quzControl" id="previous">Previous Question</button>
-		<!-- if this button is hidden the answer is not shown -->
-		<button class="quzControl" id="restart">Restart quiz</button>
-		<button class="quzControl" id="answer">Show answer</button> 
-		<button class="quzControl" id="next">Next Question</button>
-		<button class="quzControl" id="submit">Submit Quiz</button>
-		<div id="results"></div>
-		<div id="pages"></div>
-		<div id="config">
-			<label>Randomize question</label><input type="checkbox" id="random">
-			<label>How many question:</label><input type="number" id="n_of_que">
-			<label>Time in minutes:</label><input type="number" id="timeInmunites">
-			<button id="start">Start Quiz</button>
-		</div>
+		</main>
+		<section class="right-sidebar">
+			<h4 style="display:none" align="center" id="showTimer"><span id="iTimeShow">Time Remaining: </span><br/><span id='timer' style="font-size:25px;">No limit</span></h4>
+			<br>
+			<div id="pages"></div>
+			<div id="results"></div>
+		</section>
 		<script>
   var myQuestions;
  
@@ -235,23 +336,23 @@ https://www.sitepoint.com/simple-javascript-quiz/
 		if(typeof myQuestions[i].question == 'object'){ //drag-drop question
 			const questions = [];
 			for(let j = 0; j < myQuestions[i].question.length; j++){
-				  if (myQuestions[i].question[j].endsWith("$?__")){
-					  questions.push(
+			      if (myQuestions[i].question[j].endsWith("$?__")){
+				      questions.push(
 						`<div class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
-					  );
-				  }else{
-					  questions.push(
+				      );
+			      }else{
+				      questions.push(
 						`<div>${myQuestions[i].question[j]}</div>`
-					  );
-				  }
+				      );
+			      }
 			}
 			const question_box = `<div class="question_box">${questions.join("")}</div>`
 			
 			const answers = []
 			for(let j = 0; j < myQuestions[i].answers.length; j++){
-			  answers.push(
+		      answers.push(
 				`<p draggable="true" class="dragtarget">${myQuestions[i].answers[j]}</p>`
-			  );
+		      );
 			}
 			const answer_box = `<div class="answers_container" id="drag_drop-answer_slide${i}"><p>Answers:</p>${answers.join("")}</div>`
 
@@ -260,15 +361,15 @@ https://www.sitepoint.com/simple-javascript-quiz/
 			
 			const correctAnsweredQuestions = []
 			for(let j = 0; j < myQuestions[i].question.length; j++){
-				  if (myQuestions[i].question[j].endsWith("$?__")){
-					  correctAnsweredQuestions.push(
+			      if (myQuestions[i].question[j].endsWith("$?__")){
+				      correctAnsweredQuestions.push(
 						`<div class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget">${myQuestions[i].correctAnswer[j]}</div></div>`
-					  );
-				  }else{
-					  correctAnsweredQuestions.push(
+				      );
+			      }else{
+				      correctAnsweredQuestions.push(
 						`<div>${myQuestions[i].question[j]}</div>`
-					  );
-				  }
+				      );
+			      }
 			}
 			
             output.push(
@@ -376,7 +477,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
       if(userAnswer === ""){
           var tmpQuestion = answerContainer.querySelectorAll(selectorAll);
           if(tmpQuestion.length < 2){ //if there is only text box there will be only one input
-		      if (tmpQuestion.length == 0){
+	          if (tmpQuestion.length == 0){
 					// here should be the logic to check the answer
 					let result = true
 					dragDropAnswers = answerContainer.getElementsByTagName("p");
@@ -402,7 +503,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
 						}
 					}
 					return result;
-			  }
+		      }
               if(tmpQuestion[0].value === currentQuestion.correctAnswer){
                 tmpQuestion[0].style.color = 'lightgreen'; // color the answers green
                 return true;
@@ -441,6 +542,8 @@ https://www.sitepoint.com/simple-javascript-quiz/
   }
 
   function debug_showSlide(n){
+      if(!quizStarted){return};
+      if(n == -1){restartQuiz()}
       n--;
       slides[currentSlide].classList.remove('active-slide');
       slides[n].classList.add('active-slide');
@@ -450,17 +553,19 @@ https://www.sitepoint.com/simple-javascript-quiz/
   }
 
   function showSlide(n) {
+    if(!quizStarted){return};
+    if(n == -1){restartQuiz()}
     slides[currentSlide].classList.remove('active-slide');
     slides[n].classList.add('active-slide');
     currentSlide = n;
     if(currentSlide === 0){
       previousButton.style.display = 'none';
-	  restartButton.classList.remove("quzControl");
-	  restartButton.style.display = 'inline-block';
+      restartButton.classList.remove("quzControl");
+      restartButton.style.display = 'inline-block';
     }
     else{
       previousButton.style.display = 'inline-block';
-	  restartButton.style.display = 'none';
+      restartButton.style.display = 'none';
     }
     if(currentSlide === slides.length-1){
       nextButton.style.display = 'none';
@@ -510,6 +615,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
 
   function restartQuiz(){
       currentSlide = 0;
+      quizStarted = false;
       clearTimeout(timer);
       nextButton.classList.add("quzControl");
       nextButton.style.display = 'none';
@@ -519,16 +625,17 @@ https://www.sitepoint.com/simple-javascript-quiz/
       document.getElementById("config").classList.remove("quzControl");
       document.getElementById("pages").innerHTML = "";
       restartButton.classList.add("quzControl");
-	  restartButton.style.display = 'none';
+      restartButton.style.display = 'none';
       // Show empty slide
-      slidesContainer = document.getElementsByClassName("quiz-container");
+      slidesContainer[0].style.height = '0%';
       slidesContainer[0].innerHTML=`<div id="quiz"></div>`;
       //showSlide(currentSlide);
       timerTxt.textContent = "No limit";
       document.getElementById("showTimer").style = "display:none"
-	  
+      
       startQuiz = document.getElementById("start");
       randomQuestion = document.getElementById("random");
+      hideAnserBtn = document.getElementById("hide_answer_btn");
       numberOfQuestion = document.getElementById("n_of_que");
       countDown = document.getElementById("timeInmunites");
       timerTxt = document.getElementById("timer");
@@ -546,7 +653,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
       }else{
           countDown = parseInt(countDown.value) * 60;
           if (!isNaN(countDown)) timedCount();
-          document.getElementById("showTimer").style = "display:inline-block;color:#000000;position:absolute;left:65%;top:30%;"
+          document.getElementById("showTimer").style.display = "inline-block";
       }
       // Variables
       quizContainer = document.getElementById('quiz');
@@ -554,7 +661,8 @@ https://www.sitepoint.com/simple-javascript-quiz/
       pagesContainer = document.getElementById('pages');
       submitButton = document.getElementById('submit');
       answerButton = document.getElementById('answer');
-	  restartButton = document.getElementById('restart');
+      restartButton = document.getElementById('restart');
+      slidesContainer = document.getElementsByClassName("quiz-container");
       
       prepareQuiz()
 
@@ -569,17 +677,23 @@ https://www.sitepoint.com/simple-javascript-quiz/
       submitButton.addEventListener('click', showResults);
       previousButton.addEventListener("click", showPreviousSlide);
       nextButton.addEventListener("click", showNextSlide);
-      answerButton.addEventListener("click", showAnswer);
-	  restartButton.addEventListener("click", restartQuiz);
+      if(hideAnserBtn.checked){
+          answerButton.addEventListener("click", showAnswer);
+      }
+      restartButton.addEventListener("click", restartQuiz);
 
       slides = document.querySelectorAll(".slide");
       submitButton.classList.remove("quzControl");
       previousButton.classList.remove("quzControl");
       nextButton.classList.remove("quzControl");
-      answerButton.classList.remove("quzControl");
-	  restartButton.classList.remove("quzControl");
+      if(!hideAnserBtn.checked){
+          answerButton.classList.remove("quzControl");
+      }
+      restartButton.classList.remove("quzControl");
+      slidesContainer[0].style.height = '95%';
       document.getElementById("config").classList.add("quzControl");
       // Show empty slide
+      quizStarted = true;
       showSlide(currentSlide);
   }
 
@@ -617,19 +731,24 @@ var nextButton;
 var slides;
 
 var randomQuestion;
+var hideAnserBtn;
 var numberOfQuestion;
 var startQuiz;
 
 var timerTxt;
 
+var slidesContainer;
+
 let currentSlide = 0;
 
+var quizStarted = false;
 
 var myQuestions = {{!json_Output['dump']}};
 
 // Quiz settings
 startQuiz = document.getElementById("start");
 randomQuestion = document.getElementById("random");
+hideAnserBtn = document.getElementById("hide_answer_btn");
 numberOfQuestion = document.getElementById("n_of_que");
 countDown = document.getElementById("timeInmunites");
 timerTxt = document.getElementById("timer");
@@ -704,7 +823,25 @@ document.addEventListener("drop", function (event) {
         dragP = null;
     }
 });
-</script>
 
+document.onkeydown = function(evt) {
+    evt = evt || window.event;
+	switch(evt.keyCode){
+		case 37: showSlide(currentSlide - 1); return; //left arrow
+		case 39: showSlide(currentSlide + 1); return; //rigth arrow
+		case 13:
+		case 32: if(!hideAnserBtn.checked){showAnswer();} return; //spacebar 
+		default: if(event.ctrlKey && event.altKey && evt.key === "d"){
+			var selection = parseInt(prompt("Jump to question:", "Type a number!"), 10);
+			if (isNaN(selection)){
+			  alert('Type a number');
+			} else {
+			  debug_showSlide(selection)
+			}
+		}
+	}
+};
+</script>
+	</div>
 	</body>
 </html>

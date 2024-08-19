@@ -46,9 +46,16 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--offline', help='Export questions to html file for use without http server\n', action='store_true')
     parser.add_argument('-m', '--merge', help='Merge questions from 2 quiz/dump', action='store_true')
     parser.add_argument('-s', '--start', help='Start web server', action='store_true')
+    parser.add_argument('-a', '--about', help='Show versions', action='store_true')
     parser.add_argument('-v', '--version', action='version', version='%(prog)s v'+str(ver))
     args = parser.parse_args()
     try:
-        main(args)
+        if args.about:
+            print(f"Dump wizard cmd helper - {getVersion('loader')}")
+            print(f"Dump wizard web sever  - {getVersion('app')}")
+            print(f"Dump wizard templates  - {getVersion('templates')}")
+            print("")
+        else:
+            main(args)
     except KeyboardInterrupt:
         print("You exit. Bye bye.")

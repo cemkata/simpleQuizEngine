@@ -98,7 +98,7 @@ def exportQuestions(fileName, questionsIDs):
     saveFile(f'{fileName}_exported', dump_file)
 
 def exportQuestions_main():
-    selected_dump_file, nextExamFolder = getDump(examFolder)
+    selected_dump_file, nextExamFolder, _ = getDump(examFolder)
 
     print("Range for exsample question from 1 to 10.")
     print("Selection looks like 1,2,4,5,7,10.")
@@ -127,7 +127,7 @@ def get_json_dump(courseID, examID):
      return proccesFile(os.path.join(examFolder, courseID, examID))
 
 def export_to_offline_main():
-    selected_dump_file, nextExamFolder = getDump(examFolder)
+    selected_dump_file, nextExamFolder, _ = getDump(examFolder)
 
     nextExamFolder = os.path.basename(nextExamFolder)
 
