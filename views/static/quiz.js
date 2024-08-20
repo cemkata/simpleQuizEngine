@@ -12,7 +12,11 @@ https://www.sitepoint.com/simple-javascript-quiz/
 
     // for each question...
 	let nOfQuesions = parseInt(numberOfQuestion.value) + parseInt(startOfQuestion.value)
-    for(let i = startOfQuestion.value; i<nOfQuesions; i++){
+	let _beginOfQuesions = parseInt(startOfQuestion.value);
+	if (_beginOfQuesions > 0){
+		_beginOfQuesions--;
+	}
+    for(let i = _beginOfQuesions; i<nOfQuesions; i++){
 		
 		if(typeof myQuestions[i].question == 'object'){ //drag-drop question
 			const questions = [];
@@ -324,6 +328,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
   }
 
   function buildQuiz(){
+	  document.getElementById("loader").style.display = "block";
       if(randomQuestion.checked){
           myQuestions = shuffle(myQuestions)
       }
@@ -332,9 +337,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
       }
       if(startOfQuestion.value > myQuestions.length || startOfQuestion.value < 0 || startOfQuestion.value == ''){
           startOfQuestion.value = 0;
-      }else{
-		  startOfQuestion.value = startOfQuestion.value - 1;
-	  }
+      }
       if(endOfQuestion.value > myQuestions.length || endOfQuestion.value < 0){
           endOfQuestion.value = myQuestions.length
       }
@@ -391,6 +394,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
       slidesContainer[0].style.height = '95%';
       document.getElementById("config").classList.add("quzControl");
       // Show the first slide
+	  document.getElementById("loader").style.display = "none";
       quizStarted = true;
       showSlide(currentSlide);
   }
@@ -463,10 +467,12 @@ xmlhttp.onreadystatechange = function() {
           timerTxt = document.getElementById("timer");
           // Kick things off
           //buildQuiz();
+		  document.getElementById("loader").style.display = "none";
           startQuiz.addEventListener('click', buildQuiz);
     }
 };
 xmlhttp.open("GET", url, true);
+document.getElementById("loader").style.display = "block";
 xmlhttp.send();
 
 var dragP;

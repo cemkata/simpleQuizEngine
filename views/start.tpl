@@ -26,6 +26,7 @@
 			<button class="quzControl" id="next">Next Question</button>
 			<button class="quzControl" id="submit">Submit Quiz</button>
 			<div id="config">
+			  <div id="loader"></div>
 				<label>Randomize question:</label><input type="checkbox" id="random"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				<label>Exsam mode:</label><input type="checkbox" id="hide_answer_btn"><br>
 				<label>How many question:</label><input type="number" id="n_of_que"><br>

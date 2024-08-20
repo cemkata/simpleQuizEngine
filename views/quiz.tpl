@@ -303,6 +303,7 @@ input[type=submit]:hover {
 			<button class="quzControl" id="next">Next Question</button>
 			<button class="quzControl" id="submit">Submit Quiz</button>
 			<div id="config">
+			  <div id="loader"></div>
 				<label>Randomize question</label><input type="checkbox" id="random"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				<label>Exsam mode</label><input type="checkbox" id="hide_answer_btn"><br>
 				<label>How many question:</label><input type="number" id="n_of_que"><br>
@@ -334,7 +335,11 @@ https://www.sitepoint.com/simple-javascript-quiz/
 
     // for each question...
 	let nOfQuesions = parseInt(numberOfQuestion.value) + parseInt(startOfQuestion.value)
-    for(let i = startOfQuestion.value; i<nOfQuesions; i++){
+	let _beginOfQuesions = parseInt(startOfQuestion.value);
+	if (_beginOfQuesions > 0){
+		_beginOfQuesions--;
+	}
+    for(let i = _beginOfQuesions; i<nOfQuesions; i++){
 		
 		if(typeof myQuestions[i].question == 'object'){ //drag-drop question
 			const questions = [];
@@ -646,6 +651,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
   }
 
   function buildQuiz(){
+      document.getElementById("loader").style.display = "block";
       if(randomQuestion.checked){
           myQuestions = shuffle(myQuestions)
       }
@@ -654,9 +660,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
       }
       if(startOfQuestion.value > myQuestions.length || startOfQuestion.value < 0 || startOfQuestion.value == ''){
           startOfQuestion.value = 0;
-      }else{
-		  startOfQuestion.value = startOfQuestion.value - 1;
-	  }
+      }
       if(endOfQuestion.value > myQuestions.length || endOfQuestion.value < 0){
           endOfQuestion.value = myQuestions.length
       }
@@ -712,6 +716,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
       slidesContainer[0].style.height = '95%';
       document.getElementById("config").classList.add("quzControl");
       // Show empty slide
+      document.getElementById("loader").style.display = "none";
       quizStarted = true;
       showSlide(currentSlide);
   }
