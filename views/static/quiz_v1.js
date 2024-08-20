@@ -11,8 +11,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
     const output = [];
 
     // for each question...
-	let nOfQuesions = parseInt(numberOfQuestion.value) + parseInt(startOfQuestion.value)
-    for(let i = startOfQuestion.value; i<nOfQuesions; i++){
+    for(let i = 0; i<numberOfQuestion.value; i++){
 		
 		if(typeof myQuestions[i].question == 'object'){ //drag-drop question
 			const questions = [];
@@ -318,7 +317,6 @@ https://www.sitepoint.com/simple-javascript-quiz/
       randomQuestion = document.getElementById("random");
       hideAnserBtn = document.getElementById("hide_answer_btn");
       numberOfQuestion = document.getElementById("n_of_que");
-      startOfQuestion = document.getElementById("start_of_que");
       countDown = document.getElementById("timeInmunites");
       timerTxt = document.getElementById("timer");
   }
@@ -328,23 +326,8 @@ https://www.sitepoint.com/simple-javascript-quiz/
           myQuestions = shuffle(myQuestions)
       }
       if(numberOfQuestion.value > myQuestions.length || numberOfQuestion.value < 0 || numberOfQuestion.value == ''){
-          numberOfQuestion.value = myQuestions.length;
+          numberOfQuestion.value = myQuestions.length
       }
-      if(startOfQuestion.value > myQuestions.length || startOfQuestion.value < 0 || startOfQuestion.value == ''){
-          startOfQuestion.value = 0;
-      }else{
-		  startOfQuestion.value = startOfQuestion.value - 1;
-	  }
-      if(endOfQuestion.value > myQuestions.length || endOfQuestion.value < 0){
-          endOfQuestion.value = myQuestions.length
-      }
-	  if(startOfQuestion.value != '' && endOfQuestion.value != ''){
-		  numberOfQuestion.value = Math.abs(startOfQuestion.value - endOfQuestion.value)
-		  if(numberOfQuestion.value < 0){
-			  numberOfQuestion.value = myQuestions.length;
-		  }
-	  }
-	  
       if(countDown.value == '' || countDown.value == 0){
           countDown = -1;
       }else{
@@ -436,8 +419,6 @@ var slides;
 var randomQuestion;
 var hideAnserBtn;
 var numberOfQuestion;
-var startOfQuestion;
-var endOfQuestion;
 var startQuiz;
 
 var timerTxt;
@@ -457,8 +438,6 @@ xmlhttp.onreadystatechange = function() {
           randomQuestion = document.getElementById("random");
 	      hideAnserBtn = document.getElementById("hide_answer_btn");
           numberOfQuestion = document.getElementById("n_of_que");
-          startOfQuestion = document.getElementById("start_of_que");
-          endOfQuestion = document.getElementById("end_of_que");
           countDown = document.getElementById("timeInmunites");
           timerTxt = document.getElementById("timer");
           // Kick things off
