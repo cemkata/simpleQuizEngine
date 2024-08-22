@@ -1,7 +1,7 @@
 <html lang="en" class="">
 	<head>
       <meta charset="UTF-8">
-      <title>Exam - {{tittle}}</title> 
+      <title>Exam - {{tittle}}</title>
 <style>
 /*@import url(https://fonts.googleapis.com/css?family=Work+Sans:300,600);*/
 html {
@@ -299,7 +299,7 @@ input[type=submit]:hover {
 			<button class="quzControl" id="restart">Restart quiz</button>
 			<button class="quzControl" id="previous">Previous Question</button>
 			<!-- if this button is hidden the answer is not shown -->
-			<button class="quzControl" id="answer">Show answer</button> 
+			<button class="quzControl" id="answer">Show answer</button>
 			<button class="quzControl" id="next">Next Question</button>
 			<button class="quzControl" id="submit">Submit Quiz</button>
 			<div id="config">
@@ -322,12 +322,12 @@ input[type=submit]:hover {
 		</section>
 		<script>
   var myQuestions;
- 
+
 /**
-Based on the turorial 
+Based on the turorial
 https://www.sitepoint.com/simple-javascript-quiz/
-*/ 
- 
+*/
+
   // Functions
   function prepareQuiz(){
     // variable to store the HTML output
@@ -384,7 +384,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
               `<div class="slide">
                 <div class="answers"> ${question_box} </div>
                 <div class="question"> ${answer_box} </div>
-                
+
                 <div class="explanation hidden"> Correct answer: </br>${correctAnsweredQuestions.join("")}</br>${myQuestions[i].explanation} ${reftxt}</div><hr>
               </div>`
             );
@@ -402,7 +402,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
               `<div class="slide">
                 <div class="question"> ${myQuestions[i].question} </div>
                 <div class="answers"> ${answers.join("")} </div>
-                
+
                 <div class="explanation hidden"> Correct answer: ${myQuestions[i].correctAnswer}</br>${myQuestions[i].explanation} ${reftxt}</div><hr>
               </div>`
             );
@@ -430,7 +430,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
               `<div class="slide">
                 <div class="question"> ${myQuestions[i].question} </div>
                 <div class="answers"> ${answers.join("")} </div>
-                
+
                 <div class="explanation hidden"> ${myQuestions[i].explanation} ${reftxt}</div><hr>
               </div>`
             );
@@ -450,7 +450,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
             numCorrect++;
         }
     }
- 
+
     slides.forEach(s => {
         s.classList.remove('active-slide');
         s.classList.remove('slide');
@@ -602,7 +602,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
         }
     }
   }
-  
+
   function shuffle(array) {
     let currentIndex = array.length,  randomIndex;
 
@@ -640,7 +640,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
       //showSlide(currentSlide);
       timerTxt.textContent = "No limit";
       document.getElementById("showTimer").style = "display:none"
-      
+
       startQuiz = document.getElementById("start");
       randomQuestion = document.getElementById("random");
       hideAnserBtn = document.getElementById("hide_answer_btn");
@@ -651,74 +651,80 @@ https://www.sitepoint.com/simple-javascript-quiz/
   }
 
   function buildQuiz(){
-      document.getElementById("loader").style.display = "block";
-      if(randomQuestion.checked){
-          myQuestions = shuffle(myQuestions)
-      }
-      if(numberOfQuestion.value > myQuestions.length || numberOfQuestion.value < 0 || numberOfQuestion.value == ''){
-          numberOfQuestion.value = myQuestions.length
-      }
-      if(startOfQuestion.value > myQuestions.length || startOfQuestion.value < 0 || startOfQuestion.value == ''){
-          startOfQuestion.value = 0;
-      }
-      if(endOfQuestion.value > myQuestions.length || endOfQuestion.value < 0){
-          endOfQuestion.value = myQuestions.length
-      }
-	  if(startOfQuestion.value != '' && endOfQuestion.value != ''){
-		  numberOfQuestion.value = Math.abs(startOfQuestion.value - endOfQuestion.value)
-		  if(numberOfQuestion.value < 0){
-			  numberOfQuestion.value = myQuestions.length;
-		  }
-	  }
-	  
-      if(countDown.value == '' || countDown.value == 0){
-          countDown = -1;
-      }else{
-          countDown = parseInt(countDown.value) * 60;
-          if (!isNaN(countDown)) timedCount();
-          document.getElementById("showTimer").style.display = "inline-block";
-      }
-      // Variables
-      quizContainer = document.getElementById('quiz');
-      resultsContainer = document.getElementById('results');
-      pagesContainer = document.getElementById('pages');
-      submitButton = document.getElementById('submit');
-      answerButton = document.getElementById('answer');
-      restartButton = document.getElementById('restart');
-      slidesContainer = document.getElementsByClassName("quiz-container");
-      
-      prepareQuiz()
+    document.getElementById("loader").style.display = "block";
+    document.body.style.cursor = "wait";
+    let timeout_in_ms = 100;
+    setTimeout(function(){ //wait for few ms to render the waiting animation
+          if(randomQuestion.checked){
+              myQuestions = shuffle(myQuestions)
+          }
+          if(numberOfQuestion.value > myQuestions.length || numberOfQuestion.value < 0 || numberOfQuestion.value == ''){
+              numberOfQuestion.value = myQuestions.length;
+          }
+          if(startOfQuestion.value > myQuestions.length || startOfQuestion.value < 0 || startOfQuestion.value == ''){
+              startOfQuestion.value = 0;
+          }
+          if(endOfQuestion.value > myQuestions.length || endOfQuestion.value < 0){
+              endOfQuestion.value = myQuestions.length
+          }
+          if(startOfQuestion.value != '' && endOfQuestion.value != ''){
+              numberOfQuestion.value = Math.abs(startOfQuestion.value - endOfQuestion.value)
+              if(numberOfQuestion.value < 0){
+                  numberOfQuestion.value = myQuestions.length;
+              }
+          }
 
-      // gather answer containers from our quiz
-      answerContainers = quizContainer.querySelectorAll('.answers');
-        
-      // Pagination
-      previousButton = document.getElementById("previous");
-      nextButton = document.getElementById("next");
-      
-      // Event listeners
-      submitButton.addEventListener('click', showResults);
-      previousButton.addEventListener("click", showPreviousSlide);
-      nextButton.addEventListener("click", showNextSlide);
-      if(hideAnserBtn.checked){
-          answerButton.addEventListener("click", showAnswer);
-      }
-      restartButton.addEventListener("click", restartQuiz);
+          if(countDown.value == '' || countDown.value == 0){
+              countDown = -1;
+          }else{
+              countDown = parseInt(countDown.value) * 60;
+              if (!isNaN(countDown)) timedCount();
+              document.getElementById("showTimer").style.display = "inline-block";
+          }
+          // Variables
+          quizContainer = document.getElementById('quiz');
+          resultsContainer = document.getElementById('results');
+          pagesContainer = document.getElementById('pages');
+          submitButton = document.getElementById('submit');
+          answerButton = document.getElementById('answer');
+          restartButton = document.getElementById('restart');
+          slidesContainer = document.getElementsByClassName("quiz-container")
 
-      slides = document.querySelectorAll(".slide");
-      submitButton.classList.remove("quzControl");
-      previousButton.classList.remove("quzControl");
-      nextButton.classList.remove("quzControl");
-      if(!hideAnserBtn.checked){
-          answerButton.classList.remove("quzControl");
-      }
-      restartButton.classList.remove("quzControl");
-      slidesContainer[0].style.height = '95%';
-      document.getElementById("config").classList.add("quzControl");
-      // Show empty slide
-      document.getElementById("loader").style.display = "none";
-      quizStarted = true;
-      showSlide(currentSlide);
+          prepareQuiz()
+
+          // gather answer containers from our quiz
+          answerContainers = quizContainer.querySelectorAll('.answers');
+
+
+          // Pagination
+          previousButton = document.getElementById("previous");
+          nextButton = document.getElementById("next");
+
+          // Event listeners
+          submitButton.addEventListener('click', showResults);
+          previousButton.addEventListener("click", showPreviousSlide);
+          nextButton.addEventListener("click", showNextSlide);
+          if(!hideAnserBtn.checked){
+              answerButton.addEventListener("click", showAnswer);
+          }
+          restartButton.addEventListener("click", restartQuiz);
+
+          slides = document.querySelectorAll(".slide");
+          submitButton.classList.remove("quzControl");
+          previousButton.classList.remove("quzControl");
+          nextButton.classList.remove("quzControl");
+          if(!hideAnserBtn.checked){
+              answerButton.classList.remove("quzControl");
+          }
+          restartButton.classList.remove("quzControl");
+          slidesContainer[0].style.height = '95%';
+          document.getElementById("config").classList.add("quzControl");
+          // Show the first slide
+          document.getElementById("loader").style.display = "none";
+          document.body.style.cursor = "auto";
+          quizStarted = true;
+          showSlide(currentSlide);
+    }, timeout_in_ms);
   }
 
   function timedCount(){
@@ -858,7 +864,7 @@ document.onkeydown = function(evt) {
 		case 37: showSlide(currentSlide - 1); return; //left arrow
 		case 39: showSlide(currentSlide + 1); return; //rigth arrow
 		case 13:
-		case 32: if(!hideAnserBtn.checked){showAnswer();} return; //spacebar 
+		case 32: if(!hideAnserBtn.checked){showAnswer();} return; //spacebar
 		default: if(event.ctrlKey && event.altKey && evt.key === "d"){
 			var selection = parseInt(prompt("Jump to question:", "Type a number!"), 10);
 			if (isNaN(selection)){

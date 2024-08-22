@@ -1,71 +1,71 @@
   var myQuestions;
- 
+
 /**
-Based on the turorial 
+Based on the turorial
 https://www.sitepoint.com/simple-javascript-quiz/
-*/ 
- 
+*/
+
   // Functions
   function prepareQuiz(){
     // variable to store the HTML output
     const output = [];
 
     // for each question...
-	let nOfQuesions = parseInt(numberOfQuestion.value) + parseInt(startOfQuestion.value)
-	let _beginOfQuesions = parseInt(startOfQuestion.value);
-	if (_beginOfQuesions > 0){
-		_beginOfQuesions--;
-	}
+    let nOfQuesions = parseInt(numberOfQuestion.value) + parseInt(startOfQuestion.value)
+    let _beginOfQuesions = parseInt(startOfQuestion.value);
+    if (_beginOfQuesions > 0){
+        _beginOfQuesions--;
+    }
     for(let i = _beginOfQuesions; i<nOfQuesions; i++){
-		
-		if(typeof myQuestions[i].question == 'object'){ //drag-drop question
-			const questions = [];
-			for(let j = 0; j < myQuestions[i].question.length; j++){
-			      if (myQuestions[i].question[j].endsWith("$?__")){
-				      questions.push(
-						`<div class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
-				      );
-			      }else{
-				      questions.push(
-						`<div>${myQuestions[i].question[j]}</div>`
-				      );
-			      }
-			}
-			const question_box = `<div class="question_box">${questions.join("")}</div>`
-			
-			const answers = []
-			for(let j = 0; j < myQuestions[i].answers.length; j++){
-		      answers.push(
-				`<p draggable="true" class="dragtarget">${myQuestions[i].answers[j]}</p>`
-		      );
-			}
-			const answer_box = `<div class="answers_container" id="drag_drop-answer_slide${i}"><p>Answers:</p>${answers.join("")}</div>`
 
-			if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
-			else{reftxt = ""}
-			
-			const correctAnsweredQuestions = []
-			for(let j = 0; j < myQuestions[i].question.length; j++){
-			      if (myQuestions[i].question[j].endsWith("$?__")){
-				      correctAnsweredQuestions.push(
-						`<div class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget">${myQuestions[i].correctAnswer[j]}</div></div>`
-				      );
-			      }else{
-				      correctAnsweredQuestions.push(
-						`<div>${myQuestions[i].question[j]}</div>`
-				      );
-			      }
-			}
-			
+        if(typeof myQuestions[i].question == 'object'){ //drag-drop question
+            const questions = [];
+            for(let j = 0; j < myQuestions[i].question.length; j++){
+                  if (myQuestions[i].question[j].endsWith("$?__")){
+                      questions.push(
+                        `<div class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
+                      );
+                  }else{
+                      questions.push(
+                        `<div>${myQuestions[i].question[j]}</div>`
+                      );
+                  }
+            }
+            const question_box = `<div class="question_box">${questions.join("")}</div>`
+
+            const answers = []
+            for(let j = 0; j < myQuestions[i].answers.length; j++){
+              answers.push(
+                `<p draggable="true" class="dragtarget">${myQuestions[i].answers[j]}</p>`
+              );
+            }
+            const answer_box = `<div class="answers_container" id="drag_drop-answer_slide${i}"><p>Answers:</p>${answers.join("")}</div>`
+
+            if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
+            else{reftxt = ""}
+
+            const correctAnsweredQuestions = []
+            for(let j = 0; j < myQuestions[i].question.length; j++){
+                  if (myQuestions[i].question[j].endsWith("$?__")){
+                      correctAnsweredQuestions.push(
+                        `<div class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget">${myQuestions[i].correctAnswer[j]}</div></div>`
+                      );
+                  }else{
+                      correctAnsweredQuestions.push(
+                        `<div>${myQuestions[i].question[j]}</div>`
+                      );
+                  }
+            }
+
             output.push(
               `<div class="slide">
                 <div class="answers"> ${question_box} </div>
                 <div class="question"> ${answer_box} </div>
-                
+
                 <div class="explanation hidden"> Correct answer: </br>${correctAnsweredQuestions.join("")}</br>${myQuestions[i].explanation} ${reftxt}</div><hr>
               </div>`
             );
-		}else if(Object.keys(myQuestions[i].answers).length == 0){ //Fill the blank question
+        }else if(Object.keys(myQuestions[i].answers).length == 0){ //Fill the blank question
               const answers = [];
               answers.push(
                 `<label>
@@ -73,13 +73,13 @@ https://www.sitepoint.com/simple-javascript-quiz/
                 </label>`
               );
             // add this question and its answers to the output
-			if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
-			else{reftxt = ""}
+            if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
+            else{reftxt = ""}
             output.push(
               `<div class="slide">
                 <div class="question"> ${myQuestions[i].question} </div>
                 <div class="answers"> ${answers.join("")} </div>
-                
+
                 <div class="explanation hidden"> Correct answer: ${myQuestions[i].correctAnswer}</br>${myQuestions[i].explanation} ${reftxt}</div><hr>
               </div>`
             );
@@ -101,13 +101,13 @@ https://www.sitepoint.com/simple-javascript-quiz/
               );
             }
             // add this question and its answers to the output
-			if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
-			else{reftxt = ""}
+            if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
+            else{reftxt = ""}
             output.push(
               `<div class="slide">
                 <div class="question"> ${myQuestions[i].question} </div>
                 <div class="answers"> ${answers.join("")} </div>
-                
+
                 <div class="explanation hidden"> ${myQuestions[i].explanation} ${reftxt}</div><hr>
               </div>`
             );
@@ -127,7 +127,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
             numCorrect++;
         }
     }
- 
+
     slides.forEach(s => {
         s.classList.remove('active-slide');
         s.classList.remove('slide');
@@ -143,8 +143,8 @@ https://www.sitepoint.com/simple-javascript-quiz/
 
     // show number of correct answers out of total
     resultsContainer.innerHTML = `${numCorrect} out of ${numberOfQuestion.value}`;
-	clearTimeout(timer);
-	timerTxt.textContent = "";
+    clearTimeout(timer);
+    timerTxt.textContent = "";
   }
 
   function checkAnswer(currentQuestion, questionNumber){
@@ -162,33 +162,33 @@ https://www.sitepoint.com/simple-javascript-quiz/
       if(userAnswer === ""){
           var tmpQuestion = answerContainer.querySelectorAll(selectorAll);
           if(tmpQuestion.length < 2){ //if there is only text box there will be only one input
-	          if (tmpQuestion.length == 0){
-					// here should be the logic to check the answer
-					let result = true
-					dragDropAnswers = answerContainer.getElementsByTagName("p");
-					
-					if(dragDropAnswers.length == 0){
-						result = false
-					}else{
-						dragDropQuestions = answerContainer.getElementsByClassName("dragdrop_question");
-						for (let i = 0; i < currentQuestion.correctAnswer.length; i++) {
-							currentAnswer = dragDropQuestions[i].getElementsByClassName("dragtarget");
-							if(currentAnswer.length == 0){
-								result = false;
-								continue;
-							}else{
-								currentAnswer = currentAnswer[0];
-							}
-							if(currentAnswer.textContent === currentQuestion.correctAnswer[i]){
-								currentAnswer.style.color = 'lightgreen'; // color the answers green
-							}else{
-								currentAnswer.style.color = 'red'; // color the answers red
-								result = false;
-							}
-						}
-					}
-					return result;
-		      }
+              if (tmpQuestion.length == 0){
+                    // here should be the logic to check the answer
+                    let result = true
+                    dragDropAnswers = answerContainer.getElementsByTagName("p");
+
+                    if(dragDropAnswers.length == 0){
+                        result = false
+                    }else{
+                        dragDropQuestions = answerContainer.getElementsByClassName("dragdrop_question");
+                        for (let i = 0; i < currentQuestion.correctAnswer.length; i++) {
+                            currentAnswer = dragDropQuestions[i].getElementsByClassName("dragtarget");
+                            if(currentAnswer.length == 0){
+                                result = false;
+                                continue;
+                            }else{
+                                currentAnswer = currentAnswer[0];
+                            }
+                            if(currentAnswer.textContent === currentQuestion.correctAnswer[i]){
+                                currentAnswer.style.color = 'lightgreen'; // color the answers green
+                            }else{
+                                currentAnswer.style.color = 'red'; // color the answers red
+                                result = false;
+                            }
+                        }
+                    }
+                    return result;
+              }
               if(tmpQuestion[0].value === currentQuestion.correctAnswer){
                 tmpQuestion[0].style.color = 'lightgreen'; // color the answers green
                 return true;
@@ -279,7 +279,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
         }
     }
   }
-  
+
   function shuffle(array) {
     let currentIndex = array.length,  randomIndex;
 
@@ -317,7 +317,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
       //showSlide(currentSlide);
       timerTxt.textContent = "No limit";
       document.getElementById("showTimer").style = "display:none"
-      
+
       startQuiz = document.getElementById("start");
       randomQuestion = document.getElementById("random");
       hideAnserBtn = document.getElementById("hide_answer_btn");
@@ -328,75 +328,80 @@ https://www.sitepoint.com/simple-javascript-quiz/
   }
 
   function buildQuiz(){
-	  document.getElementById("loader").style.display = "block";
-      if(randomQuestion.checked){
-          myQuestions = shuffle(myQuestions)
-      }
-      if(numberOfQuestion.value > myQuestions.length || numberOfQuestion.value < 0 || numberOfQuestion.value == ''){
-          numberOfQuestion.value = myQuestions.length;
-      }
-      if(startOfQuestion.value > myQuestions.length || startOfQuestion.value < 0 || startOfQuestion.value == ''){
-          startOfQuestion.value = 0;
-      }
-      if(endOfQuestion.value > myQuestions.length || endOfQuestion.value < 0){
-          endOfQuestion.value = myQuestions.length
-      }
-	  if(startOfQuestion.value != '' && endOfQuestion.value != ''){
-		  numberOfQuestion.value = Math.abs(startOfQuestion.value - endOfQuestion.value)
-		  if(numberOfQuestion.value < 0){
-			  numberOfQuestion.value = myQuestions.length;
-		  }
-	  }
-	  
-      if(countDown.value == '' || countDown.value == 0){
-          countDown = -1;
-      }else{
-          countDown = parseInt(countDown.value) * 60;
-          if (!isNaN(countDown)) timedCount();
-          document.getElementById("showTimer").style.display = "inline-block";
-      }
-      // Variables
-      quizContainer = document.getElementById('quiz');
-      resultsContainer = document.getElementById('results');
-      pagesContainer = document.getElementById('pages');
-      submitButton = document.getElementById('submit');
-      answerButton = document.getElementById('answer');
-      restartButton = document.getElementById('restart');
-      slidesContainer = document.getElementsByClassName("quiz-container")
-      
-      prepareQuiz()
+    document.getElementById("loader").style.display = "block";
+    document.body.style.cursor = "wait";
+    let timeout_in_ms = 100;
+    setTimeout(function(){ //wait for few ms to render the waiting animation
+          if(randomQuestion.checked){
+              myQuestions = shuffle(myQuestions)
+          }
+          if(numberOfQuestion.value > myQuestions.length || numberOfQuestion.value < 0 || numberOfQuestion.value == ''){
+              numberOfQuestion.value = myQuestions.length;
+          }
+          if(startOfQuestion.value > myQuestions.length || startOfQuestion.value < 0 || startOfQuestion.value == ''){
+              startOfQuestion.value = 0;
+          }
+          if(endOfQuestion.value > myQuestions.length || endOfQuestion.value < 0){
+              endOfQuestion.value = myQuestions.length
+          }
+          if(startOfQuestion.value != '' && endOfQuestion.value != ''){
+              numberOfQuestion.value = Math.abs(startOfQuestion.value - endOfQuestion.value)
+              if(numberOfQuestion.value < 0){
+                  numberOfQuestion.value = myQuestions.length;
+              }
+          }
 
-      // gather answer containers from our quiz
-      answerContainers = quizContainer.querySelectorAll('.answers');
-      
-        
-      // Pagination
-      previousButton = document.getElementById("previous");
-      nextButton = document.getElementById("next");
-      
-      // Event listeners
-      submitButton.addEventListener('click', showResults);
-      previousButton.addEventListener("click", showPreviousSlide);
-      nextButton.addEventListener("click", showNextSlide);
-      if(!hideAnserBtn.checked){
-          answerButton.addEventListener("click", showAnswer);
-      }
-      restartButton.addEventListener("click", restartQuiz);
+          if(countDown.value == '' || countDown.value == 0){
+              countDown = -1;
+          }else{
+              countDown = parseInt(countDown.value) * 60;
+              if (!isNaN(countDown)) timedCount();
+              document.getElementById("showTimer").style.display = "inline-block";
+          }
+          // Variables
+          quizContainer = document.getElementById('quiz');
+          resultsContainer = document.getElementById('results');
+          pagesContainer = document.getElementById('pages');
+          submitButton = document.getElementById('submit');
+          answerButton = document.getElementById('answer');
+          restartButton = document.getElementById('restart');
+          slidesContainer = document.getElementsByClassName("quiz-container")
 
-      slides = document.querySelectorAll(".slide");
-      submitButton.classList.remove("quzControl");
-      previousButton.classList.remove("quzControl");
-      nextButton.classList.remove("quzControl");
-      if(!hideAnserBtn.checked){
-          answerButton.classList.remove("quzControl");
-      }
-      restartButton.classList.remove("quzControl");
-      slidesContainer[0].style.height = '95%';
-      document.getElementById("config").classList.add("quzControl");
-      // Show the first slide
-	  document.getElementById("loader").style.display = "none";
-      quizStarted = true;
-      showSlide(currentSlide);
+          prepareQuiz()
+
+          // gather answer containers from our quiz
+          answerContainers = quizContainer.querySelectorAll('.answers');
+
+
+          // Pagination
+          previousButton = document.getElementById("previous");
+          nextButton = document.getElementById("next");
+
+          // Event listeners
+          submitButton.addEventListener('click', showResults);
+          previousButton.addEventListener("click", showPreviousSlide);
+          nextButton.addEventListener("click", showNextSlide);
+          if(!hideAnserBtn.checked){
+              answerButton.addEventListener("click", showAnswer);
+          }
+          restartButton.addEventListener("click", restartQuiz);
+
+          slides = document.querySelectorAll(".slide");
+          submitButton.classList.remove("quzControl");
+          previousButton.classList.remove("quzControl");
+          nextButton.classList.remove("quzControl");
+          if(!hideAnserBtn.checked){
+              answerButton.classList.remove("quzControl");
+          }
+          restartButton.classList.remove("quzControl");
+          slidesContainer[0].style.height = '95%';
+          document.getElementById("config").classList.add("quzControl");
+          // Show the first slide
+          document.getElementById("loader").style.display = "none";
+          document.body.style.cursor = "auto";
+          quizStarted = true;
+          showSlide(currentSlide);
+    }, timeout_in_ms);
   }
 
 function timedCount(){
@@ -455,11 +460,11 @@ let currentSlide = 0;
 xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
           myQuestions = JSON.parse(this.responseText)['dump'];
-          
+
           // Quiz settings
           startQuiz = document.getElementById("start");
           randomQuestion = document.getElementById("random");
-	      hideAnserBtn = document.getElementById("hide_answer_btn");
+          hideAnserBtn = document.getElementById("hide_answer_btn");
           numberOfQuestion = document.getElementById("n_of_que");
           startOfQuestion = document.getElementById("start_of_que");
           endOfQuestion = document.getElementById("end_of_que");
@@ -467,7 +472,7 @@ xmlhttp.onreadystatechange = function() {
           timerTxt = document.getElementById("timer");
           // Kick things off
           //buildQuiz();
-		  document.getElementById("loader").style.display = "none";
+          document.getElementById("loader").style.display = "none";
           startQuiz.addEventListener('click', buildQuiz);
     }
 };
@@ -544,18 +549,26 @@ document.addEventListener("drop", function (event) {
 
 document.onkeydown = function(evt) {
     evt = evt || window.event;
-	switch(evt.keyCode){
-		case 37: showSlide(currentSlide - 1); return; //left arrow
-		case 39: showSlide(currentSlide + 1); return; //rigth arrow
-		case 13:
-		case 32: if(!hideAnserBtn.checked){showAnswer();} return; //spacebar 
-		default: if(event.ctrlKey && event.altKey && evt.key === "d"){
-			var selection = parseInt(prompt("Jump to question:", "Type a number!"), 10);
-			if (isNaN(selection)){
-			  alert('Type a number');
-			} else {
-			  debug_showSlide(selection)
-			}
-		}
-	}
+    switch(evt.keyCode){
+        case 37: showSlide(currentSlide - 1); return; //left arrow
+        case 39: showSlide(currentSlide + 1); return; //rigth arrow
+        case 13:
+        case 32: if(!hideAnserBtn.checked){showAnswer();} return; //spacebar
+        default: if(event.ctrlKey && event.altKey && evt.key === "d"){
+            var selection = parseInt(prompt("Jump to question:", "Type a number!"), 10);
+            if (isNaN(selection)){
+              alert('Type a number');
+            } else {
+              debug_showSlide(selection)
+            }
+        }
+    }
 };
+
+var wait = (ms) => {
+    const start = Date.now();
+    let now = start;
+    while (now - start < ms) {
+      now = Date.now();
+    }
+}
