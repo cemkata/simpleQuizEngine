@@ -22,7 +22,7 @@
 			<button class="quzControl" id="restart">Restart quiz</button>
 			<button class="quzControl" id="previous">Previous Question</button>
 			<!-- if this button is hidden the answer is not shown -->
-			<button class="quzControl" id="answer">Show answer</button> 
+			<button class="quzControl" id="answer">Show answer</button>
 			<button class="quzControl" id="next">Next Question</button>
 			<button class="quzControl" id="submit">Submit Quiz</button>
 			<div id="config">
@@ -47,3 +47,4 @@
 	</div>
 	</body>
 </html>
+% include('footer.tpl')

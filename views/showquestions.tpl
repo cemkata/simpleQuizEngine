@@ -1,7 +1,7 @@
 <html lang="en" class="">
 	<head>
 	  <meta charset="UTF-8">
-	  <title>Dump {{cid + " " + dump}}</title>
+	  <title>Editing Dump {{cid + " " + dump}}</title>
 	  <meta name="robots" content="noindex">
 	  <link rel='stylesheet' href='/static/style.css'>
 	<script>
@@ -24,7 +24,7 @@
 		  var cource = document.getElementById("courseID").value;
 		  var quiz = document.getElementById("quizID").value;
 		  url = '/editor/deleteQuestion?courseID=' + cource + "&quizID=" + quiz + "&questionID=" + qid;
-		  
+		
 		  const xhr = new XMLHttpRequest();
 		  xhr.open("GET", url);
 		  xhr.send();
@@ -37,7 +37,7 @@
 		    }
 		  };
 		  //window.location.href = url
-		} 
+		}
 	}
 	
 	function goToTop(){
@@ -139,3 +139,4 @@
 <button id="scrollToTopDesktop" class="scroll-to-top" onclick="goToTop()" title="Go to top" style="display: block;"><i>Top</i></button>
 	</body>
 </html>
+% include('footer.tpl')

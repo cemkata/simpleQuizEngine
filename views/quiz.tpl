@@ -445,7 +445,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
     let numCorrect = 0;
 
     // for each question...
-    for(let i = 0; i<numberOfQuestion.value; i++){
+    for(let i = _beginOfQuesions, j = 0; i<nOfQuesions; i++, j++){
         if (checkAnswer(myQuestions[i], i)){
             numCorrect++;
         }
@@ -475,8 +475,8 @@ https://www.sitepoint.com/simple-javascript-quiz/
 
       // find selected answer
       const answerContainer = answerContainers[questionNumber];
-      const selector = `input[name=question${questionNumber}]:checked`;
-      const selectorAll = `input[name=question${questionNumber}]`;
+      const selector = `input[name=question${questionNumber + _beginOfQuesions}]:checked`;
+      const selectorAll = `input[name=question${questionNumber + _beginOfQuesions}]`;
       var userAnswer = "";
       answerContainer.querySelectorAll(selector).forEach(ans => {
               userAnswer += (ans || {}).value;
@@ -550,7 +550,6 @@ https://www.sitepoint.com/simple-javascript-quiz/
   }
 
   function debug_showSlide(n){
-      if(!quizStarted){return};
       if(n == -1){restartQuiz()}
       n--;
       slides[currentSlide].classList.remove('active-slide');
@@ -561,7 +560,6 @@ https://www.sitepoint.com/simple-javascript-quiz/
   }
 
   function showSlide(n) {
-    if(!quizStarted){return};
     if(n == -1){restartQuiz()}
     slides[currentSlide].classList.remove('active-slide');
     slides[n].classList.add('active-slide');
@@ -598,7 +596,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
     for (var i = 0; i < slides[currentSlide].children.length; i++) {
         if (slides[currentSlide].children[i].className == "explanation hidden") {
           slides[currentSlide].children[i].classList.remove("hidden");
-          checkAnswer(myQuestions[currentSlide], currentSlide)
+          checkAnswer(myQuestions[currentSlide + _beginOfQuesions], currentSlide)
         }
     }
   }
@@ -689,7 +687,13 @@ https://www.sitepoint.com/simple-javascript-quiz/
           answerButton = document.getElementById('answer');
           restartButton = document.getElementById('restart');
           slidesContainer = document.getElementsByClassName("quiz-container")
-
+		  
+          nOfQuesions = parseInt(numberOfQuestion.value) + parseInt(startOfQuestion.value)
+          _beginOfQuesions = parseInt(startOfQuestion.value);
+          if (_beginOfQuesions > 0){
+              _beginOfQuesions--;
+          }
+		  
           prepareQuiz()
 
           // gather answer containers from our quiz
@@ -771,9 +775,11 @@ var timerTxt;
 
 var slidesContainer;
 
-let currentSlide = 0;
-
 var quizStarted = false;
+
+let currentSlide = 0;
+var _beginOfQuesions;
+var nOfQuesions;
 
 var myQuestions = {{!json_Output['dump']}};
 
@@ -859,6 +865,7 @@ document.addEventListener("drop", function (event) {
 });
 
 document.onkeydown = function(evt) {
+    if(!quizStarted){return};
     evt = evt || window.event;
 	switch(evt.keyCode){
 		case 37: showSlide(currentSlide - 1); return; //left arrow
@@ -879,3 +886,4 @@ document.onkeydown = function(evt) {
 	</div>
 	</body>
 </html>
+% include('footer.tpl')

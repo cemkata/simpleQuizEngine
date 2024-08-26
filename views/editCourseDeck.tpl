@@ -36,3 +36,4 @@
 <input type="button" id = "backButton" onclick="window.history.back();" value="Back" />
 </body>
 </html>
+% include('footer.tpl')

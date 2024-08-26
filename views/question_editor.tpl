@@ -167,15 +167,15 @@
          var questionID = document.getElementById("questionID").value;
          var courseID = document.getElementById("courseID").value;
          var quizID = document.getElementById("quizID").value;
-		 
+		
 		 let tmpHolder = document.getElementsByClassName(' nicEdit-main ');
 
          //var questionTxt = document.getElementById("area_question").value; //do not use the area, but the div and the inner text
-         var questionTxt = tmpHolder[0].innerHTML; 
+         var questionTxt = tmpHolder[0].innerHTML;
          //var explnTxt = document.getElementById("area_explanation").value; //do not use the area, but the div and the inner text
          var explnTxt = tmpHolder[1].innerHTML;
          var referenceLink = document.getElementById("referenceLink").value;
-		 
+		
 		if(document.getElementById("select_answers") != null){ //Drag-drop answers
 			selc_ans = document.getElementById("select_answers");
 			posb_ans = document.getElementById("correct_answers");
@@ -190,9 +190,7 @@
 			    correctAnswer.push(answers_html[i].firstChild.value)
 			}
 			correctAnswer = JSON.stringify(correctAnswer)
-			if(!questionTxt.includes("$?__")){
-			    questionTxt += "<div>&nbsp;&nbsp; $?__</div>"
-			}
+			//TODO
 		}else{ //free text
 			 var freetext = document.getElementById("freeTextAns");
 			 if(freetext == null){
@@ -229,7 +227,7 @@
            errorDiv.style.setProperty('display','block','')
            return;
          }
-			 
+			
          var xhr = new XMLHttpRequest();
          xhr.open("POST", "./saveQuestion");
 
@@ -244,8 +242,8 @@
          xhr.onerror = xhr.onload;
          //xhr.setRequestHeader('Authorization', 'Client-ID c37fc05199a05b7');
          xhr.send(fd);
-      }      
-	  
+      }
+	
 	  function clearPage(){
         if(isModified()) {
             if(!confirm("The question is not saved.\nDo you want to clear the page?")) {
@@ -258,9 +256,9 @@
         options[0].selected = true;
         let tmpHolder = document.getElementsByClassName(' nicEdit-main ');
         //var questionTxt = document.getElementById("area_question").value; //do not use the area, but the div and the inner text
-        tmpHolder[0].innerHTML = ""; 
+        tmpHolder[0].innerHTML = "";
         //var explnTxt = document.getElementById("area_explanation").value; //do not use the area, but the div and the inner text
-        tmpHolder[1].innerHTML = ""; 
+        tmpHolder[1].innerHTML = "";
         var ansArea = document.getElementById("answers_area");
         newHtml = `<input type="text" id="freeTextAns" style = "width: 100%;" value="">`;
         ansArea.innerHTML = newHtml;
@@ -270,14 +268,14 @@
         errorDiv.style.display='none'
 		setCheckValues();
 	  }
-	  
+	
 	  function nicEdit_Scroll_Patch(){
 		let tmpHolder = document.getElementsByClassName(' nicEdit-main ')
 		var body = document.body,
 			html = document.documentElement;
 		var width = tmpHolder[0].clientWidth;
 
-		var height = Math.max( body.scrollHeight, body.offsetHeight, 
+		var height = Math.max( body.scrollHeight, body.offsetHeight,
 							   html.clientHeight, html.scrollHeight, html.offsetHeight ) / 4;
 		for (let i = 0; i < tmpHolder.length; i++){
 			tmpHolder[i].style.setProperty('max-height',height,'');
@@ -286,28 +284,28 @@
 			//tmpHolder[i].style.setProperty('overflow-x','scroll','');
 		}
 	  }
-	  
+	
 	  function nicEdit_Padding_Patch(){
 		let tmpHolder = document.getElementsByClassName(' nicEdit-main ')
 		for (let i = 0; i < tmpHolder.length; i++){
 			tmpHolder[i].style.setProperty('padding-left','5px','');
 		}
 	  }
-	  
+	
 	  function initEditors(){
-          new nicEditor({fullPanel : true, /*uploadImgURI : '/be/nicUploadImg',*/ 
+          new nicEditor({fullPanel : true, /*uploadImgURI : '/be/nicUploadImg',*/
           onSave : saveQuestion,
           iconsPath : '/static/nic/new_nicEditorIcons.png',
           tableURL : '/be/nicShowFiles'}).panelInstance('area_question');
 
-          new nicEditor({fullPanel : true, /*uploadImgURI : '/be/nicUploadImg',*/ 
+          new nicEditor({fullPanel : true, /*uploadImgURI : '/be/nicUploadImg',*/
           onSave : saveQuestion,
           iconsPath : '/static/nic/new_nicEditorIcons.png',
           tableURL : '/be/nicShowFiles'}).panelInstance('area_explanation');
           nicEdit_Padding_Patch();
-          nicEdit_Scroll_Patch();	 
+          nicEdit_Scroll_Patch();	
 	 }
-	  
+	
 	  document.addEventListener('keydown', e => {
 	    if (e.ctrlKey && e.key === 's') {
 	      // Prevent the Save dialog to open
@@ -317,11 +315,11 @@
 		  saveQuestion();
 	    }
 	  });
-	  
+	
 	  window.addEventListener('resize', e => {
         let tmpHolder = document.getElementsByClassName(' nicEdit-main ');
-        let value_0 = tmpHolder[0].innerHTML; 
-        let value_1 = tmpHolder[1].innerHTML;  
+        let value_0 = tmpHolder[0].innerHTML;
+        let value_1 = tmpHolder[1].innerHTML;
 		
 		let newtmpHolder = document.getElementsByClassName('editor_holder');
 		
@@ -335,3 +333,4 @@
     </script>
   </body>
 </html>
+% include('footer.tpl')

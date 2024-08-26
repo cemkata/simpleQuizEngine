@@ -23,7 +23,7 @@
 	%if comand == 3:
 		 <tr><td colspan="3"><input type="button" style="background-color: darkred;" onclick="location.href='./addcategory';" value="Add new category" /></td></tr>
     %end ##%if comand == 3:
-  
+
 	% for i in items:
 	   <tr>
 	    %if comand == 1:
@@ -45,8 +45,8 @@
 	    %if comand == 2 or comand == 4:
 		<tr><td colspan="3"><input type="button" id = "backButton" onclick="window.history.back();" value="Back" /></td></tr>
 		% end
-	</table> 
+	</table>
 </div>
    </body>
 </html>
-<!-- © Copyright 2021, Angel Garabitov -->
+% include('footer.tpl')
