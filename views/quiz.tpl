@@ -896,7 +896,7 @@ document.onkeydown = function(evt) {
             } else {
               debug_showSlide(selection)
             }
-        }else if(event.ctrlKey && event.altKey && evt.key === "d"){
+        }else if(event.ctrlKey && event.altKey && evt.key === "r"){
 		  if (confirm("Restart the quiz?") == true) {
 			restartQuiz()
 		  }
