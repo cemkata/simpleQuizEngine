@@ -882,22 +882,26 @@ document.addEventListener("drop", function (event) {
 });
 
 document.onkeydown = function(evt) {
-    if(!quizStarted){return};
+	if(!quizStarted){return};
     evt = evt || window.event;
-	switch(evt.keyCode){
-		case 37: showSlide(currentSlide - 1); return; //left arrow
-		case 39: showSlide(currentSlide + 1); return; //rigth arrow
-		case 13:
-		case 32: if(!hideAnserBtn.checked){showAnswer();} return; //spacebar
-		default: if(event.ctrlKey && event.altKey && evt.key === "d"){
-			var selection = parseInt(prompt("Jump to question:", "Type a number!"), 10);
-			if (isNaN(selection)){
-			  alert('Type a number');
-			} else {
-			  debug_showSlide(selection)
-			}
+    switch(evt.keyCode){
+        case 37: showSlide(currentSlide - 1); return; //left arrow
+        case 39: showSlide(currentSlide + 1); return; //rigth arrow
+        case 13:                                                  //enter
+        case 32: if(!hideAnserBtn.checked){showAnswer();} return; //spacebar
+        default: if(event.ctrlKey && event.altKey && evt.key === "d"){
+            var selection = parseInt(prompt("Jump to question:", "Type a number!"), 10);
+            if (isNaN(selection)){
+              alert('Type a number');
+            } else {
+              debug_showSlide(selection)
+            }
+        }else if(event.ctrlKey && event.altKey && evt.key === "d"){
+		  if (confirm("Restart the quiz?") == true) {
+			restartQuiz()
+		  }
 		}
-	}
+    }
 };
 </script>
 	</div>
