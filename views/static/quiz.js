@@ -135,9 +135,10 @@ https://www.sitepoint.com/simple-javascript-quiz/
 
     //resultsContainer.classList.add('hidden');
     pagesContainer.classList.add('hidden');
+    selectedQuestionContainer.classList.add('hidden');
 
     // show number of correct answers out of total
-    resultsContainer.innerHTML = `${numCorrect} out of ${numberOfQuestion.value}`;
+    resultsContainer.innerHTML = `Result: ${numCorrect} out of ${numberOfQuestion.value}`;
     clearTimeout(timer);
     timerTxt.textContent = "";
   }
@@ -355,11 +356,12 @@ https://www.sitepoint.com/simple-javascript-quiz/
           quizContainer = document.getElementById('quiz');
           resultsContainer = document.getElementById('results');
           pagesContainer = document.getElementById('pages');
+          selectedQuestionContainer = document.getElementById('selection');
           submitButton = document.getElementById('submit');
           answerButton = document.getElementById('answer');
           restartButton = document.getElementById('restart');
           slidesContainer = document.getElementsByClassName("quiz-container")
-		  
+
           nOfQuesions = parseInt(numberOfQuestion.value) + parseInt(startOfQuestion.value)
           _beginOfQuesions = parseInt(startOfQuestion.value);
           if (_beginOfQuesions > 0){
@@ -398,6 +400,9 @@ https://www.sitepoint.com/simple-javascript-quiz/
           // Show the first slide
           document.getElementById("loader").style.display = "none";
           document.body.style.cursor = "auto";
+          if(_beginOfQuesions != 0 || nOfQuesions != myQuestions.length){
+              selectedQuestionContainer.innerText = "Selected questions between " + (_beginOfQuesions + 1) + " and " + (slides.length + _beginOfQuesions);
+          }
           quizStarted = true;
           showSlide(currentSlide);
     }, timeout_in_ms);
@@ -432,6 +437,7 @@ var url = `/get?courseID=${cource}&examID=${dump}`;
 var quizContainer;
 var resultsContainer;
 var pagesContainer;
+var selectedQuestionContainer;
 var submitButton;
 var answerButton;
 var restartButton;
