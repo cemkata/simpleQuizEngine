@@ -232,6 +232,15 @@ input[type=submit]:hover {
 	font-size:25px;	
 }
 
+#selection{
+	display:inline-block;
+	color:#000000;
+	/*position:absolute;*/
+	left:65%;
+	top:20%;
+	font-size:25px;	
+}
+
 #container{
     min-height: 83vh;
     max-height: 83vh;
@@ -316,6 +325,8 @@ input[type=submit]:hover {
 		</main>
 		<section class="right-sidebar">
 			<h4 style="display:none" align="center" id="showTimer"><span id="iTimeShow">Time Remaining: </span><br/><span id='timer' style="font-size:25px;">No limit</span></h4>
+			<br>
+			<div id="selection"></div>
 			<br>
 			<div id="pages"></div>
 			<div id="results"></div>
@@ -463,9 +474,10 @@ https://www.sitepoint.com/simple-javascript-quiz/
 
     //resultsContainer.classList.add('hidden');
     pagesContainer.classList.add('hidden');
+    selectedQuestionContainer.classList.add('hidden');
 
     // show number of correct answers out of total
-    resultsContainer.innerHTML = `${numCorrect} out of ${numberOfQuestion.value}`;
+    resultsContainer.innerHTML = `Result: ${numCorrect} out of ${numberOfQuestion.value}`;
 	clearTimeout(timer);
 	timerTxt.textContent = "";
   }
@@ -555,7 +567,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
       slides[currentSlide].classList.remove('active-slide');
       slides[n].classList.add('active-slide');
       currentSlide = n;
-      pagesContainer.innerText = (n + 1) + " / " + slides.length;
+      pagesContainer.innerText = "Questions: " + (n + 1) + " / " + slides.length;
       return;
   }
 
@@ -581,7 +593,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
       nextButton.style.display = 'inline-block';
       submitButton.style.display = 'none';
     }
-    pagesContainer.innerText = (n + 1) + " / " + slides.length;
+    pagesContainer.innerText = "Questions: " + (n + 1) + " / " + slides.length;
   }
 
   function showNextSlide() {
@@ -683,17 +695,18 @@ https://www.sitepoint.com/simple-javascript-quiz/
           quizContainer = document.getElementById('quiz');
           resultsContainer = document.getElementById('results');
           pagesContainer = document.getElementById('pages');
+          selectedQuestionContainer = document.getElementById('selection');
           submitButton = document.getElementById('submit');
           answerButton = document.getElementById('answer');
           restartButton = document.getElementById('restart');
           slidesContainer = document.getElementsByClassName("quiz-container")
-		  
+
           nOfQuesions = parseInt(numberOfQuestion.value) + parseInt(startOfQuestion.value)
           _beginOfQuesions = parseInt(startOfQuestion.value);
           if (_beginOfQuesions > 0){
               _beginOfQuesions--;
           }
-		  
+
           prepareQuiz()
 
           // gather answer containers from our quiz
@@ -726,6 +739,9 @@ https://www.sitepoint.com/simple-javascript-quiz/
           // Show the first slide
           document.getElementById("loader").style.display = "none";
           document.body.style.cursor = "auto";
+          if(_beginOfQuesions != 0 || nOfQuesions != myQuestions.length){
+              selectedQuestionContainer.innerText = "Selected questions between " + (_beginOfQuesions + 1) + " and " + (slides.length + _beginOfQuesions);
+          }
           quizStarted = true;
           showSlide(currentSlide);
     }, timeout_in_ms);
@@ -755,6 +771,7 @@ var timer;
 var quizContainer;
 var resultsContainer;
 var pagesContainer;
+var selectedQuestionContainer;
 var submitButton;
 var answerButton;
 var restartButton;

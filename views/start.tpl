@@ -40,6 +40,8 @@
 		<section class="right-sidebar">
 			<h4 style="display:none" align="center" id="showTimer"><span id="iTimeShow">Time Remaining: </span><br/><span id='timer' style="font-size:25px;">No limit</span></h4>
 			<br>
+			<div id="selection"></div>
+			<br>
 			<div id="pages"></div>
 			<div id="results"></div>
 		</section>
