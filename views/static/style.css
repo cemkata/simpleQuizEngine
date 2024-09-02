@@ -249,7 +249,7 @@ input[type=submit]:hover {
 }
 
 #container{
-	min-height: 55vh;
+	min-height: 65vh;
 	max-height: 55vh;
 }
 

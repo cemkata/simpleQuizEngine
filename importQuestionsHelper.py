@@ -2,6 +2,21 @@
 import json
 import re
 from json.decoder import JSONDecodeError
+try:
+  import cPickle as pickle
+except:
+  import pickle
+
+from config import usePickle
+
+_JSON = 0
+_PKL =  1
+
+
+if usePickle:
+    _DEFAULT_TYPE = _PKL
+else:
+    _DEFAULT_TYPE = _JSON
 
 def proccesFile(fileName):
     try:
@@ -10,8 +25,30 @@ def proccesFile(fileName):
         return data
     except JSONDecodeError as e:
         return proccesOldTypeFile(fileName)
+    except UnicodeDecodeError as e:
+        return proccesFile_pkl(fileName)
 
-def saveFile(fileName, data):
+def proccesFile_pkl(fileName):
+    try:
+        with open(fileName, "rb") as f:
+            data = pickle.load(f)
+        return data
+    except UnpicklingError as e:
+        return '''{"dump": [], "lastID": 0}'''
+
+def saveFile(fileName, data, type = _DEFAULT_TYPE):
+    if type == _JSON:
+        saveFile_json(fileName, data)
+    elif type == _PKL:
+        saveFile_pkl(fileName, data)
+    else:
+        pass #FUTURE use
+
+def saveFile_pkl(fileName, data):
+    with open(fileName, "wb") as f:
+        pickle.dump(data, f)    
+
+def saveFile_json(fileName, data):
     with open(fileName, "w", encoding="Utf-8") as f:
         json.dump(data, f, ensure_ascii=False)
 

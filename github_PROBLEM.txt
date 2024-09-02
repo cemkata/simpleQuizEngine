@@ -1,0 +1,2 @@
+move simpleQuizEngine/views/static/nic/style.css
+to simpleQuizEngine/views/static/style.css

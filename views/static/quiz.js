@@ -128,10 +128,10 @@ https://www.sitepoint.com/simple-javascript-quiz/
         s.classList.remove('slide');
     });
 
-    submitButton.style.display = 'none';
-    answerButton.style.display = 'none';
-    nextButton.style.display = 'none';
-    previousButton.style.display = 'none';
+    nextButton.classList.add("quzControl");
+    submitButton.classList.add("quzControl");
+    previousButton.classList.add("quzControl");
+    answerButton.classList.add("quzControl");
 
     //resultsContainer.classList.add('hidden');
     pagesContainer.classList.add('hidden');
@@ -224,37 +224,43 @@ https://www.sitepoint.com/simple-javascript-quiz/
 
   function debug_showSlide(n){
       if(n == -1){restartQuiz()}
+      if(n == slides.length){return}
       n--;
-      slides[currentSlide].classList.remove('active-slide');
-      slides[n].classList.add('active-slide');
-      currentSlide = n;
-      pagesContainer.innerText = "Questions: " + (n + 1) + " / " + slides.length;
-      return;
+      showSlide(n);
   }
 
   function showSlide(n) {
     if(n == -1){restartQuiz()}
+    if(n == slides.length){return}
     slides[currentSlide].classList.remove('active-slide');
     slides[n].classList.add('active-slide');
     currentSlide = n;
     if(currentSlide === 0){
-      previousButton.style.display = 'none';
+      previousButton.classList.add("quzControl");
       restartButton.classList.remove("quzControl");
-      restartButton.style.display = 'inline-block';
+      /*restartButton.style.display = 'inline-block';*/
     }
     else{
-      previousButton.style.display = 'inline-block';
-      restartButton.style.display = 'none';
+      /*previousButton.style.display = 'inline-block';*/
+      previousButton.classList.remove("quzControl");
+      restartButton.classList.add("quzControl");
+      /*restartButton.style.display = 'none';*/
     }
     if(currentSlide === slides.length-1){
-      nextButton.style.display = 'none';
-      submitButton.style.display = 'inline-block';
+      /*nextButton.style.display = 'none';*/
+      nextButton.classList.add("quzControl");
+      submitButton.classList.remove("quzControl");
+      /*submitButton.style.display = 'inline-block';*/
     }
     else{
-      nextButton.style.display = 'inline-block';
-      submitButton.style.display = 'none';
+      /*nextButton.style.display = 'inline-block';*/
+      nextButton.classList.remove("quzControl");
+      submitButton.classList.add("quzControl");
+      /*submitButton.style.display = 'none';*/
     }
     pagesContainer.innerText = "Questions: " + (n + 1) + " / " + slides.length;
+    goToTop.scrollTop = 0;
+    goToTop.scrollLeft=0;
   }
 
   function showNextSlide() {
@@ -297,14 +303,13 @@ https://www.sitepoint.com/simple-javascript-quiz/
       quizStarted = false;
       clearTimeout(timer);
       nextButton.classList.add("quzControl");
-      nextButton.style.display = 'none';
       submitButton.classList.add("quzControl");
       previousButton.classList.add("quzControl");
       answerButton.classList.add("quzControl");
       document.getElementById("config").classList.remove("quzControl");
       document.getElementById("pages").innerHTML = "";
       restartButton.classList.add("quzControl");
-      restartButton.style.display = 'none';
+      /*restartButton.style.display = 'none';*/
       // Show empty slide
       slidesContainer[0].style.height = '0%';
       slidesContainer[0].innerHTML=`<div id="quiz"></div>`;
@@ -319,6 +324,8 @@ https://www.sitepoint.com/simple-javascript-quiz/
       startOfQuestion = document.getElementById("start_of_que");
       countDown = document.getElementById("timeInmunites");
       timerTxt = document.getElementById("timer");
+      resultsContainer.innerHTML = ""
+      selectedQuestionContainer.innerText = ""
   }
 
   function buildQuiz(){
@@ -367,7 +374,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
           if (_beginOfQuesions > 0){
               _beginOfQuesions--;
           }
-	
+    
           prepareQuiz()
 
           // gather answer containers from our quiz
@@ -403,6 +410,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
           if(_beginOfQuesions != 0 || nOfQuesions != myQuestions.length){
               selectedQuestionContainer.innerText = "Selected questions between " + (_beginOfQuesions + 1) + " and " + (slides.length + _beginOfQuesions);
           }
+          goToTop = document.getElementsByClassName("quiz-container")[0];
           quizStarted = true;
           showSlide(currentSlide);
     }, timeout_in_ms);
@@ -446,6 +454,7 @@ var answerContainers;
 var previousButton;
 var nextButton;
 var slides;
+var goToTop;
 
 var randomQuestion;
 var hideAnserBtn;
@@ -555,13 +564,13 @@ document.addEventListener("drop", function (event) {
 });
 
 document.onkeydown = function(evt) {
-	if(!quizStarted){return};
+    if(!quizStarted){return};
     evt = evt || window.event;
     switch(evt.keyCode){
-        case 37: showSlide(currentSlide - 1); return; //left arrow
-        case 39: showSlide(currentSlide + 1); return; //rigth arrow
-        case 13:                                                  //enter
-        case 32: if(!hideAnserBtn.checked){showAnswer();} return; //spacebar
+        case 37: showSlide(currentSlide - 1); evt.preventDefault(); return; //left arrow
+        case 39: showSlide(currentSlide + 1); evt.preventDefault(); return; //rigth arrow
+        case 13:                                                                        //enter
+        case 32: if(!hideAnserBtn.checked){showAnswer();} evt.preventDefault(); return; //spacebar
         default: if(event.ctrlKey && event.altKey && evt.key === "d"){
             var selection = parseInt(prompt("Jump to question:", "Type a number!"), 10);
             if (isNaN(selection)){
@@ -570,9 +579,9 @@ document.onkeydown = function(evt) {
               debug_showSlide(selection)
             }
         }else if(event.ctrlKey && event.altKey && evt.key === "r"){
-		  if (confirm("Restart the quiz?") == true) {
-			restartQuiz()
-		  }
-		}
+          if (confirm("Restart the quiz?") == true) {
+            restartQuiz()
+          }
+        }
     }
 };

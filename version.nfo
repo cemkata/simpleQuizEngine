@@ -1,5 +1,6 @@
 {
-"app": 1.24,
+"app": 1.27,
 "loader": 1.1,
-"templates": 0.6
+"templates": 0.7,
+"gui":0.3
 }

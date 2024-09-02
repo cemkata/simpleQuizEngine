@@ -1,0 +1,86 @@
+# Quiz engine
+Simple engine and editor for quizes. It supprts freetext, single, multiple coise and drag and drop questions. Writen in python 3. It needs the [bottle framework](https://github.com/bottlepy/bottle).
+If you want to use the gui you will need to install the tkinter library.
+
+You do not need to install the bottle framework, only download the bottle.py file and put it in the same folder.
+
+The editor answres boxes allow only manual html formating.
+
+Key short cuts:
+
+- When in editor
+  - Ctrl + S saves the page
+
+- When in quiz:
+  - Left/rigth arrows move to previous/next question.
+  - Enter/space shows the answer
+  - **secret keys**
+  - Ctrl + Alt + d allws to jump to specific question
+  - Ctrl + Alt + r restart the quiz with out reloading the page
+
+*Disclaimer:*
+The question editor is based on [nicEdit.js](https://nicedit.com). I just extended some features and made few small changes:
+- Like more colors to select
+- posibility to add tables
+- the cursor is moved few pixel to the left
+- the text area is limited and the row with the buttons are fixed
+- when the page is resized the editor is resized as well
+- maybe something else, but I do not remember
+  
+
+***consoleMenu.py***
+
+This is the main files when sared you will see a menu to select options to export, merge, start the server and export a quiz to html to use without server.
+You can use the following arguments:  
+  
+<pre>
+usage: consoleMenu [-h] [-e] [-o] [-m] [-s] [-a] [-v]
+
+optional arguments:
+  -h, --help     show this help message and exit
+  -e, --export   Export questions to file
+  -o, --offline  Export questions to html file for use without http server
+  -m, --merge    Merge questions from 2 quiz/dump
+  -s, --start    Start web server
+  -a, --about    Show versions
+  -v, --version  show program's version number and exit
+</pre>
+
+The following bat files start the diffrent options:
+- exportQuestions.bat
+- export_to_offline.bat
+- gui.bat
+- mainMenu.bat
+- mergeQuestions.bat
+- set_python_path.bat
+- start.bat
+
+
+***mainGUI.pyw***
+
+This will start the server as with graphical interface based on tkinter.  
+
+
+***config_files\config.ini***
+
+To configure edit the file config_files\config.ini
+- port - changes the server port
+- ip - the ip address where to listne
+- examFolder - the folder where to save the exsam files
+- Save_format - boolean to enable saving as pikle file. This comes with all security risck intruduced in pickle library!
+- auto_open_in_browser - boolean to enable opening the page in the default browser. Used only by mainGUI.pyw
+
+
+***set_python_path.bat***
+- here you can point to python path to be used. Usualy C:\Users\%username%\AppData\Local\Programs\Python\Python3XXX
+- Set when installing python
+- If you will use the default python3 just open each bat file and delete/comment - "call set_python_path.bat"
+
+
+***Versions***  
+*Server app 1.27*  
+*Cli menu/loader 1.1*  
+*Web page templates (css/js) 0.7*  
+*Gui 0.3*  
+
+
