@@ -357,7 +357,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
 			for(let j = 0; j < myQuestions[i].question.length; j++){
 			      if (myQuestions[i].question[j].endsWith("$?__")){
 				      questions.push(
-						`<div class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
+						`<div class="dragdrop_question" data-group-id="${myQuestions[i].answersGroups[j]}">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
 				      );
 			      }else{
 				      questions.push(
@@ -500,28 +500,47 @@ https://www.sitepoint.com/simple-javascript-quiz/
 	          if (tmpQuestion.length == 0){
 					// here should be the logic to check the answer
 					let result = true
-					dragDropAnswers = answerContainer.getElementsByTagName("p");
-					
-					if(dragDropAnswers.length == 0){
-						result = false
-					}else{
-						dragDropQuestions = answerContainer.getElementsByClassName("dragdrop_question");
-						for (let i = 0; i < currentQuestion.correctAnswer.length; i++) {
-							currentAnswer = dragDropQuestions[i].getElementsByClassName("dragtarget");
-							if(currentAnswer.length == 0){
-								result = false;
-								continue;
-							}else{
-								currentAnswer = currentAnswer[0];
-							}
-							if(currentAnswer.textContent === currentQuestion.correctAnswer[i]){
-								currentAnswer.style.color = 'lightgreen'; // color the answers green
-							}else{
-								currentAnswer.style.color = 'red'; // color the answers red
-								result = false;
-							}
-						}
-					}
+                    let result = true
+                    dragDropAnswers = answerContainer.getElementsByTagName("p");
+                    correctAnswers = [];
+                    if(dragDropAnswers.length == 0){
+                        result = false
+                    }else{
+                        dragDropQuestions = answerContainer.getElementsByClassName("dragdrop_question");
+                        correctAnswers.push(false)
+                        for (let i = 0; i < currentQuestion.correctAnswer.length; i++) {
+                            currentAnswer = dragDropQuestions[i].getElementsByClassName("dragtarget");
+                            currentGroup = dragDropQuestions[i].dataset.groupId
+                            if(currentAnswer.length == 0){
+                                result = false;
+                                continue;
+                            }else{
+                                currentAnswer = currentAnswer[0];
+                                //TODO
+                                //data-group-id
+                                //currentGroup
+                            }
+                            for(let j = 0; j < currentQuestion.answersGroups.length; j++){
+                                if(currentGroup == currentQuestion.answersGroups[j]){
+                                    if(currentAnswer.textContent === currentQuestion.correctAnswer[j]){
+                                        correctAnswers[i]=true;
+                                    }
+                                }
+                            }
+                        }
+                        for (let i = 0; i < currentQuestion.correctAnswer.length; i++) {
+                            currentAnswer = dragDropQuestions[i].getElementsByClassName("dragtarget");
+                            currentAnswer = currentAnswer[0];
+                            if (correctAnswers[i]){
+                                currentAnswer.style.color = 'lightgreen'; // color the answers green
+                            }else{
+                                if (currentAnswer !== undefined){
+                                    currentAnswer.style.color = 'red'; // color the answers red
+                                }
+                                result = false;
+                            }
+                        }
+                    }
 					return result;
 		      }
               if(tmpQuestion[0].value === currentQuestion.correctAnswer){

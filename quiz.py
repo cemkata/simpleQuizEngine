@@ -89,7 +89,7 @@ def editor_listquestions():
     return template('showquestions.tpl', questions = q_list['dump'], comand = 4, cid = courseID, dump = examID) #comand 4 shows the dump in given folder
     
 @app.route('/editor/editQuestion')
-def CardEditor():
+def questionEditor():
     #ncourseID=course_name&quizID=0&cardID=1
     courseID = request.query.courseID
     quizID = request.query.quizID
@@ -101,27 +101,36 @@ def CardEditor():
         dump_file = proccesFile(os.path.join(examFolder, courseID, quizID))
         for i in range(len(dump_file["dump"])):
             if dump_file["dump"][i]["id"] == questionID:
+                try:
+                    answersGroups = dump_file["dump"][i]['answersGroups']
+                except KeyError:
+                    answersGroups = None
                 targetQuestion = {'explanation': dump_file["dump"][i]['explanation'],\
                 'referenceLink':dump_file["dump"][i]['referenceLink'],\
                 'question': dump_file["dump"][i]['question'],\
                 'correctAnswer': dump_file["dump"][i]['correctAnswer'],\
-                'answers': dump_file["dump"][i]['answers']}
+                'answers': dump_file["dump"][i]['answers'],
+                'answersGroups': answersGroups}
     return template('question_editor.tpl', questionID = questionID, \
         courseID = courseID, quizID=quizID, questionContent = targetQuestion)
 
 @app.route('/editor/saveQuestion', method='POST')
 def SaveQuestion():
     courseID = request.forms.get('courseID')
-    questionID =  int(request.forms.get("questionID"))
+    questionID = int(request.forms.get("questionID"))
     quizID = request.forms.get("quizID")
-    questionTxt =  request.forms.get("questionTxt")
-    explnTxt =  request.forms.get("explnTxt")
-    referenceLink =  request.forms.get("referenceLink")
-    answers =  json.loads(request.forms.get("answers"))
-    correctAnswer =  request.forms.get("correctAnswer")
+    questionTxt = request.forms.get("questionTxt")
+    explnTxt = request.forms.get("explnTxt")
+    referenceLink = request.forms.get("referenceLink")
+    answers = json.loads(request.forms.get("answers"))
+    correctAnswer = request.forms.get("correctAnswer")
+    # answersGroups = False ##OLD
+    answersGroups = request.forms.get("answers_grp") or False
     dump_file = proccesFile(os.path.join(examFolder, courseID, quizID))
     
     if "$?__" in questionTxt:
+        print(answersGroups)
+        answersGroups = json.loads(answersGroups)
         resultingQuestionTxt = []
         removeDivStrings = ["<div>", "</div>"]
         removeDivBr = ["<br>", "</br>"]
@@ -151,6 +160,8 @@ def SaveQuestion():
             dump_file["dump"][i]['question'] = questionTxt
             dump_file["dump"][i]['correctAnswer'] = correctAnswer
             dump_file["dump"][i]['answers'] = answers
+            if answersGroups:
+                dump_file["dump"][i]['answersGroups'] = answersGroups
             saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
             return "Done!"
 
@@ -163,6 +174,8 @@ def SaveQuestion():
     dump_file["dump"][i]['question'] = questionTxt
     dump_file["dump"][i]['correctAnswer'] = correctAnswer
     dump_file["dump"][i]['answers'] = answers
+    if answersGroups:
+        dump_file["dump"][i]['answersGroups'] = answersGroups
     dump_file["dump"][i]['id'] = i
     dump_file["lastID"] = i + 1
     saveFile(os.path.join(examFolder, courseID, quizID), dump_file)

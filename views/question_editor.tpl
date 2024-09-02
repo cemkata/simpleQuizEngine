@@ -39,7 +39,6 @@
   % else:
       % if type(questionContent['question']) is list:
 	  % selcDropDown = ['', '', '', 'selected']
-	  % # TODO add the drag-drop functions
 		   <div id="select_answers">
 		   <p>Selectable answers</p>
 			%for answer in questionContent['answers']:
@@ -48,8 +47,8 @@
 		   </div>
 		   <div id="correct_answers">
 		   <p>Correct answers</p>
-			%for answer in questionContent['correctAnswer']:
-			<div class="showinline"><input type="text" class="textAns" style="width: 100%;" value="{{answer}}"></div><br>
+			%for idx, answer in enumerate(questionContent['correctAnswer']):
+			<div class="showinline"><input type="text" class="textAns" style="width: 100%;" value="{{answer}}">Group:<input type="number" value="{{questionContent['answersGroups'][idx]}}" min="1" max="99"></div><br>
 			%end
 		   </div>
 	  % else:
@@ -144,6 +143,12 @@
         <td><b>Applys only to drag and drop<b></td>
 	  </tr>
 	  <tr>
+        <td>If the order of answers should be grouped set same number</td>
+      </tr>
+	  <tr>
+        <td>Otherwise</td>
+      </tr>
+	  <tr>
         <td>The questions and the answers are in order</td>
 	  </tr>
 	  <tr>
@@ -151,6 +156,12 @@
 	  </tr>
 	  <tr>
         <td><u>!!The questions must end with</u> $?__</td>
+      </tr>
+	  <tr>
+        <td>Put empty at least space bofore <em>$?__</em></td>
+      </tr>
+	  <tr>
+        <td>Or else you will get unexpected results.</td>
       </tr>
      </table>
   </div>
@@ -186,8 +197,10 @@
 			}
 			var answers_html = posb_ans.getElementsByClassName("showinline");
 			correctAnswer = [];
+			groups = [];
 			for(let i = 0; i < answers_html.length; i++){
 			    correctAnswer.push(answers_html[i].firstChild.value)
+			    groups.push(answers_html[i].childNodes[2].value)
 			}
 			correctAnswer = JSON.stringify(correctAnswer)
 			//TODO
@@ -220,6 +233,7 @@
          fd.append("explnTxt", explnTxt);
          fd.append("referenceLink", referenceLink);
          fd.append("answers", JSON.stringify(answers));
+         fd.append("answers_grp", JSON.stringify(groups));
          fd.append("correctAnswer", correctAnswer);
          if(correctAnswer.length <= 0){ //add validation
            alert("Please fill the correct answer!")

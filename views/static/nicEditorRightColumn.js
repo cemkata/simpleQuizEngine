@@ -24,11 +24,17 @@ function changeAnswerType(selct){
         numLines = 4;
         document.getElementById("noQuestion").value = 4;
     }
+	newHtml_withgroup = newHtml
     for(let i = 0; i < lines.length; i++){
         newHtml += `<div class="showinline">`;
 		if (type != -1) newHtml += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
 		newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="` + lines[i].children[1].value + `">`;
         newHtml += `</div><br>`;
+		
+        newHtml_withgroup += `<div class="showinline">`;
+		if (type != -1) newHtml_withgroup += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
+		newHtml_withgroup += `</span><input type="text" class="textAns" style = "width: 100%;" value="` + lines[i].children[1].value + `">Group:<input type="number" value="`+ i +`" min="1" max="99">`;
+        newHtml_withgroup += `</div><br>`;
     }
     if(lines.length < numLines){
         var lineToAdd = numLines - lines.length;
@@ -37,10 +43,15 @@ function changeAnswerType(selct){
         if (type != -1) newHtml += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
         newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">`;
         newHtml += `</div><br>`;
+		
+        newHtml_withgroup += `<div class="showinline">`;
+        if (type != -1) newHtml_withgroup += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
+        newHtml_withgroup += `</span><input type="text" class="textAns" style = "width: 100%;" value="">Group:<input type="number" value="`+ i +`" min="1" max="99">`;
+        newHtml_withgroup += `</div><br>`;
         }
     }
 	if (type == -1) {
-		newHtml = `<div id="select_answers"><p>Selectable answers</p>` + newHtml + `</div><div id="correct_answers"><p>Correct answers</p>` + newHtml + `</div>`
+		newHtml = `<div id="select_answers"><p>Selectable answers</p>` + newHtml + `</div><div id="correct_answers"><p>Correct answers</p>` + newHtml_withgroup + `</div>`
 	}
     ansArea.innerHTML = newHtml;
 }
@@ -54,14 +65,18 @@ function changeAnswerCount(){
 		if (numLines <= 0){
 			numLines = 1;
 		}
-        for(let i = 0; i<linesHolders.length; i++){
-			lines = linesHolders[i].getElementsByClassName("showinline");
+        for(let j = 0; j<linesHolders.length; j++){
+			lines = linesHolders[j].getElementsByClassName("showinline");
 			if(lines.length < numLines){
-				var lineToAdd = numLines - lines.length;
-				var newHtml = linesHolders[i].innerHTML;
+				var lineToAdd = parseInt(numLines) - lines.length;
+				var newHtml = linesHolders[j].innerHTML;
 				for(let i = 0; i < lineToAdd; i++){
 					newHtml += `<div class="showinline">`;
-					newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">`;
+					if(j == 1){
+						newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">Group:<input type="number" value="`+ (parseInt(numLines) + i - 1) +`" min="1" max="99">`;
+					}else{
+						newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">`;
+					}
 					newHtml += `</div><br>`;
 				}
 			}else{
@@ -72,7 +87,7 @@ function changeAnswerCount(){
 					newHtml += `</div><br>`;
 				}
 			}
-			linesHolders[i].innerHTML = newHtml
+			linesHolders[j].innerHTML = newHtml
 		}
 		return;
 		/*newHtml = ``;
