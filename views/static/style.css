@@ -226,7 +226,7 @@ input[type=submit]:hover {
 	color:#000000;
 	/*position:absolute;*/
 	left:65%;
-	top:20%;
+	top:30%;
 	font-size:25px;
 }
 
@@ -235,7 +235,16 @@ input[type=submit]:hover {
 	color:#000000;
 	/*position:absolute;*/
 	left:65%;
-	top:30%;
+	top:40%;
+	font-size:25px;	
+}
+
+#selection{
+	display:inline-block;
+	color:#000000;
+	/*position:absolute;*/
+	left:65%;
+	top:20%;
 	font-size:25px;	
 }
 
@@ -349,11 +358,11 @@ input[type=submit]:hover {
 }
 
 @-webkit-keyframes animatebottom {
-  from { bottom:-100px; opacity:0 } 
+  from { bottom:-100px; opacity:0 }
   to { bottom:0px; opacity:1 }
 }
 
-@keyframes animatebottom { 
-  from{ bottom:-100px; opacity:0 } 
+@keyframes animatebottom {
+  from{ bottom:-100px; opacity:0 }
   to{ bottom:0; opacity:1 }
 }
