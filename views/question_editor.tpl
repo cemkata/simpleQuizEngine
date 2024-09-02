@@ -158,10 +158,10 @@
         <td><u>!!The questions must end with</u> $?__</td>
       </tr>
 	  <tr>
-        <td>Put empty at least space bofore <em>$?__</em></td>
+        <td>Put at least empty space bofore <em>$?__</em></td>
       </tr>
 	  <tr>
-        <td>Or else you will get unexpected results.</td>
+        <td>or else you will get unexpected results.</td>
       </tr>
      </table>
   </div>
