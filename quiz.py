@@ -134,16 +134,22 @@ def SaveQuestion():
         resultingQuestionTxt = []
         removeDivStrings = ["<div>", "</div>"]
         removeDivBr = ["<br>", "</br>"]
-        for q in questionTxt.split("$?__"):
-            for htmlElm in removeDivStrings:
-                q = q.replace(htmlElm, "")
-            for htmlElm in removeDivBr:
-                if q.startswith(htmlElm):
-                    q = q.replace(htmlElm, "", 1)
-            if len(q) == 0:
-                q = removeDivBr[0]
-            else:
-                resultingQuestionTxt.append(q+"$?__")
+        #NEW method
+        for q in questionTxt.split(removeDivStrings[1]):
+            q = q.replace(removeDivStrings[0], "")
+            resultingQuestionTxt.append(q)
+        ##OLD method
+        #for q in questionTxt.split("$?__"): 
+        #    for htmlElm in removeDivStrings:
+        #        q = q.replace(htmlElm, "")
+        #    for htmlElm in removeDivBr:
+        #        if q.startswith(htmlElm):
+        #            q = q.replace(htmlElm, "", 1)
+        #    if len(q) == 0:
+        #        q = removeDivBr[0]
+        #    else:
+        #        resultingQuestionTxt.append(q+"$?__")
+        #    resultingQuestionTxt.append(q+"$?__")
         questionTxt = resultingQuestionTxt
         newCorrectAnswer = []
         for answ in json.loads(correctAnswer):
