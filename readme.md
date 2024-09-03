@@ -57,7 +57,7 @@ The following bat files start the different options:
 
 
 ***mainGUI.pyw***
-
+Optional GUI for the web server. The functionality is the same if you start it from terminal (cmd) or the gui script.
 This will start the server as with graphical interface based on tkinter.  
 
 
@@ -72,10 +72,13 @@ To configure edit the file config_files\config.ini
 
 
 ***set_python_path.bat***
-- here you can point to python path to be used. Usually C:\Users\%username%\AppData\Local\Programs\Python\Python3XXX
+- here you can point to python path to be used. Usually C:\Users\\%username%\AppData\Local\Programs\Python\Python3XXX
 - Set when installing python
 - If you will use the default python3 just open each bat file and delete/comment - "call set_python_path.bat"
 
+***For linux***
+- just start python3 name_of_the_script
+- For GUI you will need to install tkinter
 
 ***Versions***  
 *Server app 1.29*  
