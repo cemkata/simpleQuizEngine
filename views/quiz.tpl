@@ -354,17 +354,19 @@ https://www.sitepoint.com/simple-javascript-quiz/
 		
 		if(typeof myQuestions[i].question == 'object'){ //drag-drop question
 			const questions = [];
-			for(let j = 0; j < myQuestions[i].question.length; j++){
-			      if (myQuestions[i].question[j].endsWith("$?__")){
-				      questions.push(
-						`<div class="dragdrop_question" data-group-id="${myQuestions[i].answersGroups[j]}">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
-				      );
-			      }else{
-				      questions.push(
-						`<div>${myQuestions[i].question[j]}</div>`
-				      );
-			      }
-			}
+			let k = 0;
+            for(let j = 0; j < myQuestions[i].question.length; j++){
+                  if (myQuestions[i].question[j].endsWith("$?__")){
+                      questions.push(
+                        `<div class="dragdrop_question" data-group-id="${myQuestions[i].answersGroups[k]}">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
+                      );
+					  k++;
+                  }else{
+                      questions.push(
+                        `<div>${myQuestions[i].question[j]}</div>`
+                      );
+                  }
+            }
 			const question_box = `<div class="question_box">${questions.join("")}</div>`
 			
 			const answers = []
@@ -379,17 +381,19 @@ https://www.sitepoint.com/simple-javascript-quiz/
 			else{reftxt = ""}
 			
 			const correctAnsweredQuestions = []
-			for(let j = 0; j < myQuestions[i].question.length; j++){
-			      if (myQuestions[i].question[j].endsWith("$?__")){
-				      correctAnsweredQuestions.push(
-						`<div class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget">${myQuestions[i].correctAnswer[j]}</div></div>`
-				      );
-			      }else{
-				      correctAnsweredQuestions.push(
-						`<div>${myQuestions[i].question[j]}</div>`
-				      );
-			      }
-			}
+			k = 0;
+            for(let j = 0; j < myQuestions[i].question.length; j++){
+                  if (myQuestions[i].question[j].endsWith("$?__")){
+                      correctAnsweredQuestions.push(
+                        `<div class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget">${myQuestions[i].correctAnswer[k]}</div></div>`
+                      );
+					   k++;
+                  }else{
+                      correctAnsweredQuestions.push(
+                        `<div>${myQuestions[i].question[j]}</div>`
+                      );
+                  }
+            }
 			
             output.push(
               `<div class="slide">
@@ -700,7 +704,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
           if(startOfQuestion.value > myQuestions.length || startOfQuestion.value < 0 || startOfQuestion.value == ''){
               startOfQuestion.value = 0;
           }
-          if(endOfQuestion.value > myQuestions.length || endOfQuestion.value < 0){
+          if(endOfQuestion.value > myQuestions.length || endOfQuestion.value < 0 || endOfQuestion.value == ''){
               endOfQuestion.value = myQuestions.length
           }
           if(startOfQuestion.value != '' && endOfQuestion.value != ''){
@@ -727,7 +731,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
           restartButton = document.getElementById('restart');
           slidesContainer = document.getElementsByClassName("quiz-container")
 
-          nOfQuesions = parseInt(numberOfQuestion.value) + parseInt(startOfQuestion.value)
+          nOfQuesions = parseInt(startOfQuestion.value) + parseInt(numberOfQuestion.value)
           _beginOfQuesions = parseInt(startOfQuestion.value);
           if (_beginOfQuesions > 0){
               _beginOfQuesions--;

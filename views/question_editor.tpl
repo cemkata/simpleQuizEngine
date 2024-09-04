@@ -19,7 +19,7 @@
 	  %if type(questionContent['question']) is list:
 	    %ansrStr = ""
 	    %for q in questionContent['question']:
-		    %ansrStr += q+'''</br>'''
+		    %ansrStr += '''<div>'''+ q +'''</div>'''
 		%end
 		<textarea id="area_question" class = "area">{{ansrStr}}</textarea>
 	  % else:
@@ -158,10 +158,10 @@
         <td><u>!!The questions must end with</u> $?__</td>
       </tr>
 	  <tr>
-        <td>Put at least empty space bofore <em>$?__</em></td>
+        <td>Put empty at least space bofore <em>$?__</em></td>
       </tr>
 	  <tr>
-        <td>or else you will get unexpected results.</td>
+        <td>Or else you will get unexpected results.</td>
       </tr>
      </table>
   </div>
@@ -233,7 +233,9 @@
          fd.append("explnTxt", explnTxt);
          fd.append("referenceLink", referenceLink);
          fd.append("answers", JSON.stringify(answers));
-         fd.append("answers_grp", JSON.stringify(groups));
+         if(typeof groups !== 'undefined'){
+            fd.append("answers_grp", JSON.stringify(groups));
+         }
          fd.append("correctAnswer", correctAnswer);
          if(correctAnswer.length <= 0){ //add validation
            alert("Please fill the correct answer!")
@@ -241,7 +243,7 @@
            errorDiv.style.setProperty('display','block','')
            return;
          }
-			
+
          var xhr = new XMLHttpRequest();
          xhr.open("POST", "./saveQuestion");
 
