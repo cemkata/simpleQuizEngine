@@ -36,10 +36,10 @@ def proccesFile_pkl(fileName):
     except UnpicklingError as e:
         return '''{"dump": [], "lastID": 0}'''
 
-def saveFile(fileName, data, type = _DEFAULT_TYPE):
-    if type == _JSON:
+def saveFile(fileName, data, save_file_type = _DEFAULT_TYPE):
+    if save_file_type == _JSON:
         saveFile_json(fileName, data)
-    elif type == _PKL:
+    elif save_file_type == _PKL:
         saveFile_pkl(fileName, data)
     else:
         pass #FUTURE use
