@@ -316,8 +316,8 @@ input[type=submit]:hover {
 				<label>Randomize question</label><input type="checkbox" id="random"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				<label>Exsam mode</label><input type="checkbox" id="hide_answer_btn"><br>
 				<label>How many question:</label><input type="number" id="n_of_que"><br>
-				<label>Start:</label><input type="number" id="start_of_que"><br>
-				<label>End:</label><input type="number" id="end_of_que"><br>
+				<label>Start question:</label><input type="number" id="start_of_que"><br>
+				<label>End question:</label><input type="number" id="end_of_que"><br>
 				<label>Time in minutes:</label><input type="number" id="timeInmunites">
 				<button id="start">Start Quiz</button>
 			</div>

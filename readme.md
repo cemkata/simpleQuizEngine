@@ -83,5 +83,5 @@ To configure edit the file config_files\config.ini
 ***Versions***  
 *Server app 1.29*  
 *Cli menu/loader 1.1*  
-*Web page templates (css/js) 0.8*  
+*Web page templates (css/js) 0.9*  
 *Gui 0.3*  
