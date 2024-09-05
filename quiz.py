@@ -129,7 +129,6 @@ def SaveQuestion():
     dump_file = proccesFile(os.path.join(examFolder, courseID, quizID))
     
     if "$?__" in questionTxt:
-        print(answersGroups)
         answersGroups = json.loads(answersGroups)
         resultingQuestionTxt = []
         removeDivStrings = ["<div>", "</div>"]
