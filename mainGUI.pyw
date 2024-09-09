@@ -23,8 +23,11 @@ from config import serverAddres, serverPort, autoOpenInBrowser
 
 ver = getVersion('gui')
 
-myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+if sys.platform == "win32":
+    myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+else:
+    pass
 
 iconPath = "./views/static/kisspng-quiz-icons-computer-icons-easy-word-mind-game-quiz-5ad760c95b4395.8799719915240644573738.ico"
 

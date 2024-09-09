@@ -15,13 +15,13 @@ https://www.sitepoint.com/simple-javascript-quiz/
 
         if(typeof myQuestions[i].question == 'object'){ //drag-drop question
             const questions = [];
-			let k = 0;
+            let k = 0;
             for(let j = 0; j < myQuestions[i].question.length; j++){
                   if (myQuestions[i].question[j].endsWith("$?__")){
                       questions.push(
                         `<div class="dragdrop_question" data-group-id="${myQuestions[i].answersGroups[k]}">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
                       );
-					  k++;
+                      k++;
                   }else{
                       questions.push(
                         `<div>${myQuestions[i].question[j]}</div>`
@@ -42,13 +42,13 @@ https://www.sitepoint.com/simple-javascript-quiz/
             else{reftxt = ""}
 
             const correctAnsweredQuestions = []
-			k = 0;
+            k = 0;
             for(let j = 0; j < myQuestions[i].question.length; j++){
                   if (myQuestions[i].question[j].endsWith("$?__")){
                       correctAnsweredQuestions.push(
                         `<div class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget">${myQuestions[i].correctAnswer[k]}</div></div>`
                       );
-					   k++;
+                       k++;
                   }else{
                       correctAnsweredQuestions.push(
                         `<div>${myQuestions[i].question[j]}</div>`
@@ -368,9 +368,11 @@ https://www.sitepoint.com/simple-javascript-quiz/
               endOfQuestion.value = myQuestions.length
           }
           if(startOfQuestion.value != '' && endOfQuestion.value != ''){
-              numberOfQuestion.value = Math.abs(startOfQuestion.value - endOfQuestion.value)
-              if(numberOfQuestion.value < 0){
-                  numberOfQuestion.value = myQuestions.length;
+              if(numberOfQuestion.value == ''){
+                  numberOfQuestion.value = Math.abs(startOfQuestion.value - endOfQuestion.value)
+                  if(numberOfQuestion.value < 0){
+                      numberOfQuestion.value = myQuestions.length;
+                  }
               }
           }
 
@@ -434,7 +436,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
           }
           goToTop = document.getElementsByClassName("quiz-container")[0];
           showSlide(currentSlide);
-		  setTimeout(function(){quizStarted = true;}, timeout_in_ms/10)
+          setTimeout(function(){quizStarted = true;}, timeout_in_ms/10)
     }, timeout_in_ms);
   }
 

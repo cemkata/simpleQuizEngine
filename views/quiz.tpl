@@ -708,9 +708,11 @@ https://www.sitepoint.com/simple-javascript-quiz/
               endOfQuestion.value = myQuestions.length
           }
           if(startOfQuestion.value != '' && endOfQuestion.value != ''){
-              numberOfQuestion.value = Math.abs(startOfQuestion.value - endOfQuestion.value)
-              if(numberOfQuestion.value < 0){
-                  numberOfQuestion.value = myQuestions.length;
+              if(numberOfQuestion.value == ''){
+                  numberOfQuestion.value = Math.abs(startOfQuestion.value - endOfQuestion.value)
+                  if(numberOfQuestion.value < 0){
+                      numberOfQuestion.value = myQuestions.length;
+                  }
               }
           }
 
