@@ -21,9 +21,20 @@ if os.path.isfile(os.path.abspath(cnfgFile)):
     examFolder = os.path.abspath(config['DEFAULT']['examFolder'])
     config.BOOLEAN_STATES = {'sure': True, 'nope': False}
     config.BOOLEAN_STATES = {'on': True, 'off': False}
+    config.BOOLEAN_STATES = {'yes': True, 'no': False}
+    config.BOOLEAN_STATES = {'enable': True, 'disable': False}
     usePickle = False
-    if config.has_option('DEFAULT', "Save_format"):
-        usePickle = config.getboolean('DEFAULT', "Save_format")
+    if config.has_option('DEFAULT', "Save_format_pkl"):
+        try:
+            usePickle = config.getboolean('DEFAULT', "Save_format_pkl")
+        except ValueError:
+            pass
+    useSQL = False
+    if config.has_option('DEFAULT', "Save_format_sql"):
+        try:
+            useSQL = config.getboolean('DEFAULT', "Save_format_sql")
+        except ValueError:
+            pass
     autoOpenInBrowser = False
     if config.has_option('DEFAULT', "auto_open_in_browser"):
         autoOpenInBrowser = config.getboolean('DEFAULT', "auto_open_in_browser")
@@ -37,6 +48,7 @@ else:
     serverPort = 8080
     #save file format = json
     usePickle = False
+    useSQL = False
     autoOpenInBrowser = False
 
 if not os.path.exists(examFolder):

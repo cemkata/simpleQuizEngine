@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from bottle import template
-from importQuestionsHelper import proccesFile, saveFile
+from importQuestionsHelper import proccesFile, saveFile, SQL_CMD_ALL
 from config import examFolder
 import os
 import json
@@ -95,7 +95,7 @@ def exportQuestions(fileName, questionsIDs):
             i += 1
 
     dump_file["lastID"] = len(dump_file["dump"])
-    saveFile(f'{fileName}_exported', dump_file)
+    saveFile(f'{fileName}_exported', dump_file, SQL_CMD_ALL)
 
 def exportQuestions_main():
     selected_dump_file, nextExamFolder, _ = getDump(examFolder)
@@ -172,7 +172,7 @@ def mergeQuestions_main():
 
     outFileName = os.path.join(nextExamFolder_a, f'{selected_dump_file_a}_merged')
 
-    saveFile(outFileName, newDump)
+    saveFile(outFileName, newDump, SQL_CMD_ALL)
 
     print("Done!")
     print(f"File is: {outFileName}")

@@ -67,7 +67,8 @@ To configure edit the file config_files\config.ini
 - port - changes the server port
 - ip - the ip address where to listen
 - examFolder - the folder where to save the exam files
-- Save_format - boolean to enable saving as pickle file. This comes with all security risk introduced in pickle library!
+- Save_format_pkl - boolean to enable saving as pickle file. This comes with all security risk introduced in pickle library!
+- Save_format_sql - boolean to enable saving in sqlite db.
 - auto_open_in_browser - boolean to enable opening the page in the default browser. Used only by mainGUI.pyw
 
 
@@ -83,5 +84,5 @@ To configure edit the file config_files\config.ini
 ***Versions***  
 *Server app 1.29*  
 *Cli menu/loader 1.1*  
-*Web page templates (css/js) 0.9*  
+*Web page templates (css/js) 0.8*  
 *Gui 0.3*  

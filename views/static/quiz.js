@@ -433,8 +433,8 @@ https://www.sitepoint.com/simple-javascript-quiz/
               selectedQuestionContainer.innerText = "Selected questions between " + (_beginOfQuesions + 1) + " and " + (slides.length + _beginOfQuesions);
           }
           goToTop = document.getElementsByClassName("quiz-container")[0];
-          quizStarted = true;
           showSlide(currentSlide);
+		  setTimeout(function(){quizStarted = true;}, timeout_in_ms/10)
     }, timeout_in_ms);
   }
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from bottle import Bottle, request, redirect, template, static_file
-from importQuestionsHelper import proccesFile, saveFile
+from importQuestionsHelper import proccesFile, saveFile, SQL_CMD_INS, SQL_CMD_UPD, SQL_CMD_DEL
 import os
 from config import serverAddres, serverPort, examFolder # App config is loaded here
 from versionGetter import getVersion
@@ -167,13 +167,19 @@ def SaveQuestion():
             dump_file["dump"][i]['answers'] = answers
             if answersGroups:
                 dump_file["dump"][i]['answersGroups'] = answersGroups
-            saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
+            saveFile(os.path.join(examFolder, courseID, quizID), dump_file, SQL_CMD_UPD, questionID)
             return "Done!"
 
     i = int(dump_file["lastID"])
     dump_file["dump"].append({})
     if i == len(dump_file["dump"]):
         i = len(dump_file["dump"]) - 1
+    elif i > len(dump_file["dump"]):
+        # Fix for sql convertion. if there are missing id values
+        # reapply the values to ensure all are in increasing order.
+        i = len(dump_file["dump"]) - 1
+        for j, q in enumerate(dump_file["dump"]):
+            q["id"] = j
     dump_file["dump"][i]['explanation'] = explnTxt
     dump_file["dump"][i]['referenceLink'] = referenceLink
     dump_file["dump"][i]['question'] = questionTxt
@@ -183,7 +189,7 @@ def SaveQuestion():
         dump_file["dump"][i]['answersGroups'] = answersGroups
     dump_file["dump"][i]['id'] = i
     dump_file["lastID"] = i + 1
-    saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
+    saveFile(os.path.join(examFolder, courseID, quizID), dump_file, SQL_CMD_INS, i)
     return "Done!"
 
 @app.route('/editor/deleteQuestion')
@@ -198,7 +204,7 @@ def deleteQuestion():
             for j in range(i, len(dump_file["dump"])):
                 dump_file["dump"][j]["id"] = dump_file["dump"][j]["id"] - 1
             dump_file["lastID"] = dump_file["lastID"] - 1
-            saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
+            saveFile(os.path.join(examFolder, courseID, quizID), dump_file, SQL_CMD_DEL, questionID)
             return "Done!"
     return "Error!"
 

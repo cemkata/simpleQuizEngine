@@ -7,46 +7,172 @@ try:
 except:
   import pickle
 
-from config import usePickle
+import sqlite3
+import os
+import html
+
+from config import usePickle, useSQL
 
 _JSON = 0
 _PKL =  1
+_SQL =  2
 
+SQL_CMD_INS = 0
+SQL_CMD_UPD = 1
+SQL_CMD_DEL = 2
+SQL_CMD_ALL = 3
+
+__CREATE_SQL_DATABASE='''BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "questions" (
+    "ID"    INTEGER UNIQUE,
+    "QUESTION_TEXT"    TEXT NOT NULL,
+    "QUESTION_ANSWERS"    TEXT,
+    "QUESTION_CORECT"    TEXT,
+    "QUESTION_REF"    TEXT,
+    "QUESTION_EXPLAIN"    TEXT,
+    "QUESTION_ANSWERS_GRP"    TEXT,
+    PRIMARY KEY("ID" AUTOINCREMENT)
+);
+COMMIT;'''
 
 if usePickle:
     _DEFAULT_TYPE = _PKL
+elif useSQL:
+    _DEFAULT_TYPE = _SQL
 else:
     _DEFAULT_TYPE = _JSON
 
 def proccesFile(fileName):
     try:
         with open(fileName, "r", encoding="Utf-8") as f:
-            data = json.load(f)
-        return data
+            return json.load(f)
     except JSONDecodeError as e:
+        #print("proccesOldTypeFile") #Debug
         return proccesOldTypeFile(fileName)
     except UnicodeDecodeError as e:
-        return proccesFile_pkl(fileName)
+        try:
+            #print("proccesFile_pkl") #Debug
+            return proccesFile_pkl(fileName)
+        except pickle.UnpicklingError as e:
+            #print("proccesFile_sql") #Debug
+            return proccesFile_sql(fileName)
 
 def proccesFile_pkl(fileName):
+    with open(fileName, "rb") as f:
+        data = pickle.load(f)
+    return data
+
+def proccesFile_sql(fileName):
+    sql_query = f'''SELECT `ID`, `QUESTION_TEXT`, `QUESTION_ANSWERS`, `QUESTION_CORECT`, `QUESTION_REF`, `QUESTION_EXPLAIN`, `QUESTION_ANSWERS_GRP` FROM `questions`;'''
+    questions = []
+    # last_id = -1
     try:
-        with open(fileName, "rb") as f:
-            data = pickle.load(f)
-        return data
-    except UnpicklingError as e:
+        for q in execute_sql_statment(sql_query, fileName):
+            tmpDict = {}
+            #process to json string to values
+            q_exp = tmpDict["id"] = q[0]
+            q_txt = tmpDict["question"] = json.loads(html.unescape(q[1]))
+            q_ans = tmpDict["answers"] = json.loads(html.unescape(q[2]))
+            q_cor = tmpDict["correctAnswer"] = json.loads(html.unescape(q[3]))
+            q_ref = tmpDict["referenceLink"] = json.loads(html.unescape(q[4]))
+            q_exp = tmpDict["explanation"] = json.loads(html.unescape(q[5]))
+            try:
+                q_exp = tmpDict["answersGroups"] = json.loads(html.unescape(q[6]))
+            except json.decoder.JSONDecodeError:
+                pass
+            questions.append(tmpDict.copy())
+            # last_id = q[0]
+        result = {'dump':questions, 'lastID': len(questions)}
+        return result
+    except Exception as e:
+        raise e
         return '''{"dump": [], "lastID": 0}'''
 
-def saveFile(fileName, data, save_file_type = _DEFAULT_TYPE):
-    if save_file_type == _JSON:
+
+def saveFile(fileName, data, SQL_CMD = -1, question_id = None, type = _DEFAULT_TYPE):
+    #print(f"{type=}") #Debug
+    if type == _JSON:
         saveFile_json(fileName, data)
-    elif save_file_type == _PKL:
+    elif type == _PKL:
         saveFile_pkl(fileName, data)
+    elif type == _SQL:
+        if SQL_CMD > SQL_CMD_INS - 1 and SQL_CMD < SQL_CMD_ALL:
+            saveFile_sql(fileName, data, SQL_CMD, question_id)
+        elif SQL_CMD == SQL_CMD_ALL:
+            for q in data['dump']:
+                # To check
+                saveFile_sql(fileName, data, SQL_CMD_INS, q['id'])
     else:
         pass #FUTURE use
 
+def saveFile_sql(fileName, data, cmd, q_id):
+    #Add sql logic
+    if cmd != SQL_CMD_DEL:
+        #process table values to json string
+        q_id = q_id - 1
+        q_txt = html.escape(json.dumps(data["dump"][q_id]["question"]))
+        q_ans = html.escape(json.dumps(data["dump"][q_id]["answers"]))
+        q_cor = html.escape(json.dumps(data["dump"][q_id]["correctAnswer"]))
+        q_ref = html.escape(json.dumps(data["dump"][q_id]["referenceLink"]))
+        q_exp = html.escape(json.dumps(data["dump"][q_id]["explanation"]))
+        try:
+            q_grp = html.escape(json.dumps(data["dump"][q_id]["answersGroups"])) #error if no group exist
+        except KeyError:
+            q_grp = ""
+
+    if cmd == SQL_CMD_INS:
+        #sql insert query
+        sql_query = f'''INSERT INTO `questions` (`QUESTION_TEXT`, `QUESTION_ANSWERS`, `QUESTION_CORECT`, `QUESTION_REF`, `QUESTION_EXPLAIN`, `QUESTION_ANSWERS_GRP`) VALUES ("{q_txt}", "{q_ans}", "{q_cor}", "{q_ref}", "{q_exp}", "{q_grp}");'''
+    elif cmd == SQL_CMD_UPD:
+        #sql update query
+        sql_query = f'''UPDATE `questions` SET `QUESTION_TEXT` = "{q_txt}", `QUESTION_ANSWERS` = "{q_ans}", `QUESTION_CORECT` = "{q_cor}", `QUESTION_REF` = "{q_ref}", `QUESTION_EXPLAIN` = "{q_exp}", `QUESTION_ANSWERS_GRP` = "{q_grp}" WHERE `id` = {q_id};'''
+    elif cmd == SQL_CMD_DEL:
+        #sql delete query
+        sql_query = f'''DELETE FROM `questions` WHERE `id` = {q_id};'''
+    else:
+        return #FUTURE use
+
+    #run sql str
+    try:
+        execute_sql_statment(sql_query, fileName)
+    except sqlite3.OperationalError as e:
+        raise e
+    except sqlite3.DatabaseError:
+        migrateDB2SQL(sql_query, fileName)
+        execute_sql_statment(sql_query, fileName)
+
+def execute_sql_statment(in_sql, db_file, SINGLE_ROW = False):
+    if not os.path.isfile(db_file):
+        conn = sqlite3.connect(db_file)
+        with conn:
+            cur = conn.cursor()
+            cur.executescript(__CREATE_SQL_DATABASE)
+            conn.commit()
+    try:
+        conn = sqlite3.connect(db_file)
+        with conn:
+            cur = conn.cursor()
+            cur.execute(in_sql)
+            if SINGLE_ROW:
+                rows = cur.fetchone()
+            else:
+                rows = cur.fetchall()
+            conn.commit()
+        return rows
+    except sqlite3.Error as e:
+        conn.close()
+        raise e
+    return None
+
+def migrateDB2SQL(in_sql, dbpath):
+    tmpHolder = proccesFile(dbpath)
+    os.remove(dbpath)
+    saveFile(dbpath, tmpHolder, SQL_CMD = SQL_CMD_ALL)
+    execute_sql_statment(in_sql, dbpath)
+
 def saveFile_pkl(fileName, data):
     with open(fileName, "wb") as f:
-        pickle.dump(data, f)    
+        pickle.dump(data, f)
 
 def saveFile_json(fileName, data):
     with open(fileName, "w", encoding="Utf-8") as f:
@@ -120,8 +246,8 @@ def proccesOldTypeFile(fileName):
                 print("\nProblem with question:\n=========================\n\n")
                 print(q)
                 print(f"\nProblem with Line: {i}\n=========================\n\n")
-                raise e                
-                    
+                raise e
+
         tmpDict['answers'] = answers.copy()
         questions.append(tmpDict.copy())
 
