@@ -37,7 +37,10 @@ if os.path.isfile(os.path.abspath(cnfgFile)):
             pass
     autoOpenInBrowser = False
     if config.has_option('DEFAULT', "auto_open_in_browser"):
-        autoOpenInBrowser = config.getboolean('DEFAULT', "auto_open_in_browser")
+        try:
+            autoOpenInBrowser = config.getboolean('DEFAULT', "auto_open_in_browser")
+        except ValueError:
+            pass
 else:
     print("Warning!!")
     print("Using default config")
