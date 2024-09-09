@@ -772,11 +772,15 @@ https://www.sitepoint.com/simple-javascript-quiz/
           document.getElementById("loader").style.display = "none";
           document.body.style.cursor = "auto";
           if(_beginOfQuesions != 0 || nOfQuesions != myQuestions.length){
-              selectedQuestionContainer.innerText = "Selected questions between " + (_beginOfQuesions + 1) + " and " + (slides.length + _beginOfQuesions);
+              if(randomQuestion.checked){
+                  selectedQuestionContainer.innerText = "Selected random questions";
+              }else{
+                  selectedQuestionContainer.innerText = "Selected questions between " + (_beginOfQuesions + 1) + " and " + (slides.length + _beginOfQuesions);
+              }
           }
           goToTop = document.getElementsByClassName("quiz-container")[0];
           showSlide(currentSlide);
-		  setTimeout(function(){quizStarted = true;}, timeout_in_ms/10)
+          setTimeout(function(){quizStarted = true;}, timeout_in_ms/10)
     }, timeout_in_ms);
   }
 
