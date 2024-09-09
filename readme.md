@@ -82,7 +82,7 @@ To configure edit the file config_files\config.ini
 - For GUI you will need to install tkinter
 
 ***Versions***  
-*Server app 1.29*  
+*Server app 1.30*  
 *Cli menu/loader 1.1*  
-*Web page templates (css/js) 0.8*  
+*Web page templates (css/js) 0.81*  
 *Gui 0.3*  
