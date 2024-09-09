@@ -286,14 +286,15 @@ https://www.sitepoint.com/simple-javascript-quiz/
   }
 
   function showNextSlide() {
-    showSlide(currentSlide + 1);
+   if(paused) showSlide(currentSlide + 1);
   }
 
   function showPreviousSlide() {
-    showSlide(currentSlide - 1);
+   if(paused) showSlide(currentSlide - 1);
   }
 
   function showAnswer() {
+    if(!paused) return;
     for (var i = 0; i < slides[currentSlide].children.length; i++) {
         if (slides[currentSlide].children[i].className == "explanation hidden") {
           slides[currentSlide].children[i].classList.remove("hidden");
@@ -323,6 +324,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
   function restartQuiz(){
       currentSlide = 0;
       quizStarted = false;
+      paused = true;
       clearTimeout(timer);
       nextButton.classList.add("quzControl");
       submitButton.classList.add("quzControl");
@@ -445,24 +447,27 @@ https://www.sitepoint.com/simple-javascript-quiz/
   }
 
 function timedCount(){
-    var hours = parseInt(countDown / 3600) % 24;
-    var minutes = parseInt(countDown / 60) % 60;
-    var seconds = countDown % 60;
-    var result = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
-    timerTxt.textContent = result;
-    if(countDown == 0 ){
-        showResults();
-        return false;
-    }
+    if(paused){
+        var hours = parseInt(countDown / 3600) % 24;
+        var minutes = parseInt(countDown / 60) % 60;
+        var seconds = countDown % 60;
+        var result = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
+        timerTxt.textContent = result;
+        if(countDown == 0 ){
+            showResults();
+            return false;
+        }
 
-    countDown = countDown - 1;
-    timer = setTimeout(function(){
-        timedCount()
-    },1000);
+        countDown = countDown - 1;
+        timer = setTimeout(function(){
+            timedCount()
+        },1000);
+    }
 }
 
 var countDown=-1; //time in seconds
 var timer;
+var paused = true;
 
 var xmlhttp = new XMLHttpRequest();
 var cource = document.getElementById("cid").value;
@@ -610,6 +615,8 @@ document.onkeydown = function(evt) {
           if (confirm("Restart the quiz?") == true) {
             restartQuiz()
           }
+        }else if(event.ctrlKey && event.altKey && evt.key === "p"){
+            paused = !paused;
         }
     }
 };

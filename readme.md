@@ -17,6 +17,7 @@ Key short cuts:
   - **secret keys**
   - Ctrl + Alt + d allows to jump to specific question
   - Ctrl + Alt + r restarts the quiz without reloading the page
+  - Ctrl + Alt + p pauses the quiz times and buttons
 
 *Disclaimer:*
 The question editor is based on [nicEdit.js](https://nicedit.com). I just extended some features and made few small changes:
@@ -84,5 +85,5 @@ To configure edit the file config_files\config.ini
 ***Versions***  
 *Server app 1.30*  
 *Cli menu/loader 1.1*  
-*Web page templates (css/js) 0.81*  
+*Web page templates (css/js) 0.91*  
 *Gui 0.3*  
