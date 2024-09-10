@@ -82,8 +82,14 @@ To configure edit the file config_files\config.ini
 - just start python3 name_of_the_script
 - For GUI you will need to install tkinter
 
+***Access in browser***
+- For the main page open http:/IP_ADDRESS:port
+  - By deafailt - [http://127.0.0.1:8080](http://127.0.0.1:8080/)
+- For the eidtor page open http:/IP_ADDRESS:port/editor/
+  - By deafailt - [http://127.0.0.1:8080/editor/](http://127.0.0.1:8080/editor/)
+
 ***Versions***  
 *Server app 1.30*  
 *Cli menu/loader 1.1*  
-*Web page templates (css/js) 0.91*  
+*Web page templates (css/js) 0.92*  
 *Gui 0.3*  
