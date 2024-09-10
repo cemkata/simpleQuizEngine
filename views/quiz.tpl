@@ -801,6 +801,10 @@ https://www.sitepoint.com/simple-javascript-quiz/
         timer = setTimeout(function(){
             timedCount()
         },1000);
+    }else{
+        timer = setTimeout(function(){
+            timedCount()
+        },1000);
     }
   }
 
