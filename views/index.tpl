@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Test engine 0.6</title>
+<title>Test engine</title>
 <link rel='stylesheet' href='/static/style_main.css'>
 <style>
 /*<!--https://www.w3schools.com/css/css_form.asp -->*/
@@ -10,11 +10,10 @@
 <html>
    <body>
 	    %if comand == 1:
-	<h3>Select corse</h3>
+	<h3>Select course</h3>
 		%else:
 	<h3>Select dump</h3>
 		% end
-
 <div>
  <table>
  	%if comand == 4:
