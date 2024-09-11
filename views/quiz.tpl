@@ -930,8 +930,8 @@ document.onkeydown = function(evt) {
     if(!quizStarted){return};
     evt = evt || window.event;
     switch(evt.keyCode){
-        case 37: showSlide(currentSlide - 1); evt.preventDefault(); return; //left arrow
-        case 39: showSlide(currentSlide + 1); evt.preventDefault(); return; //rigth arrow
+        case 37: showPreviousSlide(); evt.preventDefault(); return; //left arrow
+        case 39: showNextSlide(); evt.preventDefault(); return; //rigth arrow
         case 13:                                                                        //enter
         case 32: if(!hideAnserBtn.checked){showAnswer();} evt.preventDefault(); return; //spacebar
         default: if(event.ctrlKey && event.altKey && evt.key === "d"){
@@ -946,10 +946,13 @@ document.onkeydown = function(evt) {
             restartQuiz()
           }
         }else if(event.ctrlKey && event.altKey && evt.key === "p"){
-            paused = !paused;
+            if(countDown != -1) {
+                paused = !paused;
+                timerTxt.textContent = "Paused!";
         }
     }
 };
+
 </script>
 	</div>
 	</body>
