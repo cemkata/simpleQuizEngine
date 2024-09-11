@@ -949,6 +949,7 @@ document.onkeydown = function(evt) {
             if(countDown != -1) {
                 paused = !paused;
                 timerTxt.textContent = "Paused!";
+            }
         }
     }
 };
