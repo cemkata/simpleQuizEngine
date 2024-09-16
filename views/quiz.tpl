@@ -507,6 +507,13 @@ https://www.sitepoint.com/simple-javascript-quiz/
                     dragDropAnswers = answerContainer.getElementsByTagName("p");
                     correctAnswers = [];
                     if(dragDropAnswers.length == 0){
+                        dragDropAnswers = answerContainer.getElementsByClassName("dragdrop_question");
+                        for (let i = 0; i < currentQuestion.correctAnswer.length; i++) {
+                            currentAnswer = dragDropAnswers[i].getElementsByClassName("droptarget");
+                            currentAnswer = currentAnswer[0];
+                            currentAnswer.textContent = currentQuestion.correctAnswer[i];
+                            currentAnswer.style.color = 'red'; // color the answers red
+                        }
                         result = false
                     }else{
                         dragDropQuestions = answerContainer.getElementsByClassName("dragdrop_question");
@@ -515,13 +522,14 @@ https://www.sitepoint.com/simple-javascript-quiz/
                             currentAnswer = dragDropQuestions[i].getElementsByClassName("dragtarget");
                             currentGroup = dragDropQuestions[i].dataset.groupId
                             if(currentAnswer.length == 0){
+                                currentAnswer = dragDropQuestions[i].getElementsByClassName("droptarget");
+                                currentAnswer = currentAnswer[0];
+                                currentAnswer.textContent = currentQuestion.correctAnswer[i];
+                                currentAnswer.style.color = 'red'; // color the answers red
                                 result = false;
                                 continue;
                             }else{
                                 currentAnswer = currentAnswer[0];
-                                //TODO
-                                //data-group-id
-                                //currentGroup
                             }
                             for(let j = 0; j < currentQuestion.answersGroups.length; j++){
                                 if(currentGroup == currentQuestion.answersGroups[j]){
@@ -953,7 +961,6 @@ document.onkeydown = function(evt) {
         }
     }
 };
-
 </script>
 	</div>
 	</body>
