@@ -22,6 +22,8 @@ SQL_CMD_UPD = 1
 SQL_CMD_DEL = 2
 SQL_CMD_ALL = 3
 
+__BACKUP_EXT__ == "__backup.bak.tmp.REMOVELATER"
+
 __CREATE_SQL_DATABASE='''BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "questions" (
     "ID"    INTEGER UNIQUE,
@@ -166,9 +168,14 @@ def execute_sql_statment(in_sql, db_file, SINGLE_ROW = False):
 
 def migrateDB2SQL(in_sql, dbpath):
     tmpHolder = proccesFile(dbpath)
-    os.remove(dbpath)
-    saveFile(dbpath, tmpHolder, SQL_CMD = SQL_CMD_ALL)
-    execute_sql_statment(in_sql, dbpath)
+    os.rename(dbpath, dbpath + __BACKUP_EXT__) #make a backup
+    try:
+        saveFile(dbpath, tmpHolder, SQL_CMD = SQL_CMD_ALL)
+        execute_sql_statment(in_sql, dbpath)
+    except:
+        os.rename(dbpath + __BACKUP_EXT__, dbpath) #restore a backup
+        return
+    os.remove(dbpath + __BACKUP_EXT__) #delete a backup
 
 def saveFile_pkl(fileName, data):
     with open(fileName, "wb") as f:
