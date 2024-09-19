@@ -1,5 +1,5 @@
 # Quiz engine
-Simple engine and editor for quizzes. It support freetext, single, multiple choice and drag and drop questions. Written in python 3. It needs the [bottle framework](https://github.com/bottlepy/bottle).
+Simple engine and editor for quizzes. It support freetext, single, multiple choice and drag and drop questions. Written in python 3. It needs the [bottle framework](https://github.com/bottlepy/bottle). You can just put the file bootle.py in the root folder with all other python scripts or run ``pip install --requirement  requirements.txt`` 
 If you want to use the gui you will need to install the tkinter library.
 
 You do not need to install the bottle framework, only download the bottle.py file and put it in the same folder.
