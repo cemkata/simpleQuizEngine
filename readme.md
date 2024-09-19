@@ -6,7 +6,7 @@ You do not need to install the bottle framework, only download the bottle.py fil
 
 The editor answers boxes allow only manual html formatting.
 
-[Screenshots]([https://github.com/bottlepy/bottle](https://github.com/cemkata/simpleQuizEngine/blob/main/screenshots/readme.md))
+[Screenshots](https://github.com/bottlepy/bottle](https://github.com/cemkata/simpleQuizEngine/blob/main/screenshots/readme.md)
 
 Key short cuts:
 
