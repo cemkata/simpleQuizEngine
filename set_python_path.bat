@@ -1,1 +1,0 @@
-set pythonpath=python-3.11.6-embed-amd64
