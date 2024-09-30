@@ -1,18 +1,32 @@
 <html lang="en" class="">
 	<head>
 	  <meta charset="UTF-8">
+% if defined('OFFLINE'):
+	  <title>Exam - {{tittle}}</title>
+% else:
 	  <title>Dump {{cid + " " + dump}}</title>
+% end #% if defined('OFFLINE'):
 	  <meta name="robots" content="noindex">
+% if defined('OFFLINE'):
+<style>
+% include('static/style.css')
+</style>
+% else:
 	  <link rel='stylesheet' href='/static/style.css'>
+% end #% if defined('OFFLINE'):
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
 	  <meta http-equiv="content-language" content="en">
 	</head>
 	<body>
 	<div class="right-sidebar-grid">
 	    <header class="header">
+% if defined('OFFLINE'):
+			<h1>Exam - {{tittle}}</h1>
+% else:
 			<input type="hidden" id="cid" value="{{cid}}">
 			<input type="hidden" id="dump" value="{{dump}}">
 			<h1><a href="/" id="homeLink">Home</a> <b>|</b> Dump {{cid + " " + dump}}</h1>
+% end #% if defined('OFFLINE'):
 		</header>
 		<main class="main-content">
 		<div id="container">
@@ -27,11 +41,23 @@
 			<button class="quzControl" id="submit">Submit Quiz</button>
 			<div id="config">
 			  <div id="loader"></div>
-				<label>Randomize question:</label><input type="checkbox" id="random"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+			  <div id="error_loader">
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="120" height="120" viewBox="0 0 256 256" xml:space="preserve">
+					<defs>
+					</defs>
+					<g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
+						<path d="M 28.5 65.5 c -1.024 0 -2.047 -0.391 -2.829 -1.172 c -1.562 -1.562 -1.562 -4.095 0 -5.656 l 33 -33 c 1.561 -1.562 4.096 -1.562 5.656 0 c 1.563 1.563 1.563 4.095 0 5.657 l -33 33 C 30.547 65.109 29.524 65.5 28.5 65.5 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(236,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+						<path d="M 61.5 65.5 c -1.023 0 -2.048 -0.391 -2.828 -1.172 l -33 -33 c -1.562 -1.563 -1.562 -4.095 0 -5.657 c 1.563 -1.562 4.095 -1.562 5.657 0 l 33 33 c 1.563 1.562 1.563 4.095 0 5.656 C 63.548 65.109 62.523 65.5 61.5 65.5 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(236,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+						<path d="M 45 90 C 20.187 90 0 69.813 0 45 C 0 20.187 20.187 0 45 0 c 24.813 0 45 20.187 45 45 C 90 69.813 69.813 90 45 90 z M 45 8 C 24.598 8 8 24.598 8 45 c 0 20.402 16.598 37 37 37 c 20.402 0 37 -16.598 37 -37 C 82 24.598 65.402 8 45 8 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(236,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+					</g>
+					</svg>
+			  </div>
+				<label>Randomize questions:</label><input type="checkbox" id="random"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<label>Randomize answers:</label><input type="checkbox" id="random_answ"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				<label>Exsam mode:</label><input type="checkbox" id="hide_answer_btn"><br>
-				<label>How many question:</label><input type="number" id="n_of_que"><br>
-				<label>Start question:</label><input type="number" id="start_of_que"><br>
-				<label>End question:</label><input type="number" id="end_of_que"><br>
+				<label>How many questions:</label><input type="number" id="n_of_que"><br>
+				<label>Starting question:</label><input type="number" id="start_of_que"><br>
+				<label>Ending question:</label><input type="number" id="end_of_que"><br>
 				<label>Time in minutes:</label><input type="number" id="timeInmunites">
 				<button id="start">Start Quiz</button>
 			</div>
@@ -45,7 +71,16 @@
 			<div id="pages"></div>
 			<div id="results"></div>
 		</section>
-		<script src="/static/quiz.js"></script>
+% if defined('OFFLINE'):
+<script>
+% include('static/quiz.js')
+</script>
+<script>
+var myQuestions = {{!json_Output['dump']}};
+</script>
+% else:
+<script src="/static/quiz.js"></script>
+% end #% if defined('OFFLINE'):
 	</div>
 	</body>
 </html>

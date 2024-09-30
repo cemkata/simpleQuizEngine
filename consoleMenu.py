@@ -54,6 +54,7 @@ if __name__ == '__main__':
             print(f"Dump wizard cmd helper - {getVersion('loader')}")
             print(f"Dump wizard web sever  - {getVersion('app')}")
             print(f"Dump wizard templates  - {getVersion('templates')}")
+            print(f"Dump wizard db schema  - {getVersion('db_schema')}")
             print("")
         else:
             main(args)

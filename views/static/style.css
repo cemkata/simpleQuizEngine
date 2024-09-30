@@ -175,6 +175,12 @@ input[type=submit]:hover {
     border: 1px solid black;
     border-radius: 5px;
     box-sizing: border-box;
+    gap: .5rem;
+}
+.answers_container>span{
+   word-spacing: normal;
+   letter-spacing: normal;
+   display: inline-block;
 }
 
 .dragtarget {
@@ -184,6 +190,8 @@ input[type=submit]:hover {
     color: #fff;
     font-weight: bold;
     text-align: center;
+    margin:5px;
+    margin-top:5px;
 }
 
 .droptarget {
@@ -193,6 +201,7 @@ input[type=submit]:hover {
     border: 1px solid #aaaaaa;
     color: #000;
     text-align: center;
+    margin: 10px;
 }
 
 .question_box {
@@ -320,7 +329,7 @@ input[type=submit]:hover {
    #scrollToTopDesktop {display:none}
 }
 
-
+#scrollToTopDesktop {display:none}
 
 #loader {
   display:none;
@@ -336,6 +345,18 @@ input[type=submit]:hover {
   border-top: 16px solid #3498db;
   -webkit-animation: spin 2s linear infinite;
   animation: spin 2s linear infinite;
+}
+
+#error_loader {
+  display:none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 120px;
+  height: 120px;
+  margin: -76px 0 0 -76px;
+  display: none;
 }
 
 @-webkit-keyframes spin {

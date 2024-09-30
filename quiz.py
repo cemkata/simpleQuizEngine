@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from bottle import Bottle, request, redirect, template, static_file
-from importQuestionsHelper import proccesFile, saveFile, SQL_CMD_INS, SQL_CMD_UPD, SQL_CMD_DEL
+from importQuestionsHelper import proccesFile, saveFile
 import os
 from config import serverAddres, serverPort, examFolder # App config is loaded here
 from versionGetter import getVersion
@@ -105,12 +105,18 @@ def questionEditor():
                     answersGroups = dump_file["dump"][i]['answersGroups']
                 except KeyError:
                     answersGroups = None
+                try:
+                    answersCount = dump_file["dump"][i]['answersCount']
+                except KeyError:
+                    answersCount = None
+
                 targetQuestion = {'explanation': dump_file["dump"][i]['explanation'],\
                 'referenceLink':dump_file["dump"][i]['referenceLink'],\
                 'question': dump_file["dump"][i]['question'],\
                 'correctAnswer': dump_file["dump"][i]['correctAnswer'],\
                 'answers': dump_file["dump"][i]['answers'],
-                'answersGroups': answersGroups}
+                'answersGroups': answersGroups,
+                'answersCount': answersCount}
     return template('question_editor.tpl', questionID = questionID, \
         courseID = courseID, quizID=quizID, questionContent = targetQuestion)
 
@@ -126,10 +132,11 @@ def SaveQuestion():
     correctAnswer = request.forms.get("correctAnswer")
     # answersGroups = False ##OLD
     answersGroups = request.forms.get("answers_grp") or False
+    answersCount = request.forms.get("answers_cnt") or False
+
     dump_file = proccesFile(os.path.join(examFolder, courseID, quizID))
     
     if "$?__" in questionTxt:
-        answersGroups = json.loads(answersGroups)
         resultingQuestionTxt = []
         removeDivStrings = ["<div>", "</div>"]
         removeDivBr = ["<br>", "</br>"]
@@ -166,30 +173,28 @@ def SaveQuestion():
             dump_file["dump"][i]['correctAnswer'] = correctAnswer
             dump_file["dump"][i]['answers'] = answers
             if answersGroups:
-                dump_file["dump"][i]['answersGroups'] = answersGroups
-            saveFile(os.path.join(examFolder, courseID, quizID), dump_file, SQL_CMD_UPD, questionID)
+                dump_file["dump"][i]['answersGroups'] = json.loads(answersGroups)
+            if answersCount:
+                dump_file["dump"][i]['answersCount'] = json.loads(answersCount)
+            saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
             return "Done!"
 
     i = int(dump_file["lastID"])
     dump_file["dump"].append({})
     if i == len(dump_file["dump"]):
         i = len(dump_file["dump"]) - 1
-    elif i > len(dump_file["dump"]):
-        # Fix for sql convertion. if there are missing id values
-        # reapply the values to ensure all are in increasing order.
-        i = len(dump_file["dump"]) - 1
-        for j, q in enumerate(dump_file["dump"]):
-            q["id"] = j
     dump_file["dump"][i]['explanation'] = explnTxt
     dump_file["dump"][i]['referenceLink'] = referenceLink
     dump_file["dump"][i]['question'] = questionTxt
     dump_file["dump"][i]['correctAnswer'] = correctAnswer
     dump_file["dump"][i]['answers'] = answers
     if answersGroups:
-        dump_file["dump"][i]['answersGroups'] = answersGroups
+        dump_file["dump"][i]['answersGroups'] = json.loads(answersGroups)
+    if answersCount:
+        dump_file["dump"][i]['answersCount'] = json.loads(answersCount)
     dump_file["dump"][i]['id'] = i
     dump_file["lastID"] = i + 1
-    saveFile(os.path.join(examFolder, courseID, quizID), dump_file, SQL_CMD_INS, i)
+    saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
     return "Done!"
 
 @app.route('/editor/deleteQuestion')
@@ -204,7 +209,7 @@ def deleteQuestion():
             for j in range(i, len(dump_file["dump"])):
                 dump_file["dump"][j]["id"] = dump_file["dump"][j]["id"] - 1
             dump_file["lastID"] = dump_file["lastID"] - 1
-            saveFile(os.path.join(examFolder, courseID, quizID), dump_file, SQL_CMD_DEL, questionID)
+            saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
             return "Done!"
     return "Error!"
 

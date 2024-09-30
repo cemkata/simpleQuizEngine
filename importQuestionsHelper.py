@@ -22,8 +22,6 @@ SQL_CMD_UPD = 1
 SQL_CMD_DEL = 2
 SQL_CMD_ALL = 3
 
-__BACKUP_EXT__ = "__backup.bak.tmp.REMOVELATER"
-
 __CREATE_SQL_DATABASE='''BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "questions" (
     "ID"    INTEGER UNIQUE,
@@ -33,6 +31,7 @@ CREATE TABLE IF NOT EXISTS "questions" (
     "QUESTION_REF"    TEXT,
     "QUESTION_EXPLAIN"    TEXT,
     "QUESTION_ANSWERS_GRP"    TEXT,
+    "QUESTION_ANSWERS_CNT"    TEXT,
     PRIMARY KEY("ID" AUTOINCREMENT)
 );
 COMMIT;'''
@@ -65,7 +64,7 @@ def proccesFile_pkl(fileName):
     return data
 
 def proccesFile_sql(fileName):
-    sql_query = f'''SELECT `ID`, `QUESTION_TEXT`, `QUESTION_ANSWERS`, `QUESTION_CORECT`, `QUESTION_REF`, `QUESTION_EXPLAIN`, `QUESTION_ANSWERS_GRP` FROM `questions`;'''
+    sql_query = f'''SELECT `ID`, `QUESTION_TEXT`, `QUESTION_ANSWERS`, `QUESTION_CORECT`, `QUESTION_REF`, `QUESTION_EXPLAIN`, `QUESTION_ANSWERS_GRP`, `QUESTION_ANSWERS_CNT` FROM `questions`;'''
     questions = []
     # last_id = -1
     try:
@@ -80,6 +79,10 @@ def proccesFile_sql(fileName):
             q_exp = tmpDict["explanation"] = json.loads(html.unescape(q[5]))
             try:
                 q_exp = tmpDict["answersGroups"] = json.loads(html.unescape(q[6]))
+            except json.decoder.JSONDecodeError:
+                pass
+            try:
+                q_exp = tmpDict["answersCount"] = json.loads(html.unescape(q[7]))
             except json.decoder.JSONDecodeError:
                 pass
             questions.append(tmpDict.copy())
@@ -121,13 +124,16 @@ def saveFile_sql(fileName, data, cmd, q_id):
             q_grp = html.escape(json.dumps(data["dump"][q_id]["answersGroups"])) #error if no group exist
         except KeyError:
             q_grp = ""
-
+        try:
+            q_cnt = html.escape(json.dumps(data["dump"][q_id]["answersCount"])) #error if no count exist
+        except KeyError:
+            q_cnt = ""
     if cmd == SQL_CMD_INS:
         #sql insert query
-        sql_query = f'''INSERT INTO `questions` (`QUESTION_TEXT`, `QUESTION_ANSWERS`, `QUESTION_CORECT`, `QUESTION_REF`, `QUESTION_EXPLAIN`, `QUESTION_ANSWERS_GRP`) VALUES ("{q_txt}", "{q_ans}", "{q_cor}", "{q_ref}", "{q_exp}", "{q_grp}");'''
+        sql_query = f'''INSERT INTO `questions` (`QUESTION_TEXT`, `QUESTION_ANSWERS`, `QUESTION_CORECT`, `QUESTION_REF`, `QUESTION_EXPLAIN`, `QUESTION_ANSWERS_GRP`, `QUESTION_ANSWERS_CNT`) VALUES ("{q_txt}", "{q_ans}", "{q_cor}", "{q_ref}", "{q_exp}", "{q_grp}", "{q_cnt}");'''
     elif cmd == SQL_CMD_UPD:
         #sql update query
-        sql_query = f'''UPDATE `questions` SET `QUESTION_TEXT` = "{q_txt}", `QUESTION_ANSWERS` = "{q_ans}", `QUESTION_CORECT` = "{q_cor}", `QUESTION_REF` = "{q_ref}", `QUESTION_EXPLAIN` = "{q_exp}", `QUESTION_ANSWERS_GRP` = "{q_grp}" WHERE `id` = {q_id};'''
+        sql_query = f'''UPDATE `questions` SET `QUESTION_TEXT` = "{q_txt}", `QUESTION_ANSWERS` = "{q_ans}", `QUESTION_CORECT` = "{q_cor}", `QUESTION_REF` = "{q_ref}", `QUESTION_EXPLAIN` = "{q_exp}", `QUESTION_ANSWERS_GRP` = "{q_grp}", `QUESTION_ANSWERS_CNT` = "{q_cnt}" WHERE `id` = {q_id};'''
     elif cmd == SQL_CMD_DEL:
         #sql delete query
         sql_query = f'''DELETE FROM `questions` WHERE `id` = {q_id};'''
@@ -168,14 +174,9 @@ def execute_sql_statment(in_sql, db_file, SINGLE_ROW = False):
 
 def migrateDB2SQL(in_sql, dbpath):
     tmpHolder = proccesFile(dbpath)
-    os.rename(dbpath, dbpath + __BACKUP_EXT__) #make a backup
-    try:
-        saveFile(dbpath, tmpHolder, SQL_CMD = SQL_CMD_ALL)
-        execute_sql_statment(in_sql, dbpath)
-    except:
-        os.rename(dbpath + __BACKUP_EXT__, dbpath) #restore a backup
-        return
-    os.remove(dbpath + __BACKUP_EXT__) #delete a backup
+    os.remove(dbpath)
+    saveFile(dbpath, tmpHolder, SQL_CMD = SQL_CMD_ALL)
+    execute_sql_statment(in_sql, dbpath)
 
 def saveFile_pkl(fileName, data):
     with open(fileName, "wb") as f:

@@ -43,6 +43,20 @@
 	function goToTop(){
 		scrollTo(0, 0);
 	}
+	var hidden = true;
+	document.addEventListener("scroll", (event) => {
+		window.requestAnimationFrame(() => {
+		  if(window.scrollY < 120){
+			document.getElementById("scrollToTopDesktop").style = "display: none;";
+			hidden = true;
+		  }else{
+			if(hidden){
+				hidden = false;
+				document.getElementById("scrollToTopDesktop").style = "display: block;";
+			}
+		  }
+		});
+	});
 	</script>
 	</head>
 	<body>
@@ -54,7 +68,7 @@
 <input type="hidden" id="quizID" value="{{dump}}">
 <input type="hidden" id="courseID" value="{{cid}}">
 <table style="width:100%" class="pretyPrint">
-  <tr><button style="width:100%" onclick="confirmEdit(-1)">New question</button> </tr>
+  <tr><button class="newQuestion_btn" style="width:100%" onclick="confirmEdit(-1)">New question</button> </tr>
   <tr>
     <th class="w3-dark-grey">Total number of question(s): {{len(questions)}}</th>
   </tr>
@@ -101,7 +115,11 @@
 						 %end ##if j >= len(qstn["correctAnswer"]):
 					  %else:
 						 <input type="checkbox" disabled>
+						 %try:
 						 <label> {{qstn["answers"][str(i)]}}</label><br>
+						 %except:
+						 <label> {{qstn["answers"][chr(65+i)]}}</label><br>
+						 %end #%try:
 					  %end ##%if str(i) == qstn["correctAnswer"]:
 					%end ##%for i in range(len(answers)):
 				%else:
@@ -109,9 +127,16 @@
 					  %if str(i) == qstn["correctAnswer"]:
 						 <input type="radio" checked disabled>
 						 <label> {{qstn["answers"][str(i)]}}</label><br>
+					  %elif chr(65+i) == qstn["correctAnswer"]:
+						 <input type="radio" checked disabled>
+						 <label> {{qstn["answers"][chr(65+i)]}}</label><br>
 					  %else:
 						 <input type="radio" disabled>
+						 %try:
 						 <label> {{qstn["answers"][str(i)]}}</label><br>
+						 %except:
+						 <label> {{qstn["answers"][chr(65+i)]}}</label><br>
+						 %end #%try:
 					  %end ##%if str(i) == qstn["correctAnswer"]:
 					%end ##%for i in range(len(answers)):
 				%end ##if len(qstn["correctAnswer"]) != 1:
@@ -133,10 +158,32 @@
 % end ##% for qstn in questions:
 </table>
 %if len(questions) > 3:
-  <tr><button style="width:100%" onclick="confirmEdit(-1)">New question</button> </tr>
+  <tr><button class="newQuestion_btn" style="width:100%" onclick="confirmEdit(-1)">New question</button> </tr>
 % end ##% if len(questions) > 3:
 </div>
-<button id="scrollToTopDesktop" class="scroll-to-top" onclick="goToTop()" title="Go to top" style="display: block;"><i>Top</i></button>
+<button id="scrollToTopDesktop" class="scroll-to-top" onclick="goToTop()" title="Go to top"><i>Top</i></button>
+<script>
+	let collection = document.getElementsByClassName("newQuestion_btn");
+	if(collection.length != 2){
+		let body = document.body,
+			html = document.documentElement;
+
+		let height = Math.max( body.scrollHeight, body.offsetHeight, 
+							   html.clientHeight, html.scrollHeight, html.offsetHeight );
+		let window_height = window.innerHeight;
+		if(height > window_height * 2){
+		    let pretyPrint = document.getElementsByClassName("pretyPrint");
+			pretyPrint = pretyPrint[0];
+			let btn = document.createElement("button");
+			btn.innerHTML = "New question";
+			btn.setAttribute('class', "newQuestion_btn");
+			btn.setAttribute('style', "width:100%");
+			btn.setAttribute('onclick', "confirmEdit(-1)");
+			pretyPrint.after(btn);
+		}
+	}
+	collection = null;
+</script>
 	</body>
 </html>
 % include('footer.tpl')

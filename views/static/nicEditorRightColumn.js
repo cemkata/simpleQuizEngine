@@ -25,15 +25,21 @@ function changeAnswerType(selct){
         document.getElementById("noQuestion").value = 4;
     }
 	newHtml_withgroup = newHtml
+	var countStr = ""
+	if (document.getElementById("questionType").value == "3"){
+		countStr = `Count:<input type="number" value="1" min="1" max="99">`;
+	}
     for(let i = 0; i < lines.length; i++){
         newHtml += `<div class="showinline">`;
 		if (type != -1) newHtml += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
-		newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="` + lines[i].children[1].value + `">`;
-        newHtml += `</div><br>`;
+
+
+		newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="` + lines[i].children[1].value + `">`+countStr;
+		newHtml += `</div><br>`;
 		
         newHtml_withgroup += `<div class="showinline">`;
 		if (type != -1) newHtml_withgroup += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
-		newHtml_withgroup += `</span><input type="text" class="textAns" style = "width: 100%;" value="` + lines[i].children[1].value + `">Group:<input type="number" value="`+ i +`" min="1" max="99">`;
+		newHtml_withgroup += `</span><input type="text" class="textAns" style = "width: 100%;" value="` + lines[i].children[1].value + `">Group:<input type="number" value="`+ i +`" min="0" max="99">`;
         newHtml_withgroup += `</div><br>`;
     }
     if(lines.length < numLines){
@@ -41,12 +47,12 @@ function changeAnswerType(selct){
         for(let i = 0; i < lineToAdd; i++){
         newHtml += `<div class="showinline">`;
         if (type != -1) newHtml += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
-        newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">`;
-        newHtml += `</div><br>`;
+		newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">`+countStr;
+		newHtml += `</div><br>`;
 		
         newHtml_withgroup += `<div class="showinline">`;
         if (type != -1) newHtml_withgroup += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
-        newHtml_withgroup += `</span><input type="text" class="textAns" style = "width: 100%;" value="">Group:<input type="number" value="`+ i +`" min="1" max="99">`;
+        newHtml_withgroup += `</span><input type="text" class="textAns" style = "width: 100%;" value="">Group:<input type="number" value="`+ i +`" min="0" max="99">`;
         newHtml_withgroup += `</div><br>`;
         }
     }
@@ -65,6 +71,10 @@ function changeAnswerCount(){
 		if (numLines <= 0){
 			numLines = 1;
 		}
+		var countStr = ""
+		if (document.getElementById("questionType").value == "3"){
+			countStr = `Count:<input type="number" value="1" min="1" max="99">`;
+		}
         for(let j = 0; j<linesHolders.length; j++){
 			lines = linesHolders[j].getElementsByClassName("showinline");
 			if(lines.length < numLines){
@@ -73,14 +83,14 @@ function changeAnswerCount(){
 				for(let i = 0; i < lineToAdd; i++){
 					newHtml += `<div class="showinline">`;
 					if(j == 1){
-						newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">Group:<input type="number" value="`+ (parseInt(numLines) + i - 1) +`" min="1" max="99">`;
+						newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">Group:<input type="number" value="`+ (parseInt(numLines) + i - 1) +`" min="0" max="99">`;
 					}else{
-						newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">`;
+						newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">`+countStr;
 					}
 					newHtml += `</div><br>`;
 				}
 			}else{
-				var newHtml = `<p>` + linesHolders[i].firstChild.innerHTML + `</p>`;
+				var newHtml = `<p>` + linesHolders[j].firstChild.innerHTML + `</p>`;
 				for(let i = 0; i < numLines; i++){
 					newHtml += `<div class="showinline">`;
 					newHtml += lines[i].innerHTML;

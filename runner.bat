@@ -16,13 +16,17 @@ if [%customepythonpath%] == [] (
 )
 
 :useDefault
-cd /d %~dp0
-start "" mainGUI.pyw
-exit
+echo Using system default python
+echo.
+echo.
+consoleMenu.py %1
+goto eof
 
 :useCustom
-cd /d %~dp0
-start "" "%customepythonpath%\pythonw.exe" mainGUI.pyw
-exit
+echo Using python from: %customepythonpath%
+echo.
+echo.
+%customepythonpath%\python.exe consoleMenu.py %1
+goto eof
 
 :eof

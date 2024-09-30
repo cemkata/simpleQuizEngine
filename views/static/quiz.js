@@ -18,9 +18,12 @@ https://www.sitepoint.com/simple-javascript-quiz/
             let k = 0;
             for(let j = 0; j < myQuestions[i].question.length; j++){
                   if (myQuestions[i].question[j].endsWith("$?__")){
-                      questions.push(
-                        `<div class="dragdrop_question" data-group-id="${myQuestions[i].answersGroups[k]}">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
-                      );
+                      if (Object.hasOwn(myQuestions[i], 'answersGroups')){
+                        var questionStr = `<div class="dragdrop_question" data-group-id="${myQuestions[i].answersGroups[k]}">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
+                      }else{
+                        var questionStr = `<div class="dragdrop_question" data-group-id="${j}">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
+                      }
+                      questions.push(questionStr);
                       k++;
                   }else{
                       questions.push(
@@ -30,11 +33,21 @@ https://www.sitepoint.com/simple-javascript-quiz/
             }
             const question_box = `<div class="question_box">${questions.join("")}</div>`
 
-            const answers = []
+            var answers = []
             for(let j = 0; j < myQuestions[i].answers.length; j++){
-              answers.push(
-                `<p draggable="true" class="dragtarget">${myQuestions[i].answers[j]}</p>`
-              );
+              if (Object.hasOwn(myQuestions[i], 'answersCount')){
+                totalSelection = myQuestions[i].answersCount[j]
+              }else{
+                totalSelection = 1;
+              }
+              for(let k = 0; k<totalSelection; k++){
+                  answers.push(
+                    `<span draggable="true" class="dragtarget">${myQuestions[i].answers[j]}</span>`
+                  );
+              }
+            }
+            if(randomAnswer.checked){
+              answers = shuffle(answers);
             }
             const answer_box = `<div class="answers_container" id="drag_drop-answer_slide${i}"><p>Answers:</p>${answers.join("")}</div>`
 
@@ -89,6 +102,33 @@ https://www.sitepoint.com/simple-javascript-quiz/
                 inputType = "radio";
             }else{
                 inputType = "checkbox";
+            }
+            if(randomAnswer.checked){
+              var tempHolder = [];
+              var firstLeterDigit_IN_CorrectAnswer = " "
+                for(letter in myQuestions[i].answers){
+                    var isCorrect = false;
+                    if (firstLeterDigit_IN_CorrectAnswer == " "){
+                        firstLeterDigit_IN_CorrectAnswer = letter.charCodeAt(0);
+                    }
+                    if (myQuestions[i].correctAnswer.includes(letter)){
+                        isCorrect = true;
+                    }
+                    let tempCell = [myQuestions[i].answers[letter], isCorrect];
+                    tempHolder.push(tempCell);
+                }
+              tempHolder = shuffle(tempHolder);
+              var newAnswDict = {};
+              var newCorrectAnswer = ""
+              for (let k = 0; k < tempHolder.length; k++){
+                  let inx = String.fromCharCode(firstLeterDigit_IN_CorrectAnswer + k);
+                  newAnswDict[inx] = tempHolder[k][0];
+                  if (tempHolder[k][1]){
+                      newCorrectAnswer += inx;
+                  }
+              }
+              myQuestions[i].correctAnswer = newCorrectAnswer;
+              myQuestions[i].answers = newAnswDict;
             }
             // and for each available answer...
             for(letter in myQuestions[i].answers){
@@ -163,9 +203,9 @@ https://www.sitepoint.com/simple-javascript-quiz/
           var tmpQuestion = answerContainer.querySelectorAll(selectorAll);
           if(tmpQuestion.length < 2){ //if there is only text box there will be only one input
               if (tmpQuestion.length == 0){
-                    // here should be the logic to check the answer
+                    // here should be the logic to check the drag and drop answer
                     let result = true
-                    dragDropAnswers = answerContainer.getElementsByTagName("p");
+                    dragDropAnswers = answerContainer.getElementsByTagName("span");
                     correctAnswers = [];
                     if(dragDropAnswers.length == 0){
                         dragDropAnswers = answerContainer.getElementsByClassName("dragdrop_question");
@@ -192,11 +232,17 @@ https://www.sitepoint.com/simple-javascript-quiz/
                             }else{
                                 currentAnswer = currentAnswer[0];
                             }
-                            for(let j = 0; j < currentQuestion.answersGroups.length; j++){
-                                if(currentGroup == currentQuestion.answersGroups[j]){
-                                    if(currentAnswer.textContent === currentQuestion.correctAnswer[j]){
-                                        correctAnswers[i]=true;
+                            if (Object.hasOwn(currentQuestion, 'answersGroups')){
+                                for(let j = 0; j < currentQuestion.answersGroups.length; j++){
+                                    if(currentGroup == currentQuestion.answersGroups[j]){
+                                        if(currentAnswer.textContent === currentQuestion.correctAnswer[j]){
+                                            correctAnswers[i]=true;
+                                        }
                                     }
+                                }
+                            }else{
+                                if(currentAnswer.textContent === currentQuestion.correctAnswer[i]){
+                                    correctAnswers[i]=true;
                                 }
                             }
                         }
@@ -254,8 +300,8 @@ https://www.sitepoint.com/simple-javascript-quiz/
 
   function debug_showSlide(n){
       if(n == -1){restartQuiz()}
-      if(n == slides.length){return}
       n--;
+      if(n >= slides.length){return}
       showSlide(n);
   }
 
@@ -351,6 +397,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
 
       startQuiz = document.getElementById("start");
       randomQuestion = document.getElementById("random");
+      randomAnswer = document.getElementById("random_answ");
       hideAnserBtn = document.getElementById("hide_answer_btn");
       numberOfQuestion = document.getElementById("n_of_que");
       startOfQuestion = document.getElementById("start_of_que");
@@ -404,6 +451,9 @@ https://www.sitepoint.com/simple-javascript-quiz/
           slidesContainer = document.getElementsByClassName("quiz-container")
 
           nOfQuesions = parseInt(startOfQuestion.value) + parseInt(numberOfQuestion.value)
+          if(nOfQuesions > myQuestions.length){
+             nOfQuesions = myQuestions.length;
+          }
           _beginOfQuesions = parseInt(startOfQuestion.value);
           if (_beginOfQuesions > 0){
               _beginOfQuesions--;
@@ -481,11 +531,6 @@ var countDown=-1; //time in seconds
 var timer;
 var paused = true;
 
-var xmlhttp = new XMLHttpRequest();
-var cource = document.getElementById("cid").value;
-var dump = document.getElementById("dump").value;
-var url = `/get?courseID=${cource}&examID=${dump}`;
-
 // Variables
 var quizContainer;
 var resultsContainer;
@@ -502,6 +547,7 @@ var slides;
 var goToTop;
 
 var randomQuestion;
+var randomAnswer;
 var hideAnserBtn;
 var numberOfQuestion;
 var startOfQuestion;
@@ -518,28 +564,62 @@ let currentSlide = 0;
 var _beginOfQuesions;
 var nOfQuesions;
 
-xmlhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-          myQuestions = JSON.parse(this.responseText)['dump'];
+if (location.protocol == 'http:' ||  location.protocol == 'https:'){
+    var xmlhttp = new XMLHttpRequest();
+    var cource = document.getElementById("cid").value;
+    var dump = document.getElementById("dump").value;
+    var url = `/get?courseID=${cource}&examID=${dump}`;
 
-          // Quiz settings
-          startQuiz = document.getElementById("start");
-          randomQuestion = document.getElementById("random");
-          hideAnserBtn = document.getElementById("hide_answer_btn");
-          numberOfQuestion = document.getElementById("n_of_que");
-          startOfQuestion = document.getElementById("start_of_que");
-          endOfQuestion = document.getElementById("end_of_que");
-          countDown = document.getElementById("timeInmunites");
-          timerTxt = document.getElementById("timer");
-          // Kick things off
-          //buildQuiz();
-          document.getElementById("loader").style.display = "none";
-          startQuiz.addEventListener('click', buildQuiz);
-    }
-};
-xmlhttp.open("GET", url, true);
-document.getElementById("loader").style.display = "block";
-xmlhttp.send();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+              myQuestions = JSON.parse(this.responseText)['dump'];
+
+              // Quiz settings
+              startQuiz = document.getElementById("start");
+              randomQuestion = document.getElementById("random");
+              randomAnswer = document.getElementById("random_answ");
+              hideAnserBtn = document.getElementById("hide_answer_btn");
+              numberOfQuestion = document.getElementById("n_of_que");
+              numberOfQuestion.value = myQuestions.length;
+              startOfQuestion = document.getElementById("start_of_que");
+              endOfQuestion = document.getElementById("end_of_que");
+              countDown = document.getElementById("timeInmunites");
+              timerTxt = document.getElementById("timer");
+              // Kick things off
+              //buildQuiz();
+              document.getElementById("loader").style.display = "none";
+              startQuiz.addEventListener('click', buildQuiz);
+        }else if (this.readyState == 4 && this.status != 200){
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("error_loader").style.display = "block";
+            numberOfQuestion = document.getElementById("n_of_que");
+            numberOfQuestion.style.color = 'red'; // color the answers red
+            numberOfQuestion.type = 'text';
+            numberOfQuestion.value = "Error loading quiz";
+            alert("Something went wrong! :(")
+        }
+    };
+    xmlhttp.open("GET", url, true);
+    document.getElementById("loader").style.display = "block";
+    xmlhttp.send();
+}else if (location.protocol == 'file:'){
+    // Quiz settings
+    startQuiz = document.getElementById("start");
+    randomQuestion = document.getElementById("random");
+    randomAnswer = document.getElementById("random_answ");
+    hideAnserBtn = document.getElementById("hide_answer_btn");
+    numberOfQuestion = document.getElementById("n_of_que");
+    numberOfQuestion.value = myQuestions.length;
+    startOfQuestion = document.getElementById("start_of_que");
+    endOfQuestion = document.getElementById("end_of_que");
+    countDown = document.getElementById("timeInmunites");
+    timerTxt = document.getElementById("timer");
+    // Kick things off
+    //buildQuiz();
+    startQuiz.addEventListener('click', buildQuiz);
+}else{
+    alert("Failed to init the quiz.")
+}
 
 var dragP;
 /* Events fired on the drag target */

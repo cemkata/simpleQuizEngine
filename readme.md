@@ -13,6 +13,7 @@ Key short cuts:
 
 - When in editor
   - Ctrl + S saves the page
+  - Ctrl + Q clears the page
 
 - When in quiz:
   - Left/right arrows move to previous/next question.
@@ -76,14 +77,15 @@ To configure edit the file config_files\config.ini
 - auto_open_in_browser - boolean to enable opening the page in the default browser. Used only by mainGUI.pyw
 
 
-***set_python_path.bat***
+***set_python_path.txt (windows)***
 - here you can point to python path to be used. Usually C:\Users\\%username%\AppData\Local\Programs\Python\Python3XXX
 - Set when installing python
-- If you will use the default python3 just open each bat file and delete/comment - "call set_python_path.bat"
+- If you will use the default python3 just delete the file file or open the file and deleted everithing inside
 
-***For linux***
+***set_python_path.txt (linux)***
 - just start python3 name_of_the_script
 - For GUI you will need to install tkinter
+- no need for this file
 
 ***Access in browser***
 - For the main page open http:/IP_ADDRESS:port
@@ -93,6 +95,6 @@ To configure edit the file config_files\config.ini
 
 ***Versions***  
 *Server app 1.30*  
-*Cli menu/loader 1.1*  
-*Web page templates (css/js) 0.94*  
+*Cli menu/loader 1.3*  
+*Web page templates (css/js) 1.04*  
 *Gui 0.3*  

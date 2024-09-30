@@ -1,6 +1,10 @@
 <html>
   <head>
-    <title>Edit question</title>
+%if questionID != -1:
+    <title>Edit question - {{questionID}} from {{quizID}}</title>
+%else:
+    <title>Adding new question in {{quizID}}</title>
+%end
     <link rel="stylesheet" href="/static/editor.css">
   </head>
   <body>
@@ -9,11 +13,15 @@
 
 <div>
   <div class="column left">
-%# if defined('questionID'):
     <input type="hidden" id="questionID" value="{{questionID}}">
-%# end
     <input type="hidden" id="courseID" value="{{courseID}}">
     <input type="hidden" id="quizID" value="{{quizID}}">
+    
+%if questionID != -1:
+    <p>Edit question <i>{{questionID}}</i> from quiz <b>{{quizID}}</b> in course <u>{{courseID}}</u></p>
+%else:
+    <p>Adding new question in <b>{{quizID}}</b> in course <u>{{courseID}}</u></p>
+%end
     <p>Question </p>
 	<div class="editor_holder">
 	  %if type(questionContent['question']) is list:
@@ -41,14 +49,24 @@
 	  % selcDropDown = ['', '', '', 'selected']
 		   <div id="select_answers">
 		   <p>Selectable answers</p>
-			%for answer in questionContent['answers']:
-			<div class="showinline"><input type="text" class="textAns" style="width: 100%;" value="{{answer}}"></div><br>
+			%for idx, answer in enumerate(questionContent['answers']):
+				% try:
+			<div class="showinline"><input type="text" class="textAns" style="width: 100%;" value="{{answer}}">Count:<input type="number" value="{{questionContent['answersCount'][idx]}}" min="1" max="99"></div><br>
+				% except:
+			<div class="showinline"><input type="text" class="textAns" style="width: 100%;" value="{{answer}}">Count:<input type="number" value="1" min="1" max="99"></div><br>
+				%end
 			%end
+			
 		   </div>
 		   <div id="correct_answers">
 		   <p>Correct answers</p>
 			%for idx, answer in enumerate(questionContent['correctAnswer']):
-			<div class="showinline"><input type="text" class="textAns" style="width: 100%;" value="{{answer}}">Group:<input type="number" value="{{questionContent['answersGroups'][idx]}}" min="1" max="99"></div><br>
+				% try:
+			<div class="showinline"><input type="text" class="textAns" style="width: 100%;" value="{{answer}}">Group:<input type="number" value="{{questionContent['answersGroups'][idx]}}" min="0" max="99"></div><br>
+				% except:
+			<div class="showinline"><input type="text" class="textAns" style="width: 100%;" value="{{answer}}">Group:<input type="number" value="{{idx}}" min="0" max="99"></div><br>
+				%end
+			
 			%end
 		   </div>
 	  % else:
@@ -82,8 +100,9 @@
           <input type="text" id="referenceLink" style = "width: 100%;" value="{{questionContent['referenceLink']}}">
   </div>
   <br>
-<div><button class="btn btn-primary" onclick="saveQuestion()">Save</button> <button class="btn btn-secondary" onclick="clearPage()">Clear</button></div>
-</div> <div class="column right">
+<div id="buttonHolder"><button class="btn btn-primary" onclick="saveQuestion()">Save</button> <button class="btn btn-secondary" onclick="clearPage()">Clear</button></div>
+</div> 
+<div class="column right">
     <p><b>Question settings:</b></p>
     <table id = "questionOptions">
     <tr>
@@ -192,8 +211,10 @@
 			posb_ans = document.getElementById("correct_answers");
 			var answers_html = selc_ans.getElementsByClassName("showinline");
 			answers = [];
+			answerCount = [];
 			for(let i = 0; i < answers_html.length; i++){
 			    answers.push(answers_html[i].firstChild.value)
+			    answerCount.push(answers_html[i].childNodes[2].value)
 			}
 			var answers_html = posb_ans.getElementsByClassName("showinline");
 			correctAnswer = [];
@@ -203,7 +224,10 @@
 			    groups.push(answers_html[i].childNodes[2].value)
 			}
 			correctAnswer = JSON.stringify(correctAnswer)
-			//TODO
+			
+			if(!questionTxt.includes("$?__")){
+				questionTxt+="<div>&nbsp;$?__</div>"
+			}
 		}else{ //free text
 			 var freetext = document.getElementById("freeTextAns");
 			 if(freetext == null){
@@ -215,9 +239,11 @@
 			   for(let i = 0; i < answers_html.length - 1; i++){
 				 var tmp_ans = answers_html[i].getElementsByTagName("input");
 				 if(tmp_ans[0].checked){
-				   correctAnswer+=i;
+				   //correctAnswer+=i;
+				   correctAnswer+=String.fromCharCode(65 + i);
 				 }
-				 answers[i] = tmp_ans[1].value
+				 //answers[i] = tmp_ans[1].value
+				 answers[String.fromCharCode(65 + i)] = tmp_ans[1].value
 			   }
 			 }else{
 			   var answers = {};
@@ -234,7 +260,18 @@
          fd.append("referenceLink", referenceLink);
          fd.append("answers", JSON.stringify(answers));
          if(typeof groups !== 'undefined'){
-            fd.append("answers_grp", JSON.stringify(groups));
+		    for(let j = 0; j < groups.length; j++){
+			    if(groups[j] == j){continue}
+			    fd.append("answers_grp", JSON.stringify(groups));
+				break;
+			}
+         }
+         if(typeof answerCount !== 'undefined'){
+		    for(let j = 0; j < answerCount.length; j++){
+			    if(answerCount[j] == "1"){continue}
+			    fd.append("answers_cnt", JSON.stringify(answerCount));
+				break;
+			}
          }
          fd.append("correctAnswer", correctAnswer);
          if(correctAnswer.length <= 0){ //add validation
@@ -307,7 +344,16 @@
 			tmpHolder[i].style.setProperty('padding-left','5px','');
 		}
 	  }
-	
+	  
+	  //var selectedColor = '#fff';
+	  function nicEdit_BackgroundColor_Patch(){
+		let tmpHolder = document.getElementsByClassName('editor_holder')
+		for (let i = 0; i < tmpHolder.length; i++){
+			//tmpHolder[i].children[1].style.setProperty('background-color',selectedColor,'');
+			tmpHolder[i].children[1].style.setProperty('background-color','#fff','');
+		}
+	  }
+	  
 	  function initEditors(){
           new nicEditor({fullPanel : true, /*uploadImgURI : '/be/nicUploadImg',*/
           onSave : saveQuestion,
@@ -319,7 +365,8 @@
           iconsPath : '/static/nic/new_nicEditorIcons.png',
           tableURL : '/be/nicShowFiles'}).panelInstance('area_explanation');
           nicEdit_Padding_Patch();
-          nicEdit_Scroll_Patch();	
+          nicEdit_Scroll_Patch();
+          //nicEdit_BackgroundColor_Patch();
 	 }
 	
 	  document.addEventListener('keydown', e => {
@@ -329,6 +376,12 @@
 	      // Place your code here
 	      //console.log('CTRL + S');
 		  saveQuestion();
+	    }else if (e.ctrlKey && e.key === 'q') {
+	      // Prevent the Save dialog to open
+	      e.preventDefault();
+	      // Place your code here
+	      //console.log('CTRL + Q');
+		  clearPage();
 	    }
 	  });
 	

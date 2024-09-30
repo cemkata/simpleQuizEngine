@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 from bottle import template
-from importQuestionsHelper import proccesFile, saveFile, SQL_CMD_ALL
+from importQuestionsHelper import proccesFile, saveFile
 from config import examFolder
 import os
 import json
-
-#?? is it needed??
-cwd = os.getcwd()
-examFolder = os.path.join(cwd, examFolder)
 
 def process_input(coiceList, msg = 'coice', lastChoise = -1):
     for idx, c in enumerate(coiceList):
@@ -95,7 +91,7 @@ def exportQuestions(fileName, questionsIDs):
             i += 1
 
     dump_file["lastID"] = len(dump_file["dump"])
-    saveFile(f'{fileName}_exported', dump_file, SQL_CMD_ALL)
+    saveFile(f'{fileName}_exported', dump_file)
 
 def exportQuestions_main():
     selected_dump_file, nextExamFolder, _ = getDump(examFolder)
@@ -131,11 +127,11 @@ def export_to_offline_main():
 
     nextExamFolder = os.path.basename(nextExamFolder)
 
-    text = template('quiz', json_Output = \
+    text = template('start', json_Output = \
                     get_json_dump(nextExamFolder, selected_dump_file),\
-                    tittle = f'{nextExamFolder}_{selected_dump_file}')
+                    tittle = f'{nextExamFolder}_{selected_dump_file}', OFFLINE = True)
 
-    outputFolder = os.path.join(cwd, "html_output")
+    outputFolder = os.path.join(examFolder, "html_output")
     if not os.path.exists(outputFolder):
        # Create a new directory because it does not exist
        os.makedirs(outputFolder)
@@ -172,7 +168,7 @@ def mergeQuestions_main():
 
     outFileName = os.path.join(nextExamFolder_a, f'{selected_dump_file_a}_merged')
 
-    saveFile(outFileName, newDump, SQL_CMD_ALL)
+    saveFile(outFileName, newDump)
 
     print("Done!")
     print(f"File is: {outFileName}")

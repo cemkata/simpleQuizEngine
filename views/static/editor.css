@@ -1,3 +1,7 @@
+body{
+  font-family:-apple-system, BlinkMacSystemFont, “Segoe UI”, Roboto, Helvetica, Arial, sans-serif;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -118,4 +122,8 @@
 
 #error_no_answer{
 	display: none;
+}
+
+#buttonHolder{
+	padding-bottom: 10px;
 }
