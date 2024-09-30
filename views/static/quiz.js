@@ -604,19 +604,24 @@ if (location.protocol == 'http:' ||  location.protocol == 'https:'){
     xmlhttp.send();
 }else if (location.protocol == 'file:'){
     // Quiz settings
-    startQuiz = document.getElementById("start");
-    randomQuestion = document.getElementById("random");
-    randomAnswer = document.getElementById("random_answ");
-    hideAnserBtn = document.getElementById("hide_answer_btn");
-    numberOfQuestion = document.getElementById("n_of_que");
-    numberOfQuestion.value = myQuestions.length;
-    startOfQuestion = document.getElementById("start_of_que");
-    endOfQuestion = document.getElementById("end_of_que");
-    countDown = document.getElementById("timeInmunites");
-    timerTxt = document.getElementById("timer");
-    // Kick things off
-    //buildQuiz();
-    startQuiz.addEventListener('click', buildQuiz);
+	document.getElementById("loader").style.display = "block";
+	let timeout_in_ms = 1000; //1 second
+    setTimeout(function(){ //wait for few ms to render the waiting animation
+		startQuiz = document.getElementById("start");
+		randomQuestion = document.getElementById("random");
+		randomAnswer = document.getElementById("random_answ");
+		hideAnserBtn = document.getElementById("hide_answer_btn");
+		numberOfQuestion = document.getElementById("n_of_que");
+		numberOfQuestion.value = myQuestions.length;
+		startOfQuestion = document.getElementById("start_of_que");
+		endOfQuestion = document.getElementById("end_of_que");
+		countDown = document.getElementById("timeInmunites");
+		timerTxt = document.getElementById("timer");
+		// Kick things off
+		//buildQuiz();
+		document.getElementById("loader").style.display = "none";
+		startQuiz.addEventListener('click', buildQuiz);
+	}, timeout_in_ms);
 }else{
     alert("Failed to init the quiz.")
 }

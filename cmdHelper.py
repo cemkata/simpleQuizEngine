@@ -9,11 +9,19 @@ def process_input(coiceList, msg = 'coice', lastChoise = -1):
     for idx, c in enumerate(coiceList):
         print(idx+1,"-", c)
     coice = input(f"{msg}: ") or lastChoise + 1
-    coice = int(coice) -1
-    while (coice > len(coiceList)-1 or coice < 0):
-        print(f"wrong {msg}")
-        coice = int(input(f"{msg}: ")) -1
-    return coice
+    try:
+        coice = int(coice) -1
+    except ValueError:
+        coice = -1
+    while True:
+        if (coice > len(coiceList)-1 or coice < 0):
+            print(f"wrong {msg}")
+            try:
+                coice = int(input(f"{msg}: ")) -1
+            except ValueError:
+                coice = -1
+        else:
+            return coice
 
 def getDump(examFolder, cource = -1):
     dir_list = [f for f in os.listdir(examFolder) if not os.path.isfile(os.path.join(examFolder, f))]

@@ -76,7 +76,7 @@
 % include('static/quiz.js')
 </script>
 <script>
-var myQuestions = {{!json_Output['dump']}};
+myQuestions = {{!json_Output['dump']}};
 </script>
 % else:
 <script src="/static/quiz.js"></script>
