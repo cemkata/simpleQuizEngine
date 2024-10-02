@@ -594,7 +594,7 @@ if (location.protocol == 'http:' ||  location.protocol == 'https:'){
     var xmlhttp = new XMLHttpRequest();
     var cource = document.getElementById("cid").value;
     var dump = document.getElementById("dump").value;
-    var url = `/get?courseID=${cource}&examID=${dump}`;
+    var url = `./get?courseID=${cource}&examID=${dump}`;
 
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {

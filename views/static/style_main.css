@@ -29,7 +29,6 @@ h3{
 
 input[type=submit], input[type=button] {
   width: 100%;
-  background-color: #4CAF50;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
@@ -40,15 +39,44 @@ input[type=submit], input[type=button] {
   font-size: 22px;
 }
 
+input[type=submit]:hover{
+  background-color: #45a049;
+}
+
 #backButton {
   background-color: darkblue;
 }
 
-input[type=submit]:hover {
-  background-color: #45a049;
+#backButton:hover{
+  background-color: #00009f;
 }
 
-div {
+.btnGreen{
+	background-color: #4CAF50;
+}
+
+.btnGreen:hover{
+	background-color: #00AA00;
+}
+
+.btnRed{
+	background-color: red;
+}
+
+.btnRed:hover{
+	background-color: #c0392b;
+}
+
+.btnDarkRed{
+	background-color: darkred;
+}
+
+.btnDarkRed:hover{
+	background-color: #641e16;
+}
+
+
+div{
   border-radius: 5px;
   font-size: 20px;
   font-family: 'Work Sans', sans-serif;
@@ -59,19 +87,19 @@ div {
   padding: 20px;
 }
 
-table {
+table{
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
 }
 
-td, th {
+td, th{
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
 }
 
-tr:nth-child(even) {
+tr:nth-child(even){
   background-color: #dddddd;
 }
 

@@ -41,6 +41,12 @@ if os.path.isfile(os.path.abspath(cnfgFile)):
             autoOpenInBrowser = config.getboolean('DEFAULT', "auto_open_in_browser")
         except ValueError:
             pass
+    showSelectionPage = False
+    if config.has_option('DEFAULT', "auto_open_in_browser"):
+        try:
+            showSelectionPage = config.getboolean('DEFAULT', "allow_selection_page")
+        except ValueError:
+            pass
 else:
     print("Warning!!")
     print("Using default config")
@@ -53,6 +59,7 @@ else:
     usePickle = False
     useSQL = False
     autoOpenInBrowser = False
+    showSelectionPage = False
 
 if not os.path.exists(examFolder):
     os.makedirs(examFolder)

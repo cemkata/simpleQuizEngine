@@ -2,7 +2,7 @@
 from bottle import Bottle, request, redirect, template, static_file
 from importQuestionsHelper import proccesFile, saveFile
 import os
-from config import serverAddres, serverPort, examFolder # App config is loaded here
+from config import serverAddres, serverPort, examFolder, showSelectionPage # App config is loaded here
 from versionGetter import getVersion
 import json
 
@@ -22,10 +22,16 @@ def favicon():
      return static_file('icon.png', root='./views/static')
 
 @app.route('/')
+def new_index():
+    if not showSelectionPage:
+        redirect("/main/")
+    return template('selectionpage.tpl') #comand 1 shows the dump folders
+
+@app.route('/main/')
 def index():
     return template('index.tpl', items = [f for f in os.listdir(examFolder) if not os.path.isfile(os.path.join(examFolder, f))], comand = 1) #comand 1 shows the dump folders
 
-@app.route('/showDumps')
+@app.route('/main/showDumps')
 def show_dumps():
     courseID = request.query.courseID or -1
     if courseID == -1:
@@ -39,7 +45,7 @@ def show_dumps():
     except NotADirectoryError:
         redirect("/start?courseID=.&examID="+courseID)
     
-@app.route('/start')
+@app.route('/main/start')
 def start_dump():
     courseID = request.query.courseID or -1
     if courseID == -1:
@@ -49,7 +55,7 @@ def start_dump():
         redirect("/") 
     return template('start', cid = courseID, dump = examID)
 
-@app.route('/get')
+@app.route('/main/get')
 def get_json_dump():
     courseID = request.query.courseID or -1
     if courseID == -1:
