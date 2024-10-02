@@ -156,6 +156,30 @@ https://www.sitepoint.com/simple-javascript-quiz/
     quizContainer.innerHTML = output.join('');
   }
 
+  function prepareImgs(){
+	  let imgs = document.getElementsByClassName("popImage");
+	  for(let i =0; i<imgs.length; i++){
+		  if(imgs[i].onclick == null){
+			  imgs[i].onclick = function(){
+				questionDIV = document.getElementsByClassName("slide active-slide")[0]
+			  if(questionDIV != this.parentElement.parentElement) {return}
+				modal.style.display = "block";
+				modalImg.src = this.src;
+				captionText.innerHTML = this.alt;
+			  }
+		  }
+	  }
+	  // When the user clicks on <span> (x), close the modal
+	  span.onclick = function() {
+		modal.style.display = "none";
+	  }
+
+	  // When the user clicks somewhere in the modal, close the modal
+	  modal.onclick = function() {
+		modal.style.display = "none";
+	  }
+  }
+
   function showResults(){
     // keep track of user's answers
     let numCorrect = 0;
@@ -452,8 +476,8 @@ https://www.sitepoint.com/simple-javascript-quiz/
               _beginOfQuesions--;
           }
 
-          prepareQuiz()
-
+          prepareQuiz();
+          prepareImgs();
           // gather answer containers from our quiz
           answerContainers = quizContainer.querySelectorAll('.answers');
 
@@ -556,6 +580,15 @@ var quizStarted = false;
 let currentSlide = 0;
 var _beginOfQuesions;
 var nOfQuesions;
+
+// Get the modal
+var modal = document.getElementById("myModal");
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
 
 function initPage(){
 	  // Quiz settings
