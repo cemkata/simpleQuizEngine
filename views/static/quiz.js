@@ -161,8 +161,16 @@ https://www.sitepoint.com/simple-javascript-quiz/
 	  for(let i =0; i<imgs.length; i++){
 		  if(imgs[i].onclick == null){
 			  imgs[i].onclick = function(){
-				questionDIV = document.getElementsByClassName("slide active-slide")[0]
-			  if(questionDIV != this.parentElement.parentElement) {return}
+				let parentDIV = this.parentElement;
+				for(;;){
+					if(parentDIV.classList.length != 0){
+						if(parentDIV.classList.contains("active-slide")){
+							break;
+						}
+					}
+					parentDIV = parentDIV.parentElement;
+					if(parentDIV.id == "quiz"){return}
+				}
 				modal.style.display = "block";
 				modalImg.src = this.src;
 				captionText.innerHTML = this.alt;
@@ -212,8 +220,6 @@ https://www.sitepoint.com/simple-javascript-quiz/
   }
 
   function checkAnswer(currentQuestion, questionNumber){
-
-
       // find selected answer
       const answerContainer = answerContainers[questionNumber];
       const selector = `input[name=question${questionNumber + _beginOfQuesions}]:checked`;
@@ -329,11 +335,12 @@ https://www.sitepoint.com/simple-javascript-quiz/
       showSlide(n);
   }
 
-  function showSlide(n) {
+  function showSlide(n){
     if(n == -1){restartQuiz()}
     if(n == slides.length){return}
     slides[currentSlide].classList.remove('active-slide');
     slides[n].classList.add('active-slide');
+    modal.style.display = "none";
     currentSlide = n;
     if(currentSlide === 0){
       previousButton.classList.add("quzControl");
