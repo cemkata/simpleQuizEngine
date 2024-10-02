@@ -75,6 +75,7 @@ To configure edit the file config_files\config.ini
 - Save_format_pkl - boolean to enable saving as pickle file. This comes with all security risk introduced in pickle library!
 - Save_format_sql - boolean to enable saving in sqlite db.
 - auto_open_in_browser - boolean to enable opening the page in the default browser. Used only by mainGUI.pyw
+- allow_selection_page - boolean to enable selection page. If not enabled opens the quiz selector. And the edditor is hidden check bellow point **Access in browser**
 
 
 ***set_python_path.txt (windows)***
@@ -84,7 +85,13 @@ To configure edit the file config_files\config.ini
 
 ***set_python_path.txt (linux)***
 - just start python3 name_of_the_script
-- For GUI you will need to install tkinter
+- (Optional) For GUI you will need to install tkinter
+- no need for this file
+
+***set_python_path.txt (mac os)***
+- install python
+- just start python3 name_of_the_script
+- (Optional) For GUI you will need to install tkinter
 - no need for this file
 
 ***Access in browser***
@@ -94,7 +101,8 @@ To configure edit the file config_files\config.ini
   - By deafailt - [http://127.0.0.1:8080/editor/](http://127.0.0.1:8080/editor/)
 
 ***Versions***  
-*Server app 1.30*  
-*Cli menu/loader 1.3*  
-*Web page templates (css/js) 1.04*  
+*Server app 1.31*  
+*Cli menu/loader 1.4*  
+*Web page templates (css/js) 1.06*  
 *Gui 0.3*  
+*Database 0.3*  
