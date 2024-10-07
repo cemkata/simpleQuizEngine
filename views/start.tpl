@@ -58,7 +58,7 @@
 				<label>How many questions:</label><input type="number" id="n_of_que"><br>
 				<label>Starting question:</label><input type="number" id="start_of_que"><br>
 				<label>Ending question:</label><input type="number" id="end_of_que"><br>
-				<label>Time in minutes:</label><input type="number" id="timeInmunites">
+				<label>Time in minutes:</label><input type="number" min="0" id="timeInmunites">
 				<button id="start">Start Quiz</button>
 			</div>
 		</div>
