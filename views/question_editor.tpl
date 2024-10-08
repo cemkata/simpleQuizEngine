@@ -226,7 +226,9 @@
 			correctAnswer = JSON.stringify(correctAnswer)
 			
 			if(!questionTxt.includes("$?__")){
-				questionTxt+="<div>&nbsp;$?__</div>"
+				for(let i = 0; i < answers_html.length; i++){
+					questionTxt+="<div>&nbsp;$?__</div>"
+				}
 			}else{
 			    var count = (questionTxt.match(/\$\?__/g) || []).length;
 			    if(count != answers_html.length){
