@@ -227,6 +227,14 @@
 			
 			if(!questionTxt.includes("$?__")){
 				questionTxt+="<div>&nbsp;$?__</div>"
+			}else{
+			    var count = (questionTxt.match(/\$\?__/g) || []).length;
+			    if(count != answers_html.length){
+				   alert("Drop darget count diffrent than correct answers!")
+				   errorDiv = document.getElementById("error_no_answer");
+				   errorDiv.style.setProperty('display','block','')
+				   return;
+				}
 			}
 		}else{ //free text
 			 var freetext = document.getElementById("freeTextAns");

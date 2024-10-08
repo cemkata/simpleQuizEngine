@@ -329,15 +329,15 @@ https://www.sitepoint.com/simple-javascript-quiz/
   }
 
   function debug_showSlide(n){
-      if(n == -1){restartQuiz()}
+      if(n <= 0){return}
       n--;
       if(n >= slides.length){return}
       showSlide(n);
   }
 
   function showSlide(n){
-    if(n == -1){restartQuiz()}
-    if(n == slides.length){return}
+    if(n == -1){restartQuiz(); return;}
+    if(n == slides.length){showResults(); return;}
     slides[currentSlide].classList.remove('active-slide');
     slides[n].classList.add('active-slide');
     modal.style.display = "none";
