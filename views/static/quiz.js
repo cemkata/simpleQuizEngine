@@ -157,38 +157,41 @@ https://www.sitepoint.com/simple-javascript-quiz/
   }
 
   function prepareImgs(){
-	  let imgs = document.getElementsByClassName("popImage");
-	  for(let i =0; i<imgs.length; i++){
-		  if(imgs[i].onclick == null){
-			  imgs[i].onclick = function(){
-				let parentDIV = this.parentElement;
-				for(;;){
-					if(parentDIV.classList.length != 0){
-						if(parentDIV.classList.contains("active-slide")){
-							break;
-						}
-					}
-					parentDIV = parentDIV.parentElement;
-					if(parentDIV.id == "quiz"){return}
-				}
-				modal.style.display = "block";
-				modalImg.src = this.src;
-				captionText.innerHTML = this.alt;
-			  }
-		  }
-	  }
-	  // When the user clicks on <span> (x), close the modal
-	  span.onclick = function() {
-		modal.style.display = "none";
-	  }
+      let imgs = document.getElementsByClassName("popImage");
+      for(let i =0; i<imgs.length; i++){
+          if(imgs[i].onclick == null){
+              imgs[i].onclick = function(){
+                let parentDIV = this.parentElement;
+                for(;;){
+                    if(parentDIV.classList.length != 0){
+                        if(parentDIV.classList.contains("active-slide")){
+                            break;
+                        }
+                    }
+                    parentDIV = parentDIV.parentElement;
+                    if(parentDIV.id == "quiz"){return}
+                }
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                captionText.innerHTML = this.alt;
+              }
+          }
+      }
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+        modal.style.display = "none";
+      }
 
-	  // When the user clicks somewhere in the modal, close the modal
-	  modal.onclick = function() {
-		modal.style.display = "none";
-	  }
+      // When the user clicks somewhere in the modal, close the modal
+      modal.onclick = function() {
+        modal.style.display = "none";
+      }
   }
 
   function showResults(){
+      if (confirm("Grade the quiz?") != true) {
+        return
+      }
     // keep track of user's answers
     let numCorrect = 0;
 
@@ -407,6 +410,9 @@ https://www.sitepoint.com/simple-javascript-quiz/
   }
 
   function restartQuiz(){
+      if (confirm("Restart the quiz?") != true) {
+        return
+      }
       currentSlide = 0;
       quizStarted = false;
       paused = true;
@@ -598,36 +604,36 @@ var captionText = document.getElementById("caption");
 var span = document.getElementsByClassName("close")[0];
 
 function initPage(){
-	  // Quiz settings
-	  startQuiz = document.getElementById("start");
-	  randomQuestion = document.getElementById("random");
-	  randomAnswer = document.getElementById("random_answ");
-	  hideAnserBtn = document.getElementById("hide_answer_btn");
-	  numberOfQuestion = document.getElementById("n_of_que");
-	  numberOfQuestion.value = myQuestions.length;
-	  startOfQuestion = document.getElementById("start_of_que");
-	  endOfQuestion = document.getElementById("end_of_que");
-	  countDown = document.getElementById("timeInmunites");
-	  timerTxt = document.getElementById("timer");
-	  // Kick things off
-	  //buildQuiz();
-	  if(myQuestions.length != 0){
-		  startQuiz.addEventListener('click', buildQuiz);
-	  }else{
-			showError();
-			return;
-	  }
-	  document.getElementById("loader").style.display = "none";
+      // Quiz settings
+      startQuiz = document.getElementById("start");
+      randomQuestion = document.getElementById("random");
+      randomAnswer = document.getElementById("random_answ");
+      hideAnserBtn = document.getElementById("hide_answer_btn");
+      numberOfQuestion = document.getElementById("n_of_que");
+      numberOfQuestion.value = myQuestions.length;
+      startOfQuestion = document.getElementById("start_of_que");
+      endOfQuestion = document.getElementById("end_of_que");
+      countDown = document.getElementById("timeInmunites");
+      timerTxt = document.getElementById("timer");
+      // Kick things off
+      //buildQuiz();
+      if(myQuestions.length != 0){
+          startQuiz.addEventListener('click', buildQuiz);
+      }else{
+            showError();
+            return;
+      }
+      document.getElementById("loader").style.display = "none";
 }
 
 function showError(){
-	document.getElementById("loader").style.display = "none";
-	document.getElementById("error_loader").style.display = "block";
-	numberOfQuestion = document.getElementById("n_of_que");
-	numberOfQuestion.style.color = 'red'; // color the answers red
-	numberOfQuestion.type = 'text';
-	numberOfQuestion.value = "Error loading quiz";
-	alert("Something went wrong! :(")
+    document.getElementById("loader").style.display = "none";
+    document.getElementById("error_loader").style.display = "block";
+    numberOfQuestion = document.getElementById("n_of_que");
+    numberOfQuestion.style.color = 'red'; // color the answers red
+    numberOfQuestion.type = 'text';
+    numberOfQuestion.value = "Error loading quiz";
+    alert("Something went wrong! :(")
 }
 
 if (location.protocol == 'http:' ||  location.protocol == 'https:'){
@@ -639,9 +645,9 @@ if (location.protocol == 'http:' ||  location.protocol == 'https:'){
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             myQuestions = JSON.parse(this.responseText)['dump'];
-			initPage();
+            initPage();
         }else if (this.readyState == 4 && this.status != 200){
-			showError()
+            showError()
         }
     };
     xmlhttp.open("GET", url, true);
@@ -649,11 +655,11 @@ if (location.protocol == 'http:' ||  location.protocol == 'https:'){
     xmlhttp.send();
 }else if (location.protocol == 'file:'){
     // Quiz settings
-	document.getElementById("loader").style.display = "block";
-	let timeout_in_ms = 1000; //1 second
+    document.getElementById("loader").style.display = "block";
+    let timeout_in_ms = 1000; //1 second
     setTimeout(function(){ //wait for few ms to render the waiting animation
-		  initPage();
-	}, timeout_in_ms);
+          initPage();
+    }, timeout_in_ms);
 }else{
     alert("Failed to init the quiz.")
 }
@@ -741,9 +747,7 @@ document.onkeydown = function(evt) {
               debug_showSlide(selection)
             }
         }else if(event.ctrlKey && event.altKey && evt.key === "r"){
-          if (confirm("Restart the quiz?") == true) {
             restartQuiz()
-          }
         }else if(event.ctrlKey && event.altKey && evt.key === "p"){
             if(countDown != -1) {
                 paused = !paused;
