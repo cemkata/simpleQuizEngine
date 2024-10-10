@@ -194,7 +194,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
       }
     // keep track of user's answers
     let numCorrect = 0;
-
+    clearTimeout(timer);
     // for each question...
     for(let i = _beginOfQuesions, j = 0; i<nOfQuesions; i++, j++){
         if (checkAnswer(myQuestions[i], j)){
@@ -218,8 +218,9 @@ https://www.sitepoint.com/simple-javascript-quiz/
 
     // show number of correct answers out of total
     resultsContainer.innerHTML = `Result: ${numCorrect} out of ${numberOfQuestion.value}`;
-    clearTimeout(timer);
     timerTxt.textContent = "";
+	let grade = numCorrect/numberOfQuestion.value * 100
+	pagesContainer.innerText = `Grade: ${grade.toFixed(2)}%`;
   }
 
   function checkAnswer(currentQuestion, questionNumber){
