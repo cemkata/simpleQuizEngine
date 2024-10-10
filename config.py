@@ -19,10 +19,10 @@ if os.path.isfile(os.path.abspath(cnfgFile)):
         if not ip_pattern.match(serverAddres) and not ipv6_pattern.match(serverAddres):
             raise KeyError('Server IP address')
     examFolder = os.path.abspath(config['DEFAULT']['examFolder'])
-    config.BOOLEAN_STATES = {'sure': True, 'nope': False}
-    config.BOOLEAN_STATES = {'on': True, 'off': False}
-    config.BOOLEAN_STATES = {'yes': True, 'no': False}
-    config.BOOLEAN_STATES = {'enable': True, 'disable': False}
+    config.BOOLEAN_STATES = {'sure': True, 'nope': False,
+                             'on': True, 'off': False,
+                             'yes': True, 'no': False,
+                             'enable': True, 'disable': False}
     usePickle = False
     if config.has_option('DEFAULT', "Save_format_pkl"):
         try:
@@ -45,7 +45,7 @@ if os.path.isfile(os.path.abspath(cnfgFile)):
     if config.has_option('DEFAULT', "auto_open_in_browser"):
         try:
             showSelectionPage = config.getboolean('DEFAULT', "allow_selection_page")
-        except ValueError:
+        except ValueError as e:
             pass
 else:
     print("Warning!!")

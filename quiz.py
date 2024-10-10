@@ -289,7 +289,8 @@ def deleteCategory():
 
 def main():
     print("Starting dump wizard "+ str(ver))
-    print(f"Quiz page   {serverAddres}:{serverPort}")
+    print(f"Home page   {serverAddres}:{serverPort}/")
+    print(f"Quiz page   {serverAddres}:{serverPort}/main/")
     print(f"Quiz editor {serverAddres}:{serverPort}/editor/")
     app.run(host = serverAddres, port = serverPort, debug=True)
 
