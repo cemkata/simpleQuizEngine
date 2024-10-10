@@ -97,12 +97,14 @@ To configure edit the file config_files\config.ini
 ***Access in browser***
 - For the main page open http:/IP_ADDRESS:port
   - By deafailt - [http://127.0.0.1:8080](http://127.0.0.1:8080/)
+- For the quiz selection page open http:/IP_ADDRESS:port/main/
+  - By deafailt - [http://127.0.0.1:8080/main/](http://127.0.0.1:8080/main/)
 - For the eidtor page open http:/IP_ADDRESS:port/editor/
   - By deafailt - [http://127.0.0.1:8080/editor/](http://127.0.0.1:8080/editor/)
 
 ***Versions***  
-*Server app 1.31*  
+*Server app 1.32*  
 *Cli menu/loader 1.4*  
-*Web page templates (css/js) 1.11*  
+*Web page templates (css/js) 1.13*  
 *Gui 0.3*  
 *Database 0.3*  
