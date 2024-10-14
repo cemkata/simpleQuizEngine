@@ -219,8 +219,8 @@ https://www.sitepoint.com/simple-javascript-quiz/
     // show number of correct answers out of total
     resultsContainer.innerHTML = `Result: ${numCorrect} out of ${numberOfQuestion.value}`;
     timerTxt.textContent = "";
-	let grade = numCorrect/numberOfQuestion.value * 100
-	pagesContainer.innerText = `Grade: ${grade.toFixed(2)}%`;
+    let grade = numCorrect/numberOfQuestion.value * 100
+    pagesContainer.innerText = `Grade: ${grade.toFixed(2)}%`;
   }
 
   function checkAnswer(currentQuestion, questionNumber){
@@ -723,12 +723,19 @@ document.addEventListener("drop", function (event) {
     if (targetDiv.className == "droptarget") {
         //document.getElementById("demo").style.color = "";
         targetDiv.style.border = "hidden";
+        let slideId = _beginOfQuesions + currentSlide;
         if (targetDiv.childElementCount != 0){
-            let childP = targetDiv.getElementsByTagName("p")[0];
-            document.getElementById("drag_drop-answer_slide"+currentSlide).appendChild(childP);
+            let childP = targetDiv.getElementsByTagName("span")[0];
+            document.getElementById("drag_drop-answer_slide"+slideId).appendChild(childP);
         }
         targetDiv.appendChild(dragP);
         dragP = null;
+        dragTaggets = document.getElementsByClassName("slide active-slide")[0].getElementsByClassName("question_box")[0].getElementsByClassName("droptarget")
+        for(let i = 0; i < dragTaggets.length; i++){
+            if(dragTaggets[i].children.length == 0){
+                dragTaggets[i].style.removeProperty('border');
+            }
+        }
     }
 });
 

@@ -42,7 +42,39 @@
 	% end
 	
 	    %if comand == 2 or comand == 4:
-		<tr><td colspan="3"><input type="button" id = "backButton" onclick="window.history.back();" value="Back" /></td></tr>
+		<tr><td colspan="3"><input type="button" id="backButton" onclick="window.history.back();" value="Back" /></td></tr>
+		% end
+	    %if comand == 4:
+		<tr><td colspan="3"><input type="button" id="uploadButton" onclick="upload(`{{cid}}`);" value="Upload" /></td></tr>
+		
+		<script>
+		function upload(courseID){
+			var input = document.createElement('input');
+			input.type = 'file';
+			input.click();
+			input.onchange = e => { 
+				const inputFile = e.target.files[0];
+				const fd = new FormData();
+
+				fd.append("file", inputFile);
+				fd.append("courseID", courseID);
+
+				fetch("./importFile", {
+					method: "post",
+					body: fd,
+				}).then((response) => {
+					if(response.status == 200){
+						location.reload();
+					}else if(response.status == 403){
+						alert("File with this name exist")
+					}else{
+						alert("Error")
+					}
+				}).catch((error) => (alert("Something went wrong!\n" + error)));
+			}
+		}
+		</script>
+		
 		% end
 	</table>
 </div>

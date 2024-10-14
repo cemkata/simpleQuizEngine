@@ -51,6 +51,14 @@ input[type=submit]:hover{
   background-color: #00009f;
 }
 
+#uploadButton {
+  background-color: DarkOrange;
+}
+
+#uploadButton:hover{
+  background-color: #FFA500;
+}
+
 .btnGreen{
 	background-color: #4CAF50;
 }

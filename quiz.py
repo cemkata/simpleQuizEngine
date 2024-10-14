@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from bottle import Bottle, request, redirect, template, static_file
+from bottle import Bottle, request, redirect, template, static_file, abort
 from importQuestionsHelper import proccesFile, saveFile
 import os
 from config import serverAddres, serverPort, examFolder, showSelectionPage # App config is loaded here
@@ -287,10 +287,27 @@ def deleteCategory():
     os.rmdir(os.path.join(examFolder, courseID))
     redirect("/editor/")
 
+@app.route('/editor/importFile', method="POST")
+def uploadFile():
+    courseID = request.forms.get('courseID') or False
+    if not courseID:
+        abort(401, "Sorry, access denied.")
+    uploadedFile = request.files.get('file') or False
+    if not uploadedFile:
+        abort(401, "Sorry, access denied.")
+    save_path = os.path.join(examFolder, courseID)
+    try:
+        if os.path.isfile(os.path.join(save_path, uploadedFile.filename)):
+            abort(500, "File exist!")
+        else:
+            uploadedFile.save(save_path)
+    except:
+            abort(500, "Server error.")
+    return 'OK'
+
 def main():
     print("Starting dump wizard "+ str(ver))
-    print(f"Home page   {serverAddres}:{serverPort}/")
-    print(f"Quiz page   {serverAddres}:{serverPort}/main/")
+    print(f"Quiz page   {serverAddres}:{serverPort}")
     print(f"Quiz editor {serverAddres}:{serverPort}/editor/")
     app.run(host = serverAddres, port = serverPort, debug=True)
 
