@@ -113,6 +113,13 @@
 						 %if j >= len(qstn["correctAnswer"]):
 						 %j = j - 1
 						 %end ##if j >= len(qstn["correctAnswer"]):
+					  %elif chr(65+i) == qstn["correctAnswer"][j]:
+						 <input type="checkbox" checked disabled>
+						 <label> {{qstn["answers"][chr(65+i)]}}</label><br>
+						 %j = j + 1
+						 %if j >= len(qstn["correctAnswer"]):
+						 %j = j - 1
+						 %end ##if j >= len(qstn["correctAnswer"]):
 					  %else:
 						 <input type="checkbox" disabled>
 						 %try:
