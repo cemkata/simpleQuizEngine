@@ -391,7 +391,7 @@ input[type=submit]:hover {
 
 
 
-.active-slide .popImage:hover {opacity: 0.3;cursor: zoom-in;}
+.active-slide .popImage:hover {opacity: 0.75; cursor: zoom-in;}
 
 /* The Modal (background) */
 .modal {
