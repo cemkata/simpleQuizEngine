@@ -196,9 +196,11 @@ https://www.sitepoint.com/simple-javascript-quiz/
     let numCorrect = 0;
     clearTimeout(timer);
     // for each question...
-    var nextWrongAncor = ""
+    var nextWrongAncor = "";
+	var holdPrevWrong;
     for(let i = _beginOfQuesions, j = 0; i<nOfQuesions; i++, j++){
         let answerContainer = answerContainers[j];
+		let holderDiv = document.createElement("div")
         let childP = document.createElement("p");
         childP.innerText = "Question " + (j + 1);
         if (checkAnswer(myQuestions[i], j)){
@@ -207,21 +209,36 @@ https://www.sitepoint.com/simple-javascript-quiz/
             if (nextWrongAncor == ""){
                 nextWrongAncor = "wrong" + (j + 1);
                 childP.id = nextWrongAncor;
+				holderDiv.appendChild(childP)
             }else{
-                var childA = document.createElement('a');
-                var childBR = document.createElement('br');
-                var linkText = document.createTextNode("Previous wrong question.");
-                childA.appendChild(linkText);
-                childA.title = "Previous";
-                childA.href = "#"+ nextWrongAncor;
-				childA.classList.add("wrongAnswer");
+				var linkText_prev = document.createTextNode("Previous wrong");
+                var childA_prev = document.createElement('a');
+                childA_prev.appendChild(linkText_prev);
+                childA_prev.title = "Previous";
+                childA_prev.href = "#"+ nextWrongAncor;
+				childA_prev.classList.add("wrongAnswer");
+				
+				let divider = document.createElement("span");
+				divider.innerText = "   ";
+
                 nextWrongAncor = "wrong" + (j + 1);
+				
+				var linkText_next = document.createTextNode("Next wrong");
+                var childA_next = document.createElement('a');
+                childA_next.appendChild(linkText_next);
+                childA_next.title = "Next";
+                childA_next.href = "#"+ nextWrongAncor;
+				childA_next.classList.add("wrongAnswer");
+				
                 childP.id = nextWrongAncor;
-                childP.append(childBR);
-                childP.append(childA);
+				holderDiv.appendChild(childP)
+                holderDiv.appendChild(childA_prev);
+                holderDiv.appendChild(divider);
+				holdPrevWrong.parentElement.childNodes[0].appendChild(childA_next)
             }
+			holdPrevWrong = answerContainer;
         }
-        answerContainer.parentElement.insertBefore(childP, answerContainer.parentElement.firstChild);
+        answerContainer.parentElement.insertBefore(holderDiv, answerContainer.parentElement.firstChild);
     }
 
     slides.forEach(s => {
