@@ -208,15 +208,17 @@ https://www.sitepoint.com/simple-javascript-quiz/
             holderDiv.appendChild(childP)
         }else{
             if (nextWrongAncor == ""){
-                let tmpDivHolder = document.getElementById("quiz").childNodes[0];
                 nextWrongAncor = "wrong" + (j + 1);
-                let linkText_first = document.createTextNode("First wrong");
-                let childA_first = document.createElement('a');
-                childA_first.appendChild(linkText_first);
-                childA_first.title = "Previous";
-                childA_first.href = "#"+ nextWrongAncor;
-                childA_first.classList.add("wrongAnswer");
-                tmpDivHolder.insertBefore(childA_first, tmpDivHolder.firstChild);
+                if(j != 0){
+                    let tmpDivHolder = document.getElementById("quiz").childNodes[0];
+                    let linkText_first = document.createTextNode("First wrong");
+                    let childA_first = document.createElement('a');
+                    childA_first.appendChild(linkText_first);
+                    childA_first.title = "First";
+                    childA_first.href = "#"+ nextWrongAncor;
+                    childA_first.classList.add("wrongAnswer");
+                    tmpDivHolder.insertBefore(childA_first, tmpDivHolder.firstChild);
+                }
                 childP.id = nextWrongAncor;
                 holderDiv.appendChild(childP)
             }else{
