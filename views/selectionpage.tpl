@@ -27,6 +27,13 @@
   line-height: 65vh;
 }
 
+@media only screen and (max-width: 1800px) {
+  /* For small screens phones: */
+  div{
+      padding: 1px;
+    }
+}
+
 @media only screen and (max-width: 620px) {
   /* For mobile phones: */
   .menu, #main, #right {
