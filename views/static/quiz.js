@@ -196,10 +196,32 @@ https://www.sitepoint.com/simple-javascript-quiz/
     let numCorrect = 0;
     clearTimeout(timer);
     // for each question...
+    var nextWrongAncor = ""
     for(let i = _beginOfQuesions, j = 0; i<nOfQuesions; i++, j++){
+        let answerContainer = answerContainers[j];
+        let childP = document.createElement("p");
+        childP.innerText = "Question " + (j + 1);
         if (checkAnswer(myQuestions[i], j)){
             numCorrect++;
+        }else{
+            if (nextWrongAncor == ""){
+                nextWrongAncor = "wrong" + (j + 1);
+                childP.id = nextWrongAncor;
+            }else{
+                var childA = document.createElement('a');
+                var childBR = document.createElement('br');
+                var linkText = document.createTextNode("Previous wrong question.");
+                childA.appendChild(linkText);
+                childA.title = "Previous";
+                childA.href = "#"+ nextWrongAncor;
+				childA.classList.add("wrongAnswer");
+                nextWrongAncor = "wrong" + (j + 1);
+                childP.id = nextWrongAncor;
+                childP.append(childBR);
+                childP.append(childA);
+            }
         }
+        answerContainer.parentElement.insertBefore(childP, answerContainer.parentElement.firstChild);
     }
 
     slides.forEach(s => {

@@ -471,3 +471,8 @@ input[type=submit]:hover {
     width: 100%;
   }
 } 
+
+
+a.wrongAnswer:link {color:#ff0000;font-size: 15px;}
+a.wrongAnswer:visited {color:#0000ff;font-size: 15px;}
+a.wrongAnswer:hover {color:#ffcc00;font-size: 15px;}
