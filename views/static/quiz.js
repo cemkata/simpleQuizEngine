@@ -228,24 +228,28 @@ https://www.sitepoint.com/simple-javascript-quiz/
                 childA_prev.title = "Previous";
                 childA_prev.href = "#"+ nextWrongAncor;
                 childA_prev.classList.add("wrongAnswer");
-                
+
                 let divider = document.createElement("span");
                 divider.innerText = "   ";
 
                 nextWrongAncor = "wrong" + (j + 1);
-                
+
                 var linkText_next = document.createTextNode("Next wrong");
                 var childA_next = document.createElement('a');
                 childA_next.appendChild(linkText_next);
                 childA_next.title = "Next";
                 childA_next.href = "#"+ nextWrongAncor;
                 childA_next.classList.add("wrongAnswer");
-                
+
                 childP.id = nextWrongAncor;
                 holderDiv.appendChild(childP)
                 holderDiv.appendChild(childA_prev);
-                holderDiv.appendChild(divider);
-                holdPrevWrong.parentElement.childNodes[0].appendChild(childA_next)
+				/***Old aragment -> "Previous wrong"   "Next wrong" */
+                /*holderDiv.appendChild(divider);
+                /holdPrevWrong.parentElement.childNodes[0].appendChild(childA_next)*/
+				let tmp_hold = holdPrevWrong.parentElement.childNodes[0];
+				tmp_hold.insertBefore(divider, tmp_hold.childNodes[1]);
+				tmp_hold.insertBefore(childA_next, tmp_hold.childNodes[1]);
             }
             holdPrevWrong = answerContainer;
         }
