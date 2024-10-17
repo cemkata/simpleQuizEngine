@@ -3,10 +3,12 @@ from bottle import Bottle, request, redirect, template, static_file, abort
 from importQuestionsHelper import proccesFile, saveFile
 import os
 from config import serverAddres, serverPort, examFolder, showSelectionPage # App config is loaded here
-from versionGetter import getVersion
+#from versionGetter import getVersion
+from versionGetter import fullVersion
 import json
 
-ver = getVersion('app')
+#ver = getVersion('app')
+ver = fullVersion()
 
 app = Bottle()
 
