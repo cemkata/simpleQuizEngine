@@ -3,11 +3,9 @@ from bottle import Bottle, request, redirect, template, static_file, abort
 from importQuestionsHelper import proccesFile, saveFile
 import os
 from config import serverAddres, serverPort, examFolder, showSelectionPage # App config is loaded here
-#from versionGetter import getVersion
 from versionGetter import fullVersion
 import json
 
-#ver = getVersion('app')
 ver = fullVersion()
 
 app = Bottle()
@@ -98,7 +96,6 @@ def editor_listquestions():
     
 @app.route('/editor/editQuestion')
 def questionEditor():
-    #ncourseID=course_name&quizID=0&cardID=1
     courseID = request.query.courseID
     quizID = request.query.quizID
     questionID = int(request.query.questionID)
@@ -138,7 +135,6 @@ def SaveQuestion():
     referenceLink = request.forms.get("referenceLink")
     answers = json.loads(request.forms.get("answers"))
     correctAnswer = request.forms.get("correctAnswer")
-    # answersGroups = False ##OLD
     answersGroups = request.forms.get("answers_grp") or False
     answersCount = request.forms.get("answers_cnt") or False
 
@@ -309,7 +305,8 @@ def uploadFile():
 
 def main():
     print("Starting dump wizard "+ str(ver))
-    print(f"Quiz page   {serverAddres}:{serverPort}")
+    print(f"Home page   {serverAddres}:{serverPort}/")
+    print(f"Quiz page   {serverAddres}:{serverPort}/main/")
     print(f"Quiz editor {serverAddres}:{serverPort}/editor/")
     app.run(host = serverAddres, port = serverPort, debug=True)
 
