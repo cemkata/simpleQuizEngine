@@ -25,7 +25,7 @@ def favicon():
 def new_index():
     if not showSelectionPage:
         redirect("/main/")
-    return template('selectionpage.tpl') #comand 1 shows the dump folders
+    return template('selectionpage.tpl')
 
 @app.route('/main/')
 def index():
@@ -143,12 +143,12 @@ def SaveQuestion():
     if "$?__" in questionTxt:
         resultingQuestionTxt = []
         removeDivStrings = ["<div>", "</div>"]
-        removeDivBr = ["<br>", "</br>"]
         #NEW method
         for q in questionTxt.split(removeDivStrings[1]):
             q = q.replace(removeDivStrings[0], "")
             resultingQuestionTxt.append(q)
         ##OLD method
+        #removeDivBr = ["<br>", "</br>"]
         #for q in questionTxt.split("$?__"): 
         #    for htmlElm in removeDivStrings:
         #        q = q.replace(htmlElm, "")
@@ -312,3 +312,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
