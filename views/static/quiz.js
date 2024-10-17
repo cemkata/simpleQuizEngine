@@ -761,7 +761,11 @@ document.addEventListener("dragover", function (event) {
 // When the draggable p element leaves the droptarget, reset the DIVS's border style
 document.addEventListener("dragleave", function (event) {
     if (event.target.className == "droptarget") {
-        event.target.style.border = "";
+        if(event.target.children.length == 0){
+            event.target.style.border = "";
+        }else{
+            event.target.style.border = "hidden";
+        }
     }
 });
 
