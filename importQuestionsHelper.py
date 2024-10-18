@@ -45,6 +45,10 @@ elif useSQL:
 else:
     _DEFAULT_TYPE = _JSON
 
+class myLock:
+  count = 0
+  lock = threading.RLock()
+
 cache_lock = threading.RLock()
 locked_files = {}
 
@@ -52,11 +56,11 @@ def proccesFile(fileName):
     try:
         with cache_lock:
             try:
-                lock = locked_files[fileName][0]
-                locked_files[fileName][1] += 1
+                lock = locked_files[fileName].lock
+                locked_files[fileName].count += 1
             except:
-                locked_files[fileName] = [threading.RLock(),1]
-                lock = locked_files[fileName][0]
+                locked_files[fileName] = myLock()
+                lock = locked_files[fileName].lock
         with lock:
             try:
                 with open(fileName, "r", encoding="Utf-8") as f:
@@ -75,8 +79,8 @@ def proccesFile(fileName):
         pass
     finally:
         with cache_lock:
-            locked_files[fileName][1] -= 1
-            if locked_files[fileName][1] == 0:
+            locked_files[fileName].count -= 1
+            if locked_files[fileName].count == 0:
                 locked_files.pop(fileName)
   
 def proccesFile_pkl(fileName):
@@ -119,11 +123,11 @@ def saveFile(fileName, data, SQL_CMD = -1, question_id = None, type = _DEFAULT_T
     try:
         with cache_lock:
             try:
-                lock = locked_files[fileName][0]
-                locked_files[fileName][1] += 1
+                lock = locked_files[fileName].lock
+                locked_files[fileName].count += 1
             except:
                 locked_files[fileName] = [threading.RLock(),1]
-                lock = locked_files[fileName][0]
+                lock = locked_files[fileName].lock
         with lock:
             if type == _JSON:
                 saveFile_json(fileName, data)
@@ -142,8 +146,8 @@ def saveFile(fileName, data, SQL_CMD = -1, question_id = None, type = _DEFAULT_T
         pass
     finally:
         with cache_lock:
-            locked_files[fileName][1] -= 1
-            if locked_files[fileName][1] == 0:
+            locked_files[fileName].count -= 1
+            if locked_files[fileName].count == 0:
                 locked_files.pop(fileName)
 
 def saveFile_sql(fileName, data, cmd, q_id):
