@@ -11,6 +11,8 @@ import sqlite3
 import os
 import html
 
+import threading
+
 from config import usePickle, useSQL
 
 _JSON = 0
@@ -43,21 +45,40 @@ elif useSQL:
 else:
     _DEFAULT_TYPE = _JSON
 
+cache_lock = threading.RLock()
+locked_files = {}
+
 def proccesFile(fileName):
     try:
-        with open(fileName, "r", encoding="Utf-8") as f:
-            return json.load(f)
-    except JSONDecodeError as e:
-        #print("proccesOldTypeFile") #Debug
-        return proccesOldTypeFile(fileName)
-    except UnicodeDecodeError as e:
-        try:
-            #print("proccesFile_pkl") #Debug
-            return proccesFile_pkl(fileName)
-        except pickle.UnpicklingError as e:
-            #print("proccesFile_sql") #Debug
-            return proccesFile_sql(fileName)
-
+        with cache_lock:
+            try:
+                lock = locked_files[fileName][0]
+                locked_files[fileName][1] += 1
+            except:
+                locked_files[fileName] = [threading.RLock(),1]
+                lock = locked_files[fileName][0]
+        with lock:
+            try:
+                with open(fileName, "r", encoding="Utf-8") as f:
+                    return json.load(f)
+            except JSONDecodeError as e:
+                #print("proccesOldTypeFile") #Debug
+                return proccesOldTypeFile(fileName)
+            except UnicodeDecodeError as e:
+                try:
+                    #print("proccesFile_pkl") #Debug
+                    return proccesFile_pkl(fileName)
+                except pickle.UnpicklingError as e:
+                    #print("proccesFile_sql") #Debug
+                    return proccesFile_sql(fileName)
+    except:
+        pass
+    finally:
+        with cache_lock:
+            locked_files[fileName][1] -= 1
+            if locked_files[fileName][1] == 0:
+                locked_files.pop(fileName)
+  
 def proccesFile_pkl(fileName):
     with open(fileName, "rb") as f:
         data = pickle.load(f)
@@ -93,22 +114,37 @@ def proccesFile_sql(fileName):
         raise e
         return '''{"dump": [], "lastID": 0}'''
 
-
 def saveFile(fileName, data, SQL_CMD = -1, question_id = None, type = _DEFAULT_TYPE):
     #print(f"{type=}") #Debug
-    if type == _JSON:
-        saveFile_json(fileName, data)
-    elif type == _PKL:
-        saveFile_pkl(fileName, data)
-    elif type == _SQL:
-        if SQL_CMD > SQL_CMD_INS - 1 and SQL_CMD < SQL_CMD_ALL:
-            saveFile_sql(fileName, data, SQL_CMD, question_id)
-        elif SQL_CMD == SQL_CMD_ALL:
-            for q in data['dump']:
-                # To check
-                saveFile_sql(fileName, data, SQL_CMD_INS, q['id'])
-    else:
-        pass #FUTURE use
+    try:
+        with cache_lock:
+            try:
+                lock = locked_files[fileName][0]
+                locked_files[fileName][1] += 1
+            except:
+                locked_files[fileName] = [threading.RLock(),1]
+                lock = locked_files[fileName][0]
+        with lock:
+            if type == _JSON:
+                saveFile_json(fileName, data)
+            elif type == _PKL:
+                saveFile_pkl(fileName, data)
+            elif type == _SQL:
+                if SQL_CMD > SQL_CMD_INS - 1 and SQL_CMD < SQL_CMD_ALL:
+                    saveFile_sql(fileName, data, SQL_CMD, question_id)
+                elif SQL_CMD == SQL_CMD_ALL:
+                    for q in data['dump']:
+                        # To check
+                        saveFile_sql(fileName, data, SQL_CMD_INS, q['id'])
+            else:
+                pass #FUTURE use
+    except:
+        pass
+    finally:
+        with cache_lock:
+            locked_files[fileName][1] -= 1
+            if locked_files[fileName][1] == 0:
+                locked_files.pop(fileName)
 
 def saveFile_sql(fileName, data, cmd, q_id):
     #Add sql logic

@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
-from bottle import Bottle, request, redirect, template, static_file, abort
+from bottle import Bottle, request, redirect, template, static_file, abort, ServerAdapter
 from importQuestionsHelper import proccesFile, saveFile
 import os
 from config import serverAddres, serverPort, examFolder, showSelectionPage # App config is loaded here
 from versionGetter import fullVersion
 import json
+
+try:
+    from paste import httpserver
+    from paste.translogger import TransLogger
+    PASTE_SERVER = True
+except ModuleNotFoundError:
+    PASTE_SERVER = False
 
 ver = fullVersion()
 
@@ -37,14 +44,14 @@ def show_dumps():
     if courseID == -1:
         redirect("/")
     dumpFolder = os.path.join(examFolder, courseID)
-    
+
     if not os.path.exists(dumpFolder):
         return ""
     try:
         return template('index.tpl', items = [f for f in os.listdir(dumpFolder) if os.path.isfile(os.path.join(dumpFolder, f))], comand = 2, cid = courseID) #comand 2 shows the dump in given folder
     except NotADirectoryError:
         redirect("/start?courseID=.&examID="+courseID)
-    
+
 @app.route('/main/start')
 def start_dump():
     courseID = request.query.courseID or -1
@@ -93,7 +100,7 @@ def editor_listquestions():
         redirect("/editor/") 
     q_list = proccesFile(os.path.join(examFolder, courseID, examID))
     return template('showquestions.tpl', questions = q_list['dump'], comand = 4, cid = courseID, dump = examID) #comand 4 shows the dump in given folder
-    
+
 @app.route('/editor/editQuestion')
 def questionEditor():
     courseID = request.query.courseID
@@ -139,7 +146,7 @@ def SaveQuestion():
     answersCount = request.forms.get("answers_cnt") or False
 
     dump_file = proccesFile(os.path.join(examFolder, courseID, quizID))
-    
+
     if "$?__" in questionTxt:
         resultingQuestionTxt = []
         removeDivStrings = ["<div>", "</div>"]
@@ -168,7 +175,7 @@ def SaveQuestion():
         if len(newCorrectAnswer) == 0:
             newCorrectAnswer.append("  ")
         correctAnswer = newCorrectAnswer
-    
+
     for i in range(len(dump_file["dump"])):
         if dump_file["dump"][i]["id"] == questionID:
             dump_file["dump"][i]['explanation'] = explnTxt
@@ -220,7 +227,7 @@ def deleteQuestion():
 @app.route('/editor/addcategory')
 def addcategory():
     return template("editCourseDeck.tpl", action = "addcategory", name="")
-    
+
 @app.route('/editor/addcategory', method="POST")
 def addcategory_process_post():
     courseID = request.forms.get('cid') or False
@@ -231,7 +238,7 @@ def addcategory_process_post():
         os.rename(os.path.join(examFolder, courseID),\
                   os.path.join(examFolder, courseName))
     redirect("/editor/")
-    
+
 @app.route('/editor/addquiz')
 def addDump():
     courseID = request.query.courseID
@@ -303,12 +310,28 @@ def uploadFile():
             abort(500, "Server error.")
     return 'OK'
 
+class MyWSGIRefServer(ServerAdapter):
+    def run(self, handler):
+        handler = TransLogger(handler, setup_console_handler = (not self.quiet))
+        httpserver.serve(handler,
+                         host = self.host,
+                         port=str(self.port), **self.options)
+    def stop(self):
+        pass
+    def __repr__(self):
+        return "PasteServer()"
+
 def main():
     print("Starting dump wizard "+ str(ver))
     print(f"Home page   {serverAddres}:{serverPort}/")
     print(f"Quiz page   {serverAddres}:{serverPort}/main/")
     print(f"Quiz editor {serverAddres}:{serverPort}/editor/")
-    app.run(host = serverAddres, port = serverPort, debug=True)
+
+    if PASTE_SERVER:
+        server_custom = MyWSGIRefServer(host=serverAddres, port=serverPort)
+        app.run(server = server_custom, debug=True)
+    else:
+        app.run(host = serverAddres, port = serverPort, debug=True)
 
 if __name__ == '__main__':
     main()
