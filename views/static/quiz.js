@@ -195,6 +195,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
     // keep track of user's answers
     let numCorrect = 0;
     clearTimeout(timer);
+	paused = false;
     // for each question...
     var nextWrongAncor = "";
     var holdPrevWrong;

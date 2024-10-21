@@ -78,6 +78,7 @@ To configure edit the file config_files\config.ini
 - Save_format_sql - boolean to enable saving in sqlite db.
 - auto_open_in_browser - boolean to enable opening the page in the default browser. Used only by mainGUI.pyw
 - allow_selection_page - boolean to enable selection page. If not enabled opens the quiz selector. And the edditor is hidden check bellow point **Access in browser**
+- FileSize - Size in bytes of the DB file to generate warning if the file is too big
 
 
 ***set_python_path.txt (windows)***
@@ -105,8 +106,8 @@ To configure edit the file config_files\config.ini
   - By deafailt - [http://127.0.0.1:8080/editor/](http://127.0.0.1:8080/editor/)
 
 ***Versions***  
-*Server app 1.35*  
+*Server app 1.38*  
 *Cli menu/loader 1.4*  
-*Web page templates (css/js) 1.19*  
+*Web page templates (css/js) 1.22*  
 *Gui 0.3*  
 *Database 0.3*  

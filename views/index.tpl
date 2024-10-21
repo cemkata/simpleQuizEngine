@@ -17,10 +17,10 @@
 <div>
  <table>
  	%if comand == 4:
-		 <tr><td colspan="3"><input type="button" class="btnDarkRed" onclick="location.href='./addquiz?courseID={{cid}}';" value="Add new quiz" /></td></tr>
+		 <tr><td colspan="4"><input type="button" class="btnDarkRed" onclick="location.href='./addquiz?courseID={{cid}}';" value="&#10001; Add new quiz &#10002;" /></td></tr>
     %end ##%if comand == 4:
 	%if comand == 3:
-		 <tr><td colspan="3"><input type="button" class="btnDarkRed" onclick="location.href='./addcategory';" value="Add new category" /></td></tr>
+		 <tr><td colspan="3"><input type="button" class="btnDarkRed" onclick="location.href='./addcategory';" value="&#10001; Add new category &#10002;" /></td></tr>
     %end ##%if comand == 3:
 
 	% for i in items:
@@ -30,19 +30,22 @@
 		%elif comand == 2:
 		 <td><input type="button" class="btnGreen" onclick="location.href='./start?courseID={{cid}}&examID={{i}}';" value="{{i}}" /></td>
 		%elif comand == 3:
-		 <td><input type="button" class="btnGreen" onclick="location.href='./showDumps?courseID={{i}}';" value="{{i}}" /></td>
-		 <td><input type="button" class="btnRed" onclick="location.href='./editCategory?courseID={{i}}';" value="Edit" /></td>
-		 <td><input type="button" class="btnRed" onclick="confirmDelete('./deleteCategory?courseID={{i}}');" value="Delete" /></td>
+		 <td><input type="button" title="List quizes" class="btnGreen" onclick="location.href='./showDumps?courseID={{i}}';" value="{{i}}" /></td>
+		 <td><input type="button" title="Edit" class="btnRed smallBtn" onclick="location.href='./editCategory?courseID={{i}}';" value="&#9998;" /></td>
+		 <td><input type="button" title="Delete" class="btnRed smallBtn" onclick="confirmDelete('./deleteCategory?courseID={{i}}');" value="&#128465;" /></td>
 		%elif comand == 4:
-		 <td><input type="button" class="btnGreen" onclick="location.href='./listquestions?courseID={{cid}}&examID={{i}}';" value="{{i}}" /></td>
-		 <td><input type="button" class="btnRed" onclick="location.href='./editDump?courseID={{cid}}&examID={{i}}';" value="Edit" /></td>
-		 <td><input type="button" class="btnRed" onclick="confirmDelete('./deleteDump?courseID={{cid}}&examID={{i}}');" value="Delete" /></td>
+		 <td><input type="button" title="List questions" class="btnGreen" onclick="location.href='./listquestions?courseID={{cid}}&examID={{i}}';" value="{{i}}" /></td>
+		 <td><input type="button" title="Edit" class="btnRed smallBtn" onclick="location.href='./editDump?courseID={{cid}}&examID={{i}}';" value="&#9998;" /></td>
+		 <td><input type="button" title="Delete" class="btnRed smallBtn" onclick="confirmDelete('./deleteDump?courseID={{cid}}&examID={{i}}');" value="&#128465;" /></td>
+		 <td><input type="button" title="Export" class="btnOrange smallBtn" onclick="saveFile('/main/get?courseID={{cid}}&examID={{i}}&fileDownload=true');" value="&#9660;" /></td>
 		% end
 		</tr>
 	% end
 	
-	    %if comand == 2 or comand == 4:
+	    %if comand == 2:
 		<tr><td colspan="3"><input type="button" id="backButton" onclick="window.history.back();" value="Back" /></td></tr>
+		%elif  comand == 4:
+		<tr><td colspan="4"><input type="button" id="backButton" onclick="window.history.back();" value="Back" /></td></tr>
 		% end
 		
 	    %if comand == 3 or comand == 4:
@@ -57,7 +60,7 @@
 		
 		
 	    %if comand == 4:
-		<tr><td colspan="3"><input type="button" id="uploadButton" onclick="upload(`{{cid}}`);" value="Upload" /></td></tr>
+		<tr><td colspan="4"><input type="button" id="uploadButton" class="btnOrange" onclick="upload(`{{cid}}`);" value="&#9650; Upload &#9650" /></td></tr>
 		
 		<script>
 		function upload(courseID){
@@ -84,6 +87,13 @@
 					}
 				}).catch((error) => (alert("Something went wrong!\n" + error)));
 			}
+		}
+		function saveFile(url, filename) {
+			const a = document.createElement("a");
+			a.href = url + filename;
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
 		}
 		</script>
 		

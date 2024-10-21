@@ -70,6 +70,9 @@ def get_json_dump():
     examID = request.query.examID or -1
     if examID == -1:
         return "404"
+    fileDownload = request.query.fileDownload or -1
+    if fileDownload != -1:
+        return static_file(os.path.join(courseID, examID), root=examFolder, download=True)
     return proccesFile(os.path.join(examFolder, courseID, examID))
 
 @app.route('/editor/')
@@ -187,8 +190,7 @@ def SaveQuestion():
                 dump_file["dump"][i]['answersGroups'] = json.loads(answersGroups)
             if answersCount:
                 dump_file["dump"][i]['answersCount'] = json.loads(answersCount)
-            saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
-            return "Done!"
+            return saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
 
     i = int(dump_file["lastID"])
     dump_file["dump"].append({})
@@ -205,8 +207,7 @@ def SaveQuestion():
         dump_file["dump"][i]['answersCount'] = json.loads(answersCount)
     dump_file["dump"][i]['id'] = i
     dump_file["lastID"] = i + 1
-    saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
-    return "Done!"
+    return saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
 
 @app.route('/editor/deleteQuestion')
 def deleteQuestion():
@@ -220,8 +221,7 @@ def deleteQuestion():
             for j in range(i, len(dump_file["dump"])):
                 dump_file["dump"][j]["id"] = dump_file["dump"][j]["id"] - 1
             dump_file["lastID"] = dump_file["lastID"] - 1
-            saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
-            return "Done!"
+            return saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
     return "Error!"
 
 @app.route('/editor/addcategory')

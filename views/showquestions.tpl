@@ -43,20 +43,6 @@
 	function goToTop(){
 		scrollTo(0, 0);
 	}
-	var hidden = true;
-	document.addEventListener("scroll", (event) => {
-		window.requestAnimationFrame(() => {
-		  if(window.scrollY < 120){
-			document.getElementById("scrollToTopDesktop").style = "display: none;";
-			hidden = true;
-		  }else{
-			if(hidden){
-				hidden = false;
-				document.getElementById("scrollToTopDesktop").style = "display: block;";
-			}
-		  }
-		});
-	});
 	</script>
 	</head>
 	<body>
@@ -68,7 +54,7 @@
 <input type="hidden" id="quizID" value="{{dump}}">
 <input type="hidden" id="courseID" value="{{cid}}">
 <table style="width:100%" class="pretyPrint">
-  <tr><button class="newQuestion_btn" style="width:100%" onclick="confirmEdit(-1)">New question</button> </tr>
+  <tr><button class="newQuestion_btn" style="width:100%" onclick="confirmEdit(-1)">&#10001; New question &#10002;</button> </tr>
   <tr>
     <th class="w3-dark-grey">Total number of question(s): {{len(questions)}}</th>
   </tr>
@@ -81,7 +67,7 @@
 % for qstn in questions:
   <tr class="question_rows">
     <td>
-	<br><h2>Question {{qstn["id"]}}:</h2><hr>
+	<h2>Question {{qstn["id"]}}:</h2><hr>
 	  %if type(qstn["question"]) is list:
 	    %for q in qstn["question"]:
 		    {{!q}}</br>
@@ -155,8 +141,8 @@
 	  <input type="text" size="80" value="{{qstn["referenceLink"]}}" readonly>
 	  <br><br>
     </td>
-    <td><button style="width:100%" onclick="confirmEdit({{qstn["id"]}})">Edit</button> </td>
-    <td><button style="width:100%" onclick="confirmDelete({{qstn["id"]}})">Delete</button> </td>
+    <td><button style="width:100%" class="float" onclick="confirmEdit({{qstn["id"]}})">&#9998; Edit</button> </td>
+    <td><button style="width:100%" class="float" onclick="confirmDelete({{qstn["id"]}})">&#128465; Delete</button> </td>
   </tr>
   <tr>
   <td colspan="3"><hr>
@@ -165,7 +151,7 @@
 % end ##% for qstn in questions:
 </table>
 %if len(questions) > 3:
-  <tr><button class="newQuestion_btn" style="width:100%" onclick="confirmEdit(-1)">New question</button> </tr>
+  <tr><button class="newQuestion_btn" style="width:100%" onclick="confirmEdit(-1)">&#10001; New question &#10002;</button> </tr>
 % end ##% if len(questions) > 3:
 </div>
 <button id="scrollToTopDesktop" class="scroll-to-top" onclick="goToTop()" title="Go to top"><i>Top</i></button>
@@ -182,7 +168,7 @@
 		    let pretyPrint = document.getElementsByClassName("pretyPrint");
 			pretyPrint = pretyPrint[0];
 			let btn = document.createElement("button");
-			btn.innerHTML = "New question";
+			btn.innerHTML = "&#10001; New question &#10002;";
 			btn.setAttribute('class', "newQuestion_btn");
 			btn.setAttribute('style', "width:100%");
 			btn.setAttribute('onclick', "confirmEdit(-1)");
@@ -190,6 +176,23 @@
 		}
 	}
 	collection = null;
+
+	var hidden = true;
+	document.addEventListener("scroll", (event) => {
+		window.requestAnimationFrame(() => {
+		  if(window.scrollY < 120){
+			document.getElementById("scrollToTopDesktop").style = "display: none;";
+			hidden = true;
+		  }else{
+			if(hidden){
+				hidden = false;
+				document.getElementById("scrollToTopDesktop").style = "display: block;";
+			}
+		  }
+		});
+	});
+	
+	document.dispatchEvent(new Event('scroll'));
 </script>
 	</body>
 </html>

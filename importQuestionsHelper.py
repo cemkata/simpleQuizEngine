@@ -13,7 +13,7 @@ import html
 
 import threading
 
-from config import usePickle, useSQL
+from config import usePickle, useSQL, maxSizeWarning
 
 _JSON = 0
 _PKL =  1
@@ -129,6 +129,7 @@ def saveFile(fileName, data, SQL_CMD = -1, question_id = None, type = _DEFAULT_T
                 locked_files[fileName] = [threading.RLock(),1]
                 lock = locked_files[fileName].lock
         with lock:
+            result = "Done!"
             if type == _JSON:
                 saveFile_json(fileName, data)
             elif type == _PKL:
@@ -142,6 +143,9 @@ def saveFile(fileName, data, SQL_CMD = -1, question_id = None, type = _DEFAULT_T
                         saveFile_sql(fileName, data, SQL_CMD_INS, q['id'])
             else:
                 pass #FUTURE use
+            if os.path.getsize(fileName) > maxSizeWarning:
+                result += "\nWarning file bigger than 25MB.\nConsider spliting it."
+            return result
     except:
         pass
     finally:
