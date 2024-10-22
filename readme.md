@@ -13,6 +13,9 @@ The editor answers boxes allow only manual html formatting.
 
 Key short cuts:
 
+- When all questions are listed for edit
+  - Ctrl + Alt + g allows to jump to specific question
+  
 - When in editor
   - Ctrl + S saves the page
   - Ctrl + Q clears the page
@@ -108,6 +111,6 @@ To configure edit the file config_files\config.ini
 ***Versions***  
 *Server app 1.38*  
 *Cli menu/loader 1.4*  
-*Web page templates (css/js) 1.22*  
+*Web page templates (css/js) 1.23*  
 *Gui 0.3*  
 *Database 0.3*  

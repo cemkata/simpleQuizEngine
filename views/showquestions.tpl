@@ -56,7 +56,7 @@
 <table style="width:100%" class="pretyPrint">
   <tr><button class="newQuestion_btn" style="width:100%" onclick="confirmEdit(-1)">&#10001; New question &#10002;</button> </tr>
   <tr>
-    <th class="w3-dark-grey">Total number of question(s): {{len(questions)}}</th>
+    <th colspan="3" class="w3-dark-grey">Total number of question(s): {{len(questions)}}</th>
   </tr>
   <tr><td colspan="3"><hr></td></tr>
   <tr>
@@ -65,7 +65,7 @@
   </tr>
   <tr><td colspan="3"><hr></td></tr>
 % for qstn in questions:
-  <tr class="question_rows">
+  <tr class="question_rows" id ="q_{{qstn["id"]}}">
     <td>
 	<h2>Question {{qstn["id"]}}:</h2><hr>
 	  %if type(qstn["question"]) is list:
@@ -192,6 +192,21 @@
 		});
 	});
 	
+	document.onkeydown = function(evt) {
+		if(event.ctrlKey && event.altKey && evt.key === "g"){
+			var selection = parseInt(prompt("Jump to question:", "Type a number!"), 10);
+			if (isNaN(selection)){
+			  alert('Type a number');
+			} else {
+				const a = document.createElement("a");
+				a.href = "#q_"+ selection;
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
+			}
+		}
+	};
+
 	document.dispatchEvent(new Event('scroll'));
 </script>
 	</body>
