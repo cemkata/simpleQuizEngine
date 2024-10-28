@@ -482,3 +482,14 @@ a.wrongAnswer:hover {color:#ffcc00;font-size: 15px; margin-top: -10px; margin-bo
     position: sticky !important;
     top: 25px !important;
 }
+
+table td:first-child  {
+  padding-left: 15px;
+  padding-right: 15px; 
+}
+
+table td:first-child  {
+  padding-left: 15px;
+  padding-right: 15px;
+  
+}
