@@ -13,9 +13,6 @@ The editor answers boxes allow only manual html formatting.
 
 Key short cuts:
 
-- When all questions are listed for edit
-  - Ctrl + Alt + g allows to jump to specific question
-  
 - When in editor
   - Ctrl + S saves the page
   - Ctrl + Q clears the page

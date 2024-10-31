@@ -133,10 +133,13 @@
         <td><b>Applys only to Single/Multiple choice<b></td>
       </tr>
 	  <tr>
-        <td>Supports manual html in following format
+        <td>Supports manual html in following format</td>
 	  <tr>
         <td>&lt;tag&gt;Some text&lt;/tag&gt;</td>
       </tr>
+	  <tr>
+        <td>To use this formatoing the answer needs to start with ¶</td>
+	  <tr>
 	  <tr>
         <td>Supported formats:</td>
       </tr>

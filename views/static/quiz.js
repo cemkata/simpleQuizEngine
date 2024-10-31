@@ -135,7 +135,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
               answers.push(
                 `<label>
                   <input type="${inputType}" name="question${i}" value="${letter}">
-                  ${myQuestions[i].answers[letter]}
+                  ${escapeHtml(myQuestions[i].answers[letter])}
                 </label>`
               );
             }
@@ -155,7 +155,17 @@ https://www.sitepoint.com/simple-javascript-quiz/
     // finally combine our output list into one string of HTML and put it on the page
     quizContainer.innerHTML = output.join('');
   }
-
+  
+  function escapeHtml(unsafe){
+	if(unsafe[0] == '¶') return unsafe.substring(1);
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+  }
+ 
   function prepareImgs(){
       let imgs = document.getElementsByClassName("popImage");
       for(let i =0; i<imgs.length; i++){
