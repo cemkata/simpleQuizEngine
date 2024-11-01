@@ -106,8 +106,8 @@ To configure edit the file config_files\config.ini
   - By deafailt - [http://127.0.0.1:8080/editor/](http://127.0.0.1:8080/editor/)
 
 ***Versions***  
-*Server app 1.38*  
+*Server app 1.39*  
 *Cli menu/loader 1.4*  
-*Web page templates (css/js) 1.23*  
+*Web page templates (css/js) 1.24*  
 *Gui 0.3*  
-*Database 0.3*  
+*Database 0.4*  

@@ -582,6 +582,7 @@ function saveQuestion(content, id, instance) {
 	 fd.append("quizID", quizID);
 	 fd.append("questionID", questionID);
 	 fd.append("questionTxt",  questionTxt);
+	 fd.append("questionCat", document.getElementById("questionType").value);
 	 fd.append("explnTxt", explnTxt);
 	 fd.append("referenceLink", referenceLink);
 	 fd.append("answers", JSON.stringify(answers));

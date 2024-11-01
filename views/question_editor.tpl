@@ -69,13 +69,13 @@
 			
 			%end
 		   </div>
-	  % else:
+	  % elif questionContent['category'] == 1 or questionContent['category'] == 2:
 		  % if len(questionContent['correctAnswer']) == 1:
-		  % type = "radio"
-		  % selcDropDown = ['', 'selected', '', '']
-		  % else:
-		  % type = "checkbox"
-		  % selcDropDown = ['', '', 'selected', '']
+		    % type = "radio"
+		    % selcDropDown = ['', 'selected', '', '']
+		  % elif questionContent['category'] == 2:
+		    % type = "checkbox"
+		    % selcDropDown = ['', '', 'selected', '']
 		  % end
 			  % for key in questionContent['answers'].keys():
 			  <div class="showinline">
@@ -87,6 +87,11 @@
 				</span><input type="text" class="textAns" style = "width: 100%;" name="answer" value="{{questionContent['answers'][key]}}">
 			  </div><br>
 			  % end
+	  % else:
+	     % selcDropDown = ['', '', '', '']
+			  <div class="showinline">
+				New type of question
+			  </div><br>
 	  % end
   % end
   </div>

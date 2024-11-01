@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS "questions" (
     "QUESTION_EXPLAIN"    TEXT,
     "QUESTION_ANSWERS_GRP"    TEXT,
     "QUESTION_ANSWERS_CNT"    TEXT,
+    "QUESTION_CAT"    INTEGER,
     PRIMARY KEY("ID" AUTOINCREMENT)
 );
 COMMIT;'''
@@ -89,27 +90,28 @@ def proccesFile_pkl(fileName):
     return data
 
 def proccesFile_sql(fileName):
-    sql_query = f'''SELECT `ID`, `QUESTION_TEXT`, `QUESTION_ANSWERS`, `QUESTION_CORECT`, `QUESTION_REF`, `QUESTION_EXPLAIN`, `QUESTION_ANSWERS_GRP`, `QUESTION_ANSWERS_CNT` FROM `questions`;'''
+    sql_query = f'''SELECT `ID`, `QUESTION_TEXT`, `QUESTION_ANSWERS`, `QUESTION_CORECT`, `QUESTION_REF`, `QUESTION_EXPLAIN`, `QUESTION_ANSWERS_GRP`, `QUESTION_ANSWERS_CNT`, `QUESTION_CAT` FROM `questions`;'''
     questions = []
     # last_id = -1
     try:
         for q in execute_sql_statment(sql_query, fileName):
             tmpDict = {}
             #process to json string to values
-            q_exp = tmpDict["id"] = q[0]
-            q_txt = tmpDict["question"] = json.loads(html.unescape(q[1]))
-            q_ans = tmpDict["answers"] = json.loads(html.unescape(q[2]))
-            q_cor = tmpDict["correctAnswer"] = json.loads(html.unescape(q[3]))
-            q_ref = tmpDict["referenceLink"] = json.loads(html.unescape(q[4]))
-            q_exp = tmpDict["explanation"] = json.loads(html.unescape(q[5]))
+            tmpDict["id"] = q[0]
+            tmpDict["question"] = json.loads(html.unescape(q[1]))
+            tmpDict["answers"] = json.loads(html.unescape(q[2]))
+            tmpDict["correctAnswer"] = json.loads(html.unescape(q[3]))
+            tmpDict["referenceLink"] = json.loads(html.unescape(q[4]))
+            tmpDict["explanation"] = json.loads(html.unescape(q[5]))
             try:
-                q_exp = tmpDict["answersGroups"] = json.loads(html.unescape(q[6]))
+                tmpDict["answersGroups"] = json.loads(html.unescape(q[6]))
             except json.decoder.JSONDecodeError:
                 pass
             try:
-                q_exp = tmpDict["answersCount"] = json.loads(html.unescape(q[7]))
+                tmpDict["answersCount"] = json.loads(html.unescape(q[7]))
             except json.decoder.JSONDecodeError:
                 pass
+            tmpDict["category"] = json.loads(q[8])
             questions.append(tmpDict.copy())
             # last_id = q[0]
         result = {'dump':questions, 'lastID': len(questions)}
@@ -164,6 +166,7 @@ def saveFile_sql(fileName, data, cmd, q_id):
         q_cor = html.escape(json.dumps(data["dump"][q_id]["correctAnswer"]))
         q_ref = html.escape(json.dumps(data["dump"][q_id]["referenceLink"]))
         q_exp = html.escape(json.dumps(data["dump"][q_id]["explanation"]))
+        q_cat = json.dumps(data["dump"][q_id]["category"])
         try:
             q_grp = html.escape(json.dumps(data["dump"][q_id]["answersGroups"])) #error if no group exist
         except KeyError:
@@ -174,10 +177,10 @@ def saveFile_sql(fileName, data, cmd, q_id):
             q_cnt = ""
     if cmd == SQL_CMD_INS:
         #sql insert query
-        sql_query = f'''INSERT INTO `questions` (`QUESTION_TEXT`, `QUESTION_ANSWERS`, `QUESTION_CORECT`, `QUESTION_REF`, `QUESTION_EXPLAIN`, `QUESTION_ANSWERS_GRP`, `QUESTION_ANSWERS_CNT`) VALUES ("{q_txt}", "{q_ans}", "{q_cor}", "{q_ref}", "{q_exp}", "{q_grp}", "{q_cnt}");'''
+        sql_query = f'''INSERT INTO `questions` (`QUESTION_TEXT`, `QUESTION_ANSWERS`, `QUESTION_CORECT`, `QUESTION_REF`, `QUESTION_EXPLAIN`, `QUESTION_ANSWERS_GRP`, `QUESTION_ANSWERS_CNT`, `QUESTION_CAT`) VALUES ("{q_txt}", "{q_ans}", "{q_cor}", "{q_ref}", "{q_exp}", "{q_grp}", "{q_cnt}", "{q_cat}");'''
     elif cmd == SQL_CMD_UPD:
         #sql update query
-        sql_query = f'''UPDATE `questions` SET `QUESTION_TEXT` = "{q_txt}", `QUESTION_ANSWERS` = "{q_ans}", `QUESTION_CORECT` = "{q_cor}", `QUESTION_REF` = "{q_ref}", `QUESTION_EXPLAIN` = "{q_exp}", `QUESTION_ANSWERS_GRP` = "{q_grp}", `QUESTION_ANSWERS_CNT` = "{q_cnt}" WHERE `id` = {q_id};'''
+        sql_query = f'''UPDATE `questions` SET `QUESTION_TEXT` = "{q_txt}", `QUESTION_ANSWERS` = "{q_ans}", `QUESTION_CORECT` = "{q_cor}", `QUESTION_REF` = "{q_ref}", `QUESTION_EXPLAIN` = "{q_exp}", `QUESTION_ANSWERS_GRP` = "{q_grp}", `QUESTION_ANSWERS_CNT` = "{q_cnt}", `QUESTION_CAT`={q_cat} WHERE `id` = {q_id};'''
     elif cmd == SQL_CMD_DEL:
         #sql delete query
         sql_query = f'''DELETE FROM `questions` WHERE `id` = {q_id};'''

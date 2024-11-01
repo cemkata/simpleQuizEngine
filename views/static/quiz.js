@@ -95,7 +95,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
                 <div class="explanation hidden"> Correct answer: ${myQuestions[i].correctAnswer}</br>${myQuestions[i].explanation} ${reftxt}</div><hr>
               </div>`
             );
-        }else{
+        }else if (myQuestions[i].category == 1 || myQuestions[i].category == 2){
             // variable to store the list of possible answers
             const answers = [];
             if(myQuestions[i].correctAnswer.length == 1){ // ...add an HTML radio button
@@ -150,7 +150,9 @@ https://www.sitepoint.com/simple-javascript-quiz/
                 <div class="explanation hidden"> ${myQuestions[i].explanation} ${reftxt}</div><hr>
               </div>`
             );
-        }
+        }else{
+			alert(`Question No ${i} - new question type\nNot implemented`);
+		}
     }
     // finally combine our output list into one string of HTML and put it on the page
     quizContainer.innerHTML = output.join('');
@@ -381,7 +383,7 @@ https://www.sitepoint.com/simple-javascript-quiz/
         return true;
       }
       // if answer is wrong or blank
-      else{
+      else if (currentQuestion.category == 1 || currentQuestion.category == 2){
 
           answerContainer.querySelectorAll('label').forEach(ans => {
                   //if answer is in the correct color it green
@@ -393,6 +395,8 @@ https://www.sitepoint.com/simple-javascript-quiz/
               }
           );
 
+      }else{
+			alert("new question type\nNot implemented");
       }
       return false;
   }

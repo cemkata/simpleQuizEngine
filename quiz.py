@@ -111,7 +111,7 @@ def questionEditor():
     questionID = int(request.query.questionID)
     if questionID == -1:
         targetQuestion = {'explanation': '','referenceLink':'',\
-            'question': '', 'correctAnswer': '', 'answers': {}}
+            'question': '', 'correctAnswer': '', 'answers': {}, 'category': ""}
     else:
         dump_file = proccesFile(os.path.join(examFolder, courseID, quizID))
         for i in range(len(dump_file["dump"])):
@@ -131,7 +131,8 @@ def questionEditor():
                 'correctAnswer': dump_file["dump"][i]['correctAnswer'],\
                 'answers': dump_file["dump"][i]['answers'],
                 'answersGroups': answersGroups,
-                'answersCount': answersCount}
+                'answersCount': answersCount,
+                'category': dump_file["dump"][i]['category']}
     return template('question_editor.tpl', questionID = questionID, \
         courseID = courseID, quizID=quizID, questionContent = targetQuestion)
 
@@ -141,6 +142,11 @@ def SaveQuestion():
     questionID = int(request.forms.get("questionID"))
     quizID = request.forms.get("quizID")
     questionTxt = request.forms.get("questionTxt")
+    questionCat = int(request.forms.get("questionCat"))
+    # 0 = Free text
+    # 1 = Single choice
+    # 2 = Multiple chioce
+    # 3 = Drag-drop
     explnTxt = request.forms.get("explnTxt")
     referenceLink = request.forms.get("referenceLink")
     answers = json.loads(request.forms.get("answers"))
@@ -184,6 +190,7 @@ def SaveQuestion():
             dump_file["dump"][i]['explanation'] = explnTxt
             dump_file["dump"][i]['referenceLink'] = referenceLink
             dump_file["dump"][i]['question'] = questionTxt
+            dump_file["dump"][i]['category'] = questionCat
             dump_file["dump"][i]['correctAnswer'] = correctAnswer
             dump_file["dump"][i]['answers'] = answers
             if answersGroups:
@@ -199,6 +206,7 @@ def SaveQuestion():
     dump_file["dump"][i]['explanation'] = explnTxt
     dump_file["dump"][i]['referenceLink'] = referenceLink
     dump_file["dump"][i]['question'] = questionTxt
+    dump_file["dump"][i]['category'] = questionCat
     dump_file["dump"][i]['correctAnswer'] = correctAnswer
     dump_file["dump"][i]['answers'] = answers
     if answersGroups:
