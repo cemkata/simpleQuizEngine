@@ -143,10 +143,6 @@ def SaveQuestion():
     quizID = request.forms.get("quizID")
     questionTxt = request.forms.get("questionTxt")
     questionCat = int(request.forms.get("questionCat"))
-    # 0 = Free text
-    # 1 = Single choice
-    # 2 = Multiple chioce
-    # 3 = Drag-drop
     explnTxt = request.forms.get("explnTxt")
     referenceLink = request.forms.get("referenceLink")
     answers = json.loads(request.forms.get("answers"))
@@ -156,7 +152,18 @@ def SaveQuestion():
 
     dump_file = proccesFile(os.path.join(examFolder, courseID, quizID))
 
-    if "$?__" in questionTxt:
+    if questionCat == 0:
+        # 0 = Free text
+        pass
+    elif  questionCat == 1:
+        # 1 = Single choice
+        pass
+    elif  questionCat == 2:
+        # 2 = Multiple chioce
+        pass
+    elif  questionCat == 3:
+        # 3 = Drag-drop
+    #if "$?__" in questionTxt:
         resultingQuestionTxt = []
         removeDivStrings = ["<div>", "</div>"]
         #NEW method
@@ -184,6 +191,9 @@ def SaveQuestion():
         if len(newCorrectAnswer) == 0:
             newCorrectAnswer.append("  ")
         correctAnswer = newCorrectAnswer
+    else:
+        pass
+        # 5 and more futur use
 
     for i in range(len(dump_file["dump"])):
         if dump_file["dump"][i]["id"] == questionID:
