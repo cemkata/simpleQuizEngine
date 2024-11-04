@@ -20,7 +20,7 @@ function prepareQuiz(){
       }else if (myQuestions[i].category == 1 || myQuestions[i].category == 2){
             output.push(prepareQuestionSelection(i))
       }else{
-          //output.push(prepareQuestionSelection(i))
+          //output.push(prepareQuestionNewCat(i))
           prepareQuestionNewCat(i)
       }
   }
@@ -99,10 +99,10 @@ function prepareQuestionFreetext(i){
         <input name="question${i}">
       </label>`
     );
-  // add this question and its answers to the output
-  if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
-  else{reftxt = ""}
-  resultingHtml = `<div class="slide">
+    // add this question and its answers to the output
+    if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
+    else{reftxt = ""}
+    resultingHtml = `<div class="slide">
       <div class="question"> ${myQuestions[i].question} </div>
       <div class="answers"> ${answers.join("")} </div>
 
@@ -120,45 +120,45 @@ function prepareQuestionSelection(i){
       inputType = "checkbox";
   }
   if(randomAnswer.checked){
-    var tempHolder = [];
-    var firstLeterDigit_IN_CorrectAnswer = " "
-      for(letter in myQuestions[i].answers){
-          var isCorrect = false;
-          if (firstLeterDigit_IN_CorrectAnswer == " "){
-              firstLeterDigit_IN_CorrectAnswer = letter.charCodeAt(0);
+        var tempHolder = [];
+        var firstLeterDigit_IN_CorrectAnswer = " "
+          for(letter in myQuestions[i].answers){
+              var isCorrect = false;
+              if (firstLeterDigit_IN_CorrectAnswer == " "){
+                  firstLeterDigit_IN_CorrectAnswer = letter.charCodeAt(0);
+              }
+              if (myQuestions[i].correctAnswer.includes(letter)){
+                  isCorrect = true;
+              }
+              let tempCell = [myQuestions[i].answers[letter], isCorrect];
+              tempHolder.push(tempCell);
           }
-          if (myQuestions[i].correctAnswer.includes(letter)){
-              isCorrect = true;
-          }
-          let tempCell = [myQuestions[i].answers[letter], isCorrect];
-          tempHolder.push(tempCell);
-      }
-    tempHolder = shuffle(tempHolder);
-    var newAnswDict = {};
-    var newCorrectAnswer = ""
-    for (let k = 0; k < tempHolder.length; k++){
-        let inx = String.fromCharCode(firstLeterDigit_IN_CorrectAnswer + k);
-        newAnswDict[inx] = tempHolder[k][0];
-        if (tempHolder[k][1]){
-            newCorrectAnswer += inx;
+        tempHolder = shuffle(tempHolder);
+        var newAnswDict = {};
+        var newCorrectAnswer = ""
+        for (let k = 0; k < tempHolder.length; k++){
+            let inx = String.fromCharCode(firstLeterDigit_IN_CorrectAnswer + k);
+            newAnswDict[inx] = tempHolder[k][0];
+            if (tempHolder[k][1]){
+                newCorrectAnswer += inx;
+            }
         }
+        myQuestions[i].correctAnswer = newCorrectAnswer;
+        myQuestions[i].answers = newAnswDict;
     }
-    myQuestions[i].correctAnswer = newCorrectAnswer;
-    myQuestions[i].answers = newAnswDict;
-  }
-  // and for each available answer...
-  for(letter in myQuestions[i].answers){
-    answers.push(
-      `<label>
-        <input type="${inputType}" name="question${i}" value="${letter}">
-        ${escapeHtml(myQuestions[i].answers[letter])}
-      </label>`
-    );
-  }
-  // add this question and its answers to the output
-  if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
-  else{reftxt = ""}
-  resultingHtml = `<div class="slide">
+    // and for each available answer...
+    for(letter in myQuestions[i].answers){
+        answers.push(
+          `<label>
+            <input type="${inputType}" name="question${i}" value="${letter}">
+            ${escapeHtml(myQuestions[i].answers[letter])}
+          </label>`
+        );
+    }
+    // add this question and its answers to the output
+    if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
+    else{reftxt = ""}
+    resultingHtml = `<div class="slide">
       <div class="question"> ${myQuestions[i].question} </div>
       <div class="answers"> ${answers.join("")} </div>
 
@@ -169,6 +169,25 @@ function prepareQuestionSelection(i){
 
 function prepareQuestionNewCat(i){
     alert(`Question No ${i} - new question type\nNot implemented`);
+    return
+    /**Template
+       edit as needed */
+    const answers = [];
+    answers.push(
+      `<label>
+        <input name="question${i}">
+      </label>`
+    );
+    // add this question and its answers to the output
+    if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
+    else{reftxt = ""}
+    resultingHtml = `<div class="slide">
+      <div class="question"> ${myQuestions[i].question} </div>
+      <div class="answers"> ${answers.join("")} </div>
+
+      <div class="explanation hidden"> Correct answer: ${myQuestions[i].correctAnswer}</br>${myQuestions[i].explanation} ${reftxt}</div><hr>
+    </div>`
+    return resultingHtml
 }
 
 function escapeHtml(unsafe){
@@ -315,7 +334,7 @@ function checkAnswer(currentQuestion, questionNumber){
       }else if(tmpQuestion.length < 2 || currentQuestion.category == 0){ //Fill the blank question
             return checkAnswerFreetext(answerContainer, currentQuestion, tmpQuestion);
       }else if (currentQuestion.category == 1 || currentQuestion.category == 2){
-            return checkAnswerSelection(answerContainer, currentQuestion, selector)
+            return checkAnswerSelection(answerContainer, currentQuestion, selector, selectorAll)
       }else{
           return checkAnswerNewCat(i)
       }
@@ -392,7 +411,7 @@ function checkAnswerFreetext(answerContainer, currentQuestion, tmpQuestion){
   }
 }
 
-function checkAnswerSelection(answerContainer, currentQuestion, selector){
+function checkAnswerSelection(answerContainer, currentQuestion, selector, selectorAll){
     // if answer is correct
     var userAnswer = "";
     answerContainer.querySelectorAll(selector).forEach(ans => {
