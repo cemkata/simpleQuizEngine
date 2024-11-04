@@ -202,13 +202,13 @@
       });
 	
 	  document.addEventListener('keydown', e => {
-	    if (e.ctrlKey && e.key === 's') {
+	    if (e.ctrlKey && (e.key === 's' || e.key === 'S')) {
 	      // Prevent the Save dialog to open
 	      e.preventDefault();
 	      // Place your code here
 	      //console.log('CTRL + S');
 		  saveQuestion();
-	    }else if (e.ctrlKey && e.key === 'q') {
+	    }else if (e.ctrlKey && (e.key === 'q' || e.key === 'Q')) {
 	      // Prevent the Save dialog to open
 	      e.preventDefault();
 	      // Place your code here

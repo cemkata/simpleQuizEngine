@@ -284,9 +284,10 @@ https://www.sitepoint.com/simple-javascript-quiz/
     selectedQuestionContainer.classList.add('hidden');
 
     // show number of correct answers out of total
-    resultsContainer.innerHTML = `Result: ${numCorrect} out of ${numberOfQuestion.value}`;
+	nQuests = nOfQuesions - _beginOfQuesions
+    resultsContainer.innerHTML = `Result: ${numCorrect} out of ${nQuests}`;
     timerTxt.textContent = "";
-    let grade = numCorrect/numberOfQuestion.value * 100
+    let grade = numCorrect/nQuests * 100
     pagesContainer.innerText = `Grade: ${grade.toFixed(2)}%`;
   }
 

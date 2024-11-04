@@ -32,11 +32,11 @@ def favicon():
 def new_index():
     if not showSelectionPage:
         redirect("/main/")
-    return template('selectionpage.tpl')
+    return template('selectionpage')
 
 @app.route('/main/')
 def index():
-    return template('index.tpl', items = [f for f in os.listdir(examFolder) if not os.path.isfile(os.path.join(examFolder, f))], comand = 1) #comand 1 shows the dump folders
+    return template('index', items = [f for f in os.listdir(examFolder) if not os.path.isfile(os.path.join(examFolder, f))], comand = 1) #comand 1 shows the dump folders
 
 @app.route('/main/showDumps')
 def show_dumps():
@@ -48,7 +48,7 @@ def show_dumps():
     if not os.path.exists(dumpFolder):
         return ""
     try:
-        return template('index.tpl', items = [f for f in os.listdir(dumpFolder) if os.path.isfile(os.path.join(dumpFolder, f))], comand = 2, cid = courseID) #comand 2 shows the dump in given folder
+        return template('index', items = [f for f in os.listdir(dumpFolder) if os.path.isfile(os.path.join(dumpFolder, f))], comand = 2, cid = courseID) #comand 2 shows the dump in given folder
     except NotADirectoryError:
         redirect("/start?courseID=.&examID="+courseID)
 
@@ -77,7 +77,7 @@ def get_json_dump():
 
 @app.route('/editor/')
 def editor_index():
-    return template('index.tpl', items = [f for f in os.listdir(examFolder) if not os.path.isfile(os.path.join(examFolder, f))], comand = 3) #comand 3 shows the dump folders
+    return template('index', items = [f for f in os.listdir(examFolder) if not os.path.isfile(os.path.join(examFolder, f))], comand = 3) #comand 3 shows the dump folders
 
 @app.route('/editor/showDumps')
 def editor_show_dumps():
@@ -89,7 +89,7 @@ def editor_show_dumps():
     if not os.path.exists(dumpFolder):
         return ""
     try:
-        return template('index.tpl', items = [f for f in os.listdir(dumpFolder) if os.path.isfile(os.path.join(dumpFolder, f))], comand = 4, cid = courseID) #comand 4 shows the dump in given folder
+        return template('index', items = [f for f in os.listdir(dumpFolder) if os.path.isfile(os.path.join(dumpFolder, f))], comand = 4, cid = courseID) #comand 4 shows the dump in given folder
     except NotADirectoryError:
         redirect("/editor/listquestions?courseID=.&examID="+courseID)
 
@@ -102,7 +102,7 @@ def editor_listquestions():
     if examID == -1:
         redirect("/editor/") 
     q_list = proccesFile(os.path.join(examFolder, courseID, examID))
-    return template('showquestions.tpl', questions = q_list['dump'], comand = 4, cid = courseID, dump = examID) #comand 4 shows the dump in given folder
+    return template('showquestions', questions = q_list['dump'], comand = 4, cid = courseID, dump = examID) #comand 4 shows the dump in given folder
 
 @app.route('/editor/editQuestion')
 def questionEditor():
@@ -124,7 +124,19 @@ def questionEditor():
                     answersCount = dump_file["dump"][i]['answersCount']
                 except KeyError:
                     answersCount = None
-
+                try:
+                    dump_file["dump"][i]['category']
+                except KeyError:
+                    #TODO add the migration script
+                    if type(dump_file["dump"][i]['question']) is list:
+                        dump_file["dump"][i]['category'] = 3 #Drag-drop
+                    elif len(dump_file["dump"][i]['answers']) == 0:
+                        dump_file["dump"][i]['category'] = 0 #freetext
+                    elif len(dump_file["dump"][i]['correctAnswer']) == 1:
+                        dump_file["dump"][i]['category'] = 1 #single choice
+                    else:
+                        dump_file["dump"][i]['category'] = 2 #multiple choice
+                    
                 targetQuestion = {'explanation': dump_file["dump"][i]['explanation'],\
                 'referenceLink':dump_file["dump"][i]['referenceLink'],\
                 'question': dump_file["dump"][i]['question'],\
@@ -133,7 +145,7 @@ def questionEditor():
                 'answersGroups': answersGroups,
                 'answersCount': answersCount,
                 'category': dump_file["dump"][i]['category']}
-    return template('question_editor.tpl', questionID = questionID, \
+    return template('question_editor', questionID = questionID, \
         courseID = courseID, quizID=quizID, questionContent = targetQuestion)
 
 @app.route('/editor/saveQuestion', method='POST')
@@ -234,7 +246,7 @@ def deleteQuestion():
 
 @app.route('/editor/addcategory')
 def addcategory():
-    return template("editCourseDeck.tpl", action = "addcategory", name="")
+    return template("editCourseDeck", action = "addcategory", name="")
 
 @app.route('/editor/addcategory', method="POST")
 def addcategory_process_post():
@@ -250,13 +262,13 @@ def addcategory_process_post():
 @app.route('/editor/addquiz')
 def addDump():
     courseID = request.query.courseID
-    return template("editCourseDeck.tpl", action = "editDump", name="", cid = courseID)
+    return template("editCourseDeck", action = "editDump", name="", cid = courseID)
 
 @app.route('/editor/editDump')
 def editDump():
     courseID = request.query.courseID
     qid = request.query.examID
-    return template("editCourseDeck.tpl", action = "editDump", name=qid, quiz_id=qid, cid = courseID)
+    return template("editCourseDeck", action = "editDump", name=qid, quiz_id=qid, cid = courseID)
     
 @app.route('/editor/editDump', method="POST")
 def editDump_process_post():
@@ -288,7 +300,7 @@ def deleteDump():
 @app.route('/editor/editCategory')
 def editCategory():
     courseID = request.query.courseID
-    return template("editCourseDeck.tpl", action = "addcategory", name=courseID, cid = courseID)
+    return template("editCourseDeck", action = "addcategory", name=courseID, cid = courseID)
     
 @app.route('/editor/deleteCategory')
 def deleteCategory():
