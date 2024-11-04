@@ -13,149 +13,162 @@ https://www.sitepoint.com/simple-javascript-quiz/
     // for each question...
     for(let i = _beginOfQuesions; i<nOfQuesions; i++){
 
-        if(typeof myQuestions[i].question == 'object'){ //drag-drop question
-            const questions = [];
-            let k = 0;
-            for(let j = 0; j < myQuestions[i].question.length; j++){
-                  if (myQuestions[i].question[j].endsWith("$?__")){
-                      if (Object.hasOwn(myQuestions[i], 'answersGroups')){
-                        var questionStr = `<div class="dragdrop_question" data-group-id="${myQuestions[i].answersGroups[k]}">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
-                      }else{
-                        var questionStr = `<div class="dragdrop_question" data-group-id="${j}">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
-                      }
-                      questions.push(questionStr);
-                      k++;
-                  }else{
-                      questions.push(
-                        `<div>${myQuestions[i].question[j]}</div>`
-                      );
-                  }
-            }
-            const question_box = `<div class="question_box">${questions.join("")}</div>`
-
-            var answers = []
-            for(let j = 0; j < myQuestions[i].answers.length; j++){
-              if (Object.hasOwn(myQuestions[i], 'answersCount')){
-                totalSelection = myQuestions[i].answersCount[j]
-              }else{
-                totalSelection = 1;
-              }
-              for(let k = 0; k<totalSelection; k++){
-                  answers.push(
-                    `<span draggable="true" class="dragtarget">${myQuestions[i].answers[j]}</span>`
-                  );
-              }
-            }
-            if(randomAnswer.checked){
-              answers = shuffle(answers);
-            }
-            const answer_box = `<div class="answers_container" id="drag_drop-answer_slide${i}"><p>Answers:</p>${answers.join("")}</div>`
-
-            if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
-            else{reftxt = ""}
-
-            const correctAnsweredQuestions = []
-            k = 0;
-            for(let j = 0; j < myQuestions[i].question.length; j++){
-                  if (myQuestions[i].question[j].endsWith("$?__")){
-                      correctAnsweredQuestions.push(
-                        `<div class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget">${myQuestions[i].correctAnswer[k]}</div></div>`
-                      );
-                       k++;
-                  }else{
-                      correctAnsweredQuestions.push(
-                        `<div>${myQuestions[i].question[j]}</div>`
-                      );
-                  }
-            }
-
-            output.push(
-              `<div class="slide">
-                <div class="answers"> ${question_box} </div>
-                <div class="question"> ${answer_box} </div>
-
-                <div class="explanation hidden"> Correct answer: </br>${correctAnsweredQuestions.join("")}</br>${myQuestions[i].explanation} ${reftxt}</div><hr>
-              </div>`
-            );
-        }else if(Object.keys(myQuestions[i].answers).length == 0){ //Fill the blank question
-              const answers = [];
-              answers.push(
-                `<label>
-                  <input name="question${i}">
-                </label>`
-              );
-            // add this question and its answers to the output
-            if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
-            else{reftxt = ""}
-            output.push(
-              `<div class="slide">
-                <div class="question"> ${myQuestions[i].question} </div>
-                <div class="answers"> ${answers.join("")} </div>
-
-                <div class="explanation hidden"> Correct answer: ${myQuestions[i].correctAnswer}</br>${myQuestions[i].explanation} ${reftxt}</div><hr>
-              </div>`
-            );
+        if(typeof myQuestions[i].question == 'object' || myQuestions[i].category == 3){ //drag-drop question
+              output.push(prepareQuestionDragDrop(i))
+        }else if(Object.keys(myQuestions[i].answers).length == 0 || myQuestions[i].category == 0){ //Fill the blank question
+              output.push(prepareQuestionFreetext(i))
         }else if (myQuestions[i].category == 1 || myQuestions[i].category == 2){
-            // variable to store the list of possible answers
-            const answers = [];
-            if(myQuestions[i].correctAnswer.length == 1){ // ...add an HTML radio button
-                inputType = "radio";
-            }else{
-                inputType = "checkbox";
-            }
-            if(randomAnswer.checked){
-              var tempHolder = [];
-              var firstLeterDigit_IN_CorrectAnswer = " "
-                for(letter in myQuestions[i].answers){
-                    var isCorrect = false;
-                    if (firstLeterDigit_IN_CorrectAnswer == " "){
-                        firstLeterDigit_IN_CorrectAnswer = letter.charCodeAt(0);
-                    }
-                    if (myQuestions[i].correctAnswer.includes(letter)){
-                        isCorrect = true;
-                    }
-                    let tempCell = [myQuestions[i].answers[letter], isCorrect];
-                    tempHolder.push(tempCell);
-                }
-              tempHolder = shuffle(tempHolder);
-              var newAnswDict = {};
-              var newCorrectAnswer = ""
-              for (let k = 0; k < tempHolder.length; k++){
-                  let inx = String.fromCharCode(firstLeterDigit_IN_CorrectAnswer + k);
-                  newAnswDict[inx] = tempHolder[k][0];
-                  if (tempHolder[k][1]){
-                      newCorrectAnswer += inx;
-                  }
-              }
-              myQuestions[i].correctAnswer = newCorrectAnswer;
-              myQuestions[i].answers = newAnswDict;
-            }
-            // and for each available answer...
-            for(letter in myQuestions[i].answers){
-              answers.push(
-                `<label>
-                  <input type="${inputType}" name="question${i}" value="${letter}">
-                  ${escapeHtml(myQuestions[i].answers[letter])}
-                </label>`
-              );
-            }
-            // add this question and its answers to the output
-            if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
-            else{reftxt = ""}
-            output.push(
-              `<div class="slide">
-                <div class="question"> ${myQuestions[i].question} </div>
-                <div class="answers"> ${answers.join("")} </div>
-
-                <div class="explanation hidden"> ${myQuestions[i].explanation} ${reftxt}</div><hr>
-              </div>`
-            );
+              output.push(prepareQuestionSelection(i))
         }else{
-			alert(`Question No ${i} - new question type\nNot implemented`);
+			//output.push(prepareQuestionSelection(i))
+			prepareQuestionNewCat(i)
 		}
     }
     // finally combine our output list into one string of HTML and put it on the page
     quizContainer.innerHTML = output.join('');
+  }
+  
+  function prepareQuestionDragDrop(i){
+	const questions = [];
+	let k = 0;
+	for(let j = 0; j < myQuestions[i].question.length; j++){
+		  if (myQuestions[i].question[j].endsWith("$?__")){
+			  if (Object.hasOwn(myQuestions[i], 'answersGroups')){
+				var questionStr = `<div class="dragdrop_question" data-group-id="${myQuestions[i].answersGroups[k]}">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
+			  }else{
+				var questionStr = `<div class="dragdrop_question" data-group-id="${j}">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
+			  }
+			  questions.push(questionStr);
+			  k++;
+		  }else{
+			  questions.push(
+				`<div>${myQuestions[i].question[j]}</div>`
+			  );
+		  }
+	}
+	const question_box = `<div class="question_box">${questions.join("")}</div>`
+
+	var answers = []
+	for(let j = 0; j < myQuestions[i].answers.length; j++){
+	  if (Object.hasOwn(myQuestions[i], 'answersCount')){
+		totalSelection = myQuestions[i].answersCount[j]
+	  }else{
+		totalSelection = 1;
+	  }
+	  for(let k = 0; k<totalSelection; k++){
+		  answers.push(
+			`<span draggable="true" class="dragtarget">${myQuestions[i].answers[j]}</span>`
+		  );
+	  }
+	}
+	if(randomAnswer.checked){
+	  answers = shuffle(answers);
+	}
+	const answer_box = `<div class="answers_container" id="drag_drop-answer_slide${i}"><p>Answers:</p>${answers.join("")}</div>`
+
+	if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
+	else{reftxt = ""}
+
+	const correctAnsweredQuestions = []
+	k = 0;
+	for(let j = 0; j < myQuestions[i].question.length; j++){
+		  if (myQuestions[i].question[j].endsWith("$?__")){
+			  correctAnsweredQuestions.push(
+				`<div class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget">${myQuestions[i].correctAnswer[k]}</div></div>`
+			  );
+			   k++;
+		  }else{
+			  correctAnsweredQuestions.push(
+				`<div>${myQuestions[i].question[j]}</div>`
+			  );
+		  }
+	}
+
+	return `<div class="slide">
+		<div class="answers"> ${question_box} </div>
+		<div class="question"> ${answer_box} </div>
+
+		<div class="explanation hidden"> Correct answer: </br>${correctAnsweredQuestions.join("")}</br>${myQuestions[i].explanation} ${reftxt}</div><hr>
+	  </div>`
+  }
+
+  function prepareQuestionFreetext(i){
+	  const answers = [];
+	  answers.push(
+		`<label>
+		  <input name="question${i}">
+		</label>`
+	  );
+	// add this question and its answers to the output
+	if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
+	else{reftxt = ""}
+	resultingHtml = `<div class="slide">
+		<div class="question"> ${myQuestions[i].question} </div>
+		<div class="answers"> ${answers.join("")} </div>
+
+		<div class="explanation hidden"> Correct answer: ${myQuestions[i].correctAnswer}</br>${myQuestions[i].explanation} ${reftxt}</div><hr>
+	  </div>`
+	return resultingHtml
+  }
+
+  function prepareQuestionSelection(i){
+	// variable to store the list of possible answers
+	const answers = [];
+	if(myQuestions[i].correctAnswer.length == 1){ // ...add an HTML radio button
+		inputType = "radio";
+	}else{
+		inputType = "checkbox";
+	}
+	if(randomAnswer.checked){
+	  var tempHolder = [];
+	  var firstLeterDigit_IN_CorrectAnswer = " "
+		for(letter in myQuestions[i].answers){
+			var isCorrect = false;
+			if (firstLeterDigit_IN_CorrectAnswer == " "){
+				firstLeterDigit_IN_CorrectAnswer = letter.charCodeAt(0);
+			}
+			if (myQuestions[i].correctAnswer.includes(letter)){
+				isCorrect = true;
+			}
+			let tempCell = [myQuestions[i].answers[letter], isCorrect];
+			tempHolder.push(tempCell);
+		}
+	  tempHolder = shuffle(tempHolder);
+	  var newAnswDict = {};
+	  var newCorrectAnswer = ""
+	  for (let k = 0; k < tempHolder.length; k++){
+		  let inx = String.fromCharCode(firstLeterDigit_IN_CorrectAnswer + k);
+		  newAnswDict[inx] = tempHolder[k][0];
+		  if (tempHolder[k][1]){
+			  newCorrectAnswer += inx;
+		  }
+	  }
+	  myQuestions[i].correctAnswer = newCorrectAnswer;
+	  myQuestions[i].answers = newAnswDict;
+	}
+	// and for each available answer...
+	for(letter in myQuestions[i].answers){
+	  answers.push(
+		`<label>
+		  <input type="${inputType}" name="question${i}" value="${letter}">
+		  ${escapeHtml(myQuestions[i].answers[letter])}
+		</label>`
+	  );
+	}
+	// add this question and its answers to the output
+	if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
+	else{reftxt = ""}
+    resultingHtml = `<div class="slide">
+		<div class="question"> ${myQuestions[i].question} </div>
+		<div class="answers"> ${answers.join("")} </div>
+
+		<div class="explanation hidden"> ${myQuestions[i].explanation} ${reftxt}</div><hr>
+	  </div>`
+    return resultingHtml
+  }
+
+  function prepareQuestionNewCat(i){
+	  alert(`Question No ${i} - new question type\nNot implemented`);
   }
   
   function escapeHtml(unsafe){
@@ -296,112 +309,126 @@ https://www.sitepoint.com/simple-javascript-quiz/
       const answerContainer = answerContainers[questionNumber];
       const selector = `input[name=question${questionNumber + _beginOfQuesions}]:checked`;
       const selectorAll = `input[name=question${questionNumber + _beginOfQuesions}]`;
+      var tmpQuestion = answerContainer.querySelectorAll(selectorAll);
+	   if(tmpQuestion.length == 0 ||currentQuestion.category == 3){ //drag-drop question
+              return checkAnswerDragDrop(answerContainer, currentQuestion);
+        }else if(tmpQuestion.length < 2 || currentQuestion.category == 0){ //Fill the blank question
+              return checkAnswerFreetext(answerContainer, currentQuestion, tmpQuestion);
+        }else if (currentQuestion.category == 1 || currentQuestion.category == 2){
+              return checkAnswerSelection(answerContainer, currentQuestion, selector)
+        }else{
+			return checkAnswerNewCat(i)
+		}
+      return false;
+  }
+  
+  function checkAnswerDragDrop(answerContainer, currentQuestion){
+	// here should be the logic to check the drag and drop answer
+	let result = true
+	dragDropAnswers = answerContainer.getElementsByTagName("span");
+	correctAnswers = [];
+	if(dragDropAnswers.length == 0){
+		dragDropAnswers = answerContainer.getElementsByClassName("dragdrop_question");
+		for (let i = 0; i < currentQuestion.correctAnswer.length; i++) {
+			currentAnswer = dragDropAnswers[i].getElementsByClassName("droptarget");
+			currentAnswer = currentAnswer[0];
+			currentAnswer.textContent = currentQuestion.correctAnswer[i];
+			currentAnswer.style.color = 'red'; // color the answers red
+		}
+		result = false
+	}else{
+		dragDropQuestions = answerContainer.getElementsByClassName("dragdrop_question");
+		correctAnswers.push(false)
+		for (let i = 0; i < currentQuestion.correctAnswer.length; i++) {
+			currentAnswer = dragDropQuestions[i].getElementsByClassName("dragtarget");
+			currentGroup = dragDropQuestions[i].dataset.groupId
+			if(currentAnswer.length == 0){
+				currentAnswer = dragDropQuestions[i].getElementsByClassName("droptarget");
+				currentAnswer = currentAnswer[0];
+				currentAnswer.textContent = currentQuestion.correctAnswer[i];
+				currentAnswer.style.color = 'red'; // color the answers red
+				result = false;
+				continue;
+			}else{
+				currentAnswer = currentAnswer[0];
+			}
+			if (Object.hasOwn(currentQuestion, 'answersGroups')){
+				for(let j = 0; j < currentQuestion.answersGroups.length; j++){
+					if(currentGroup == currentQuestion.answersGroups[j]){
+						if(currentAnswer.textContent === currentQuestion.correctAnswer[j]){
+							correctAnswers[i]=true;
+						}
+					}
+				}
+			}else{
+				if(currentAnswer.textContent === currentQuestion.correctAnswer[i]){
+					correctAnswers[i]=true;
+				}
+			}
+		}
+		for (let i = 0; i < currentQuestion.correctAnswer.length; i++) {
+			currentAnswer = dragDropQuestions[i].getElementsByClassName("dragtarget");
+			currentAnswer = currentAnswer[0];
+			if (correctAnswers[i]){
+				currentAnswer.style.color = 'lightgreen'; // color the answers green
+			}else{
+				if (currentAnswer !== undefined){
+					currentAnswer.style.color = 'red'; // color the answers red
+				}
+				result = false;
+			}
+		}
+	}
+	return result;
+  }
+
+  function checkAnswerFreetext(answerContainer, currentQuestion, tmpQuestion){
+	if(tmpQuestion[0].value === currentQuestion.correctAnswer){
+		tmpQuestion[0].style.color = 'lightgreen'; // color the answers green
+		return true;
+	}else{
+		tmpQuestion[0].style.color = 'red'; // color the answers red
+		return false;
+	}
+  }
+
+  function checkAnswerSelection(answerContainer, currentQuestion, selector){
+	  // if answer is correct
       var userAnswer = "";
       answerContainer.querySelectorAll(selector).forEach(ans => {
               userAnswer += (ans || {}).value;
           }
       );
-      if(userAnswer === ""){
-          var tmpQuestion = answerContainer.querySelectorAll(selectorAll);
-          if(tmpQuestion.length < 2){ //if there is only text box there will be only one input
-              if (tmpQuestion.length == 0){
-                    // here should be the logic to check the drag and drop answer
-                    let result = true
-                    dragDropAnswers = answerContainer.getElementsByTagName("span");
-                    correctAnswers = [];
-                    if(dragDropAnswers.length == 0){
-                        dragDropAnswers = answerContainer.getElementsByClassName("dragdrop_question");
-                        for (let i = 0; i < currentQuestion.correctAnswer.length; i++) {
-                            currentAnswer = dragDropAnswers[i].getElementsByClassName("droptarget");
-                            currentAnswer = currentAnswer[0];
-                            currentAnswer.textContent = currentQuestion.correctAnswer[i];
-                            currentAnswer.style.color = 'red'; // color the answers red
-                        }
-                        result = false
-                    }else{
-                        dragDropQuestions = answerContainer.getElementsByClassName("dragdrop_question");
-                        correctAnswers.push(false)
-                        for (let i = 0; i < currentQuestion.correctAnswer.length; i++) {
-                            currentAnswer = dragDropQuestions[i].getElementsByClassName("dragtarget");
-                            currentGroup = dragDropQuestions[i].dataset.groupId
-                            if(currentAnswer.length == 0){
-                                currentAnswer = dragDropQuestions[i].getElementsByClassName("droptarget");
-                                currentAnswer = currentAnswer[0];
-                                currentAnswer.textContent = currentQuestion.correctAnswer[i];
-                                currentAnswer.style.color = 'red'; // color the answers red
-                                result = false;
-                                continue;
-                            }else{
-                                currentAnswer = currentAnswer[0];
-                            }
-                            if (Object.hasOwn(currentQuestion, 'answersGroups')){
-                                for(let j = 0; j < currentQuestion.answersGroups.length; j++){
-                                    if(currentGroup == currentQuestion.answersGroups[j]){
-                                        if(currentAnswer.textContent === currentQuestion.correctAnswer[j]){
-                                            correctAnswers[i]=true;
-                                        }
-                                    }
-                                }
-                            }else{
-                                if(currentAnswer.textContent === currentQuestion.correctAnswer[i]){
-                                    correctAnswers[i]=true;
-                                }
-                            }
-                        }
-                        for (let i = 0; i < currentQuestion.correctAnswer.length; i++) {
-                            currentAnswer = dragDropQuestions[i].getElementsByClassName("dragtarget");
-                            currentAnswer = currentAnswer[0];
-                            if (correctAnswers[i]){
-                                currentAnswer.style.color = 'lightgreen'; // color the answers green
-                            }else{
-                                if (currentAnswer !== undefined){
-                                    currentAnswer.style.color = 'red'; // color the answers red
-                                }
-                                result = false;
-                            }
-                        }
-                    }
-                    return result;
-              }
-              if(tmpQuestion[0].value === currentQuestion.correctAnswer){
-                tmpQuestion[0].style.color = 'lightgreen'; // color the answers green
-                return true;
-            }else{
-                tmpQuestion[0].style.color = 'red'; // color the answers red
-                return false;
-            }
-          }
-      }
+	  if(userAnswer === currentQuestion.correctAnswer){
+		answerContainer.querySelectorAll('label').forEach(ans => {
+				if(currentQuestion.correctAnswer.includes((ans.querySelector(selector) || {}).value)){
+					  ans.style.color = 'lightgreen'; // color the answers green
+				}
+			}
+		  );
+		return true;
+	  }
+	  // if answer is wrong or blank
+	  else if (currentQuestion.category == 1 || currentQuestion.category == 2){
+		  answerContainer.querySelectorAll('label').forEach(ans => {
+				  //if answer is in the correct color it green
+				  if(currentQuestion.correctAnswer.includes((ans.querySelector(selectorAll) || {}).value)){
+					  ans.style.color = 'lightgreen'; // color the answers green
+				  }else{
+					  ans.style.color = 'red'; // color the answers red
+				  }
+			  }
+		  );
 
-      // if answer is correct
-      if(userAnswer === currentQuestion.correctAnswer){
-        answerContainer.querySelectorAll('label').forEach(ans => {
-                if(currentQuestion.correctAnswer.includes((ans.querySelector(selector) || {}).value)){
-                      ans.style.color = 'lightgreen'; // color the answers green
-                }
-            }
-          );
-        return true;
-      }
-      // if answer is wrong or blank
-      else if (currentQuestion.category == 1 || currentQuestion.category == 2){
-
-          answerContainer.querySelectorAll('label').forEach(ans => {
-                  //if answer is in the correct color it green
-                  if(currentQuestion.correctAnswer.includes((ans.querySelector(selectorAll) || {}).value)){
-                      ans.style.color = 'lightgreen'; // color the answers green
-                  }else{
-                      ans.style.color = 'red'; // color the answers red
-                  }
-              }
-          );
-
-      }else{
-			alert("new question type\nNot implemented");
-      }
-      return false;
+	  }
+	  return false
   }
 
+  function checkAnswerNewCat(answerContainer, currentQuestion){
+	  alert("new question type\nNot implemented");
+	  return false;
+  }
+	  
   function debug_showSlide(n){
       if(n <= 0){return}
       n--;
