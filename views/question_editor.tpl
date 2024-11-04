@@ -16,7 +16,9 @@
     <input type="hidden" id="questionID" value="{{questionID}}">
     <input type="hidden" id="courseID" value="{{courseID}}">
     <input type="hidden" id="quizID" value="{{quizID}}">
-    
+% selcDropDown = ['', '', '', '']
+	
+	
 %if questionID != -1:
     <p>Edit question <i>{{questionID}}</i> from quiz <b>{{quizID}}</b> in course <u>{{courseID}}</u></p>
 %else:
@@ -24,11 +26,8 @@
 %end
     <p>Question </p>
 	<div class="editor_holder">
-	  %if type(questionContent['question']) is list:
-	    %ansrStr = ""
-	    %for q in questionContent['question']:
-		    %ansrStr += '''<div>'''+ q +'''</div>'''
-		%end
+	  % if questionContent['category'] == 3: #Drag-drop
+	    %ansrStr = ''.join("<div>%s</div>" % "".join(s) for s in questionContent['question'])
 		<textarea id="area_question" class = "area">{{ansrStr}}</textarea>
 	  % else:
         <textarea id="area_question" class = "area">{{questionContent['question']}}</textarea>
@@ -41,12 +40,11 @@
 		<p>No answer given.</p>
 	</div>
     <div id="answers_area">
-  % if len(questionContent['answers']) == 0:
+  % if questionContent['category'] == 0:
+      % selcDropDown[0] = 'selected'
       <input type="text" id="freeTextAns" style = "width: 100%;" value="{{questionContent['correctAnswer']}}">
-      % selcDropDown = ['selected', '', '', '']
-  % else:
-      % if type(questionContent['question']) is list:
-	  % selcDropDown = ['', '', '', 'selected']
+  % elif questionContent['category'] == 3: #Drag-drop
+      % selcDropDown[3] = 'selected'
 		   <div id="select_answers">
 		   <p>Selectable answers</p>
 			%for idx, answer in enumerate(questionContent['answers']):
@@ -66,17 +64,18 @@
 				% except:
 			<div class="showinline"><input type="text" class="textAns" style="width: 100%;" value="{{answer}}">Group:<input type="number" value="{{idx}}" min="0" max="99"></div><br>
 				%end
-			
 			%end
 		   </div>
-	  % elif questionContent['category'] == 1 or questionContent['category'] == 2:
-		  % if len(questionContent['correctAnswer']) == 1:
-		    % type = "radio"
-		    % selcDropDown = ['', 'selected', '', '']
-		  % elif questionContent['category'] == 2:
-		    % type = "checkbox"
-		    % selcDropDown = ['', '', 'selected', '']
-		  % end
+  % elif questionContent['category'] == 1 or questionContent['category'] == 2:
+		  <%
+		    if questionContent['category'] == 1:
+		       selcDropDown[1] = 'selected'
+		       type = "radio"
+		    elif questionContent['category'] == 2:
+		       selcDropDown[2] = 'selected'
+		       type = "checkbox"
+			end
+		    %>
 			  % for key in questionContent['answers'].keys():
 			  <div class="showinline">
 				% if key in questionContent['correctAnswer']:
@@ -88,7 +87,6 @@
 			  </div><br>
 			  % end
 	  % else:
-	     % selcDropDown = ['', '', '', '']
 			  <div class="showinline">
 				New type of question
 			  </div><br>
