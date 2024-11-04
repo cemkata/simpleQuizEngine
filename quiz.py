@@ -124,18 +124,6 @@ def questionEditor():
                     answersCount = dump_file["dump"][i]['answersCount']
                 except KeyError:
                     answersCount = None
-                try:
-                    dump_file["dump"][i]['category']
-                except KeyError:
-                    #TODO add the migration script
-                    if type(dump_file["dump"][i]['question']) is list:
-                        dump_file["dump"][i]['category'] = 3 #Drag-drop
-                    elif len(dump_file["dump"][i]['answers']) == 0:
-                        dump_file["dump"][i]['category'] = 0 #freetext
-                    elif len(dump_file["dump"][i]['correctAnswer']) == 1:
-                        dump_file["dump"][i]['category'] = 1 #single choice
-                    else:
-                        dump_file["dump"][i]['category'] = 2 #multiple choice
                     
                 targetQuestion = {'explanation': dump_file["dump"][i]['explanation'],\
                 'referenceLink':dump_file["dump"][i]['referenceLink'],\

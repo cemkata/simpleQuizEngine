@@ -53,6 +53,28 @@ class myLock:
 cache_lock = threading.RLock()
 locked_files = {}
 
+def patchFile(func, *argv):
+    def wrapper(self, *argv):
+        #print("Something is happening before the function is called.")
+        dump_file = func(self, *argv)
+        for i in range(len(dump_file["dump"])):
+            try:
+                dump_file["dump"][i]['category']
+            except KeyError:
+                #TODO add the migration script
+                if type(dump_file["dump"][i]['question']) is list:
+                    dump_file["dump"][i]['category'] = 3 #Drag-drop
+                elif len(dump_file["dump"][i]['answers']) == 0:
+                    dump_file["dump"][i]['category'] = 0 #freetext
+                elif len(dump_file["dump"][i]['correctAnswer']) == 1:
+                    dump_file["dump"][i]['category'] = 1 #single choice
+                else:
+                    dump_file["dump"][i]['category'] = 2 #multiple choice
+        #print("Something is happening after the function is called.")
+        return dump_file
+    return wrapper
+
+@patchFile
 def proccesFile(fileName):
     try:
         with cache_lock:
