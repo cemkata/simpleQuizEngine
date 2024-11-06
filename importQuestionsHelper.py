@@ -150,7 +150,7 @@ def saveFile(fileName, data, SQL_CMD = -1, question_id = None, type = _DEFAULT_T
                 lock = locked_files[fileName].lock
                 locked_files[fileName].count += 1
             except:
-                locked_files[fileName] = [threading.RLock(),1]
+                locked_files[fileName] = myLock()
                 lock = locked_files[fileName].lock
         with lock:
             result = "Done!"
