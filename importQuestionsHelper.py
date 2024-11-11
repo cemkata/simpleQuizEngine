@@ -14,6 +14,7 @@ import html
 import threading
 
 from config import usePickle, useSQL, maxSizeWarning
+from versionGetter import getVersion
 
 _JSON = 0
 _PKL =  1
@@ -46,6 +47,8 @@ elif useSQL:
 else:
     _DEFAULT_TYPE = _JSON
 
+DB_VERSION = getVersion("db_schema")
+
 class myLock:
   count = 0
   lock = threading.RLock()
@@ -57,19 +60,27 @@ def patchFile(func, *argv):
     def wrapper(self, *argv):
         #print("Something is happening before the function is called.")
         dump_file = func(self, *argv)
-        for i in range(len(dump_file["dump"])):
-            try:
-                dump_file["dump"][i]['category']
-            except KeyError:
-                #TODO add the migration script
-                if type(dump_file["dump"][i]['question']) is list:
-                    dump_file["dump"][i]['category'] = 3 #Drag-drop
-                elif len(dump_file["dump"][i]['answers']) == 0:
-                    dump_file["dump"][i]['category'] = 0 #freetext
-                elif len(dump_file["dump"][i]['correctAnswer']) == 1:
-                    dump_file["dump"][i]['category'] = 1 #single choice
-                else:
-                    dump_file["dump"][i]['category'] = 2 #multiple choice
+        try:
+            ver = int(dump_file["db_version"])
+        except:
+            ver = DB_VERSION - 1
+        if ver >= DB_VERSION:
+            pass
+        else:
+            for i in range(len(dump_file["dump"])):
+                try:
+                    dump_file["dump"][i]['category']
+                except KeyError:
+                    #TODO add the migration script
+                    if type(dump_file["dump"][i]['question']) is list:
+                        dump_file["dump"][i]['category'] = 3 #Drag-drop
+                    elif len(dump_file["dump"][i]['answers']) == 0:
+                        dump_file["dump"][i]['category'] = 0 #freetext
+                    elif len(dump_file["dump"][i]['correctAnswer']) == 1:
+                        dump_file["dump"][i]['category'] = 1 #single choice
+                    else:
+                        dump_file["dump"][i]['category'] = 2 #multiple choice
+            dump_file["db_version"] = DB_VERSION
         #print("Something is happening after the function is called.")
         return dump_file
     return wrapper
@@ -136,7 +147,7 @@ def proccesFile_sql(fileName):
             tmpDict["category"] = json.loads(q[8])
             questions.append(tmpDict.copy())
             # last_id = q[0]
-        result = {'dump':questions, 'lastID': len(questions)}
+        result = {'dump':questions, 'lastID': len(questions), "db_version": DB_VERSION}
         return result
     except Exception as e:
         raise e
