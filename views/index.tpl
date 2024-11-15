@@ -3,6 +3,9 @@
 <head>
 <title>Test engine</title>
 <link rel='stylesheet' href='/static/style_main.css'>
+	    %if comand == 4:
+<link rel='stylesheet' href='/static/progressbar.css'>
+		% end
 <style>
 /*<!--https://www.w3schools.com/css/css_form.asp -->*/
 </style>
@@ -61,13 +64,24 @@
 		
 	    %if comand == 4:
 		<tr><td colspan="4"><input type="button" id="uploadButton" class="btnOrange" onclick="upload(`{{cid}}`);" value="&#9650; Upload &#9650" /></td></tr>
-		
+<div id="overlay">
+<div class="demo-container">
+  <center>Uploading exam file please wait.</center>
+</div>
+<div class="demo-container">
+  <div class="progress-bar">
+    <div class="progress-bar-value"></div>
+  </div>
+</div>
+
+</div>
 		<script>
 		function upload(courseID){
 			var input = document.createElement('input');
 			input.type = 'file';
 			input.click();
-			input.onchange = e => { 
+			input.onchange = e => {
+				document.getElementById("overlay").style.display = "block";
 				const inputFile = e.target.files[0];
 				const fd = new FormData();
 
