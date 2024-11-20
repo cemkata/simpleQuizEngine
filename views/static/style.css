@@ -202,7 +202,7 @@ input[type=submit]:hover {
     height: 25px;
     border: 1px solid #aaaaaa;
     color: #000;
-    text-align: center;
+    /*text-align: center;*/
     margin: 10px;
 }
 
