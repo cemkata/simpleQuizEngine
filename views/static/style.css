@@ -495,6 +495,8 @@ table td:first-child  {
   position: relative;
   display: inline-block;
   border-bottom: 1px dotted black;
+  cursor: help;
+  color: green;
 }
 
 .tooltip .tooltiptext {
@@ -510,7 +512,7 @@ table td:first-child  {
   z-index: 1;
   width: 300px;
   top: 100%;
-  left: 75%;
+  left: 85%;
   margin-left: -150px; /* Use half of the width (120/2 = 60), to center the tooltip */
 }
 
@@ -525,6 +527,6 @@ table td:first-child  {
 }
 
 #showHelp{
-  top: 100%; /* At the bottom of the tooltip */
+  top: 100%;
   margin-left: 18em;
 }
