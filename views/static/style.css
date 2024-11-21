@@ -483,13 +483,48 @@ a.wrongAnswer:hover {color:#ffcc00;font-size: 15px; margin-top: -10px; margin-bo
     top: 25px !important;
 }
 
-table td:first-child  {
-  padding-left: 15px;
-  padding-right: 15px; 
-}
 
 table td:first-child  {
   padding-left: 15px;
   padding-right: 15px;
   
+}
+
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  width: 300px;
+  top: 100%;
+  left: 75%;
+  margin-left: -150px; /* Use half of the width (120/2 = 60), to center the tooltip */
+}
+
+.tooltip_hidden .tooltiptext {
+  visibility: hidden;
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+#showHelp{
+  top: 100%; /* At the bottom of the tooltip */
+  margin-left: 18em;
 }

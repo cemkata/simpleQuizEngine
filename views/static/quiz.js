@@ -63,6 +63,7 @@ function prepareQuestionDragDrop(i){
   }
   if(randomAnswer.checked){
     answers = shuffle(answers);
+	randomAnswer.disabled=true;
   }
   const answer_box = `<div class="answers_container" id="drag_drop-answer_slide${i}"><p>Answers:</p>${answers.join("")}</div>`
 
@@ -573,7 +574,8 @@ function buildQuiz(){
   let timeout_in_ms = 100;
   setTimeout(function(){ //wait for few ms to render the waiting animation
         if(randomQuestion.checked){
-            myQuestions = shuffle(myQuestions)
+            myQuestions = shuffle(myQuestions);
+			randomQuestion.disabled=true;
         }
         if(numberOfQuestion.value > myQuestions.length || numberOfQuestion.value < 0 || numberOfQuestion.value == ''){
             numberOfQuestion.value = myQuestions.length;
@@ -713,6 +715,7 @@ var numberOfQuestion;
 var startOfQuestion;
 var endOfQuestion;
 var startQuiz;
+var showHelp;
 
 var timerTxt;
 
@@ -736,6 +739,7 @@ var span = document.getElementsByClassName("close")[0];
 function initPage(){
       // Quiz settings
       startQuiz = document.getElementById("start");
+	  showHelp = document.getElementById("showHelp");
       randomQuestion = document.getElementById("random");
       randomAnswer = document.getElementById("random_answ");
       hideAnserBtn = document.getElementById("hide_answer_btn");
@@ -753,8 +757,23 @@ function initPage(){
             showError();
             return;
       }
+      showHelp.addEventListener('click', show_Help);
       document.getElementById("loader").style.display = "none";
 }
+
+function show_Help(){
+	helpLabels = document.getElementsByTagName("label");
+	for(let i = 0; i<helpLabels.length; i++){
+		if(helpLabels[i].classList.contains("tooltip")){
+			helpLabels[i].classList.add("tooltip_hidden");
+			helpLabels[i].classList.remove("tooltip");
+		}else{
+			helpLabels[i].classList.add("tooltip");
+			helpLabels[i].classList.remove("tooltip_hidden");
+		}
+	}
+}
+
 
 function showError(){
     document.getElementById("loader").style.display = "none";
