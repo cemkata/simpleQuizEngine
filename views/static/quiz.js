@@ -772,6 +772,14 @@ function show_Help(){
 			helpLabels[i].classList.remove("tooltip_hidden");
 		}
 	}
+	if(showHelp.classList.contains("tooltip")){
+		showHelp.classList.add("tooltip_hidden");
+		showHelp.classList.remove("tooltip");
+	}else{
+		showHelp.classList.add("tooltip");
+		showHelp.classList.remove("tooltip_hidden");
+	}
+	showHelp
 }
 
 

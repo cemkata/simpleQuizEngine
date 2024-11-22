@@ -55,12 +55,14 @@
 				<label class="tooltip_hidden">Randomize questions:<span class="tooltiptext">Important once enabled can not be disbaled until page is reload!</span></label><input type="checkbox" id="random"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				<label class="tooltip_hidden">Randomize answers:<span class="tooltiptext">Important once enabled can not be disbaled until page is reload!</span></label><input type="checkbox" id="random_answ"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				<label class="tooltip_hidden">Exsam mode:<span class="tooltiptext">Hides the check answer button.</span></label><input type="checkbox" id="hide_answer_btn">
-				<button id="showHelp">Show Help</button><br>
+				<button id="showHelp" class="tooltip_hidden">Show Help<div class="tooltiptext">Keyboard short-cuts:<br><br>ALT+CTRL+R restarts the quiz<br><br>ALT+CTRL+D allows jumps to question (mostly for debug)<br><br>Space/Enter show the answer<br><br>Left/rigth arrow move between questions</div></button><br>
 				<label class="tooltip_hidden">How many questions:<span class="tooltiptext">Mostly used with 'Random questions'.</span></label><input type="number" id="n_of_que"><br>
 				<label class="tooltip_hidden">Starting question:<span class="tooltiptext">The questions start at 0.</span></label><input type="number" id="start_of_que"><br>
 				<label class="tooltip_hidden">Ending question:<span class="tooltiptext">Togethers with Starting question you can select questions between the two.</span></label><input type="number" id="end_of_que"><br>
 				<label class="tooltip_hidden">Time in minutes:<span class="tooltiptext">Duration of the quiz, before automatic submit.</span></label><input type="number" min="0" id="timeInmunites">
 				<button id="start">Start Quiz</button>
+
+
 			</div>
 		</div>
 		</main>
