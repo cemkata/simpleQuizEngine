@@ -779,7 +779,6 @@ function show_Help(){
 		showHelp.classList.add("tooltip");
 		showHelp.classList.remove("tooltip_hidden");
 	}
-	showHelp
 }
 
 
