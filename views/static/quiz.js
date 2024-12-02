@@ -333,8 +333,24 @@ function showResults(){
   nQuests = nOfQuesions - _beginOfQuesions
   resultsContainer.innerHTML = `Result: ${numCorrect} out of ${nQuests}`;
   timerTxt.textContent = "";
-  let grade = numCorrect/nQuests * 100
-  pagesContainer.innerText = `Grade: ${grade.toFixed(2)}%`;
+  let grade = numCorrect/nQuests * 100;
+  pagesContainer.innerText = `Grade: `;
+  // set color of the procent number
+  let span = document.createElement("span");
+  span.textContent = `${grade.toFixed(2)}%`;
+  /**
+  if(!hideAnserBtn.checked){
+	  span.style.color = getColor(grade);
+  }
+  */
+  span.style.color = getColor(grade);
+  pagesContainer.appendChild(span);
+}
+
+function getColor(value) {
+  //value from 0 to 100
+  var hue = ((value/100) * 120).toString(10);
+  return ["hsl(", hue, ",75%,50%)"].join("");
 }
 
 function checkAnswer(currentQuestion, questionNumber){
@@ -584,7 +600,11 @@ function buildQuiz(){
             startOfQuestion.value = 0;
         }
         if(endOfQuestion.value > myQuestions.length || endOfQuestion.value < 0 || endOfQuestion.value == ''){
-            endOfQuestion.value = myQuestions.length
+            if(numberOfQuestion.value == ''){
+	          endOfQuestion.value = myQuestions.length;
+            }else{
+	          endOfQuestion.value = numberOfQuestion.value;
+            }
         }
         if(startOfQuestion.value != '' && endOfQuestion.value != ''){
             if(numberOfQuestion.value == '' || numberOfQuestion.value == myQuestions.length){
