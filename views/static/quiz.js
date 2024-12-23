@@ -57,13 +57,13 @@ function prepareQuestionDragDrop(i){
     }
     for(let k = 0; k<totalSelection; k++){
         answers.push(
-          `<span draggable="true" class="dragtarget">${myQuestions[i].answers[j]}</span>`
+          `<span draggable="true" ondragstart="dragStart(event)" class="dragtarget">${myQuestions[i].answers[j]}</span>`
         );
     }
   }
   if(randomAnswer.checked){
     answers = shuffle(answers);
-	randomAnswer.disabled=true;
+    randomAnswer.disabled=true;
   }
   const answer_box = `<div class="answers_container" id="drag_drop-answer_slide${i}"><p>Answers:</p>${answers.join("")}</div>`
 
@@ -205,7 +205,7 @@ function escapeHtml(unsafe){
        .replace(new RegExp(escapeRegExp('<br>'), 'g'), "<br>&emsp;&nbsp;")
        .replace(new RegExp(escapeRegExp('</br>'), 'g'), "</br>&emsp;&nbsp;")
        .substring(1);
-	}
+    }
   return unsafe
        .replace(/&/g, "&amp;")
        .replace(/</g, "&lt;")
@@ -340,7 +340,7 @@ function showResults(){
   span.textContent = `${grade.toFixed(2)}%`;
   /**
   if(!hideAnserBtn.checked){
-	  span.style.color = getColor(grade);
+      span.style.color = getColor(grade);
   }
   */
   span.style.color = getColor(grade);
@@ -591,7 +591,7 @@ function buildQuiz(){
   setTimeout(function(){ //wait for few ms to render the waiting animation
         if(randomQuestion.checked){
             myQuestions = shuffle(myQuestions);
-			randomQuestion.disabled=true;
+            randomQuestion.disabled=true;
         }
         if(numberOfQuestion.value > myQuestions.length || numberOfQuestion.value < 0 || numberOfQuestion.value == ''){
             numberOfQuestion.value = myQuestions.length;
@@ -601,9 +601,9 @@ function buildQuiz(){
         }
         if(endOfQuestion.value > myQuestions.length || endOfQuestion.value < 0 || endOfQuestion.value == ''){
             if(numberOfQuestion.value == ''){
-	          endOfQuestion.value = myQuestions.length;
+              endOfQuestion.value = myQuestions.length;
             }else{
-	          endOfQuestion.value = numberOfQuestion.value;
+              endOfQuestion.value = numberOfQuestion.value;
             }
         }
         if(startOfQuestion.value != '' && endOfQuestion.value != ''){
@@ -759,7 +759,7 @@ var span = document.getElementsByClassName("close")[0];
 function initPage(){
       // Quiz settings
       startQuiz = document.getElementById("start");
-	  showHelp = document.getElementById("showHelp");
+      showHelp = document.getElementById("showHelp");
       randomQuestion = document.getElementById("random");
       randomAnswer = document.getElementById("random_answ");
       hideAnserBtn = document.getElementById("hide_answer_btn");
@@ -782,23 +782,23 @@ function initPage(){
 }
 
 function show_Help(){
-	helpLabels = document.getElementsByTagName("label");
-	for(let i = 0; i<helpLabels.length; i++){
-		if(helpLabels[i].classList.contains("tooltip")){
-			helpLabels[i].classList.add("tooltip_hidden");
-			helpLabels[i].classList.remove("tooltip");
-		}else{
-			helpLabels[i].classList.add("tooltip");
-			helpLabels[i].classList.remove("tooltip_hidden");
-		}
-	}
-	if(showHelp.classList.contains("tooltip")){
-		showHelp.classList.add("tooltip_hidden");
-		showHelp.classList.remove("tooltip");
-	}else{
-		showHelp.classList.add("tooltip");
-		showHelp.classList.remove("tooltip_hidden");
-	}
+    helpLabels = document.getElementsByTagName("label");
+    for(let i = 0; i<helpLabels.length; i++){
+        if(helpLabels[i].classList.contains("tooltip")){
+            helpLabels[i].classList.add("tooltip_hidden");
+            helpLabels[i].classList.remove("tooltip");
+        }else{
+            helpLabels[i].classList.add("tooltip");
+            helpLabels[i].classList.remove("tooltip_hidden");
+        }
+    }
+    if(showHelp.classList.contains("tooltip")){
+        showHelp.classList.add("tooltip_hidden");
+        showHelp.classList.remove("tooltip");
+    }else{
+        showHelp.classList.add("tooltip");
+        showHelp.classList.remove("tooltip_hidden");
+    }
 }
 
 
@@ -838,6 +838,10 @@ if (location.protocol == 'http:' ||  location.protocol == 'https:'){
     }, timeout_in_ms);
 }else{
     alert("Failed to init the quiz.")
+}
+
+function dragStart(event) {
+  event.dataTransfer.setData("Text", event.target.id);
 }
 
 var dragP;
