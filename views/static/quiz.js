@@ -830,12 +830,14 @@ if (location.protocol == 'http:' ||  location.protocol == 'https:'){
     document.getElementById("loader").style.display = "block";
     xmlhttp.send();
 }else if (location.protocol == 'file:'){
-    // Quiz settings
     document.getElementById("loader").style.display = "block";
-    let timeout_in_ms = 1000; //1 second
-    setTimeout(function(){ //wait for few ms to render the waiting animation
-          initPage();
-    }, timeout_in_ms);
+    window.onload = function() {
+        // Quiz settings
+        let timeout_in_ms = 1000; //1 second
+        setTimeout(function(){ //wait for few ms to render the waiting animation
+              initPage();
+        }, timeout_in_ms);
+    }
 }else{
     alert("Failed to init the quiz.")
 }
