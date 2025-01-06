@@ -1,0 +1,8 @@
+Replace $?__ with some of those:
+https://www.toptal.com/designers/htmlarrows/arrows/
+https://www.w3schools.com/charsets/ref_utf_symbols.asp
+
+Change the pointer for drag and drop questions to drag pointer:
+https://www.w3schools.com/cssref/tryit.php?filename=trycss_cursor
+
+Add drop-down question type.
