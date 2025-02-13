@@ -279,16 +279,16 @@ def proccesOldTypeFile(fileName):
     info = questionsStrings.pop(0)
 
     questions = []
-    i = 0
+    j = 0
     for q in questionsStrings:
         lines = q.splitlines()
         tmpDict = {}
         answers = {}
         tmpDict['explanation'] = ''
         tmpDict['question'] = ''
-        tmpDict['id'] = i #new
+        tmpDict['id'] = j #new
         tmpDict['referenceLink'] = "" #new
-        i += 1 #new
+        j += 1 #new
         qestionTextDone = True
         answerTextDone = True
         explanationTextDone = True
