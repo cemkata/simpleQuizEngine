@@ -108,6 +108,6 @@ To configure edit the file config_files\config.ini
 ***Versions***  
 *Server app 1.42*  
 *Cli menu/loader 1.4*  
-*Web page templates (css/js) 1.32*  
+*Web page templates (css/js) 1.33*  
 *Gui 0.3*  
 *Database 0.4*  

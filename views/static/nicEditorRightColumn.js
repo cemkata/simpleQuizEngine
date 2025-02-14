@@ -2,6 +2,11 @@ function changeAnswerType(selct){
     var ansArea = document.getElementById("answers_area")
     var selected = selct.value
     var newHtml = ""
+	if(selct.children[0].value == '-1' && selected != '-1'){
+		selct.removeChild(selct.children[0]);
+        ansArea.innerHTML = newHtml;
+        document.getElementById("noQuestion").value = 0;
+	}
     if(selected == '0'){ //freetext
         newHtml += `<input type="text" id="freeTextAns" style = "width: 100%;" value="">`;
         ansArea.innerHTML = newHtml;

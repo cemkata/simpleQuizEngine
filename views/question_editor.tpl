@@ -17,7 +17,13 @@
     <input type="hidden" id="courseID" value="{{courseID}}">
     <input type="hidden" id="quizID" value="{{quizID}}">
 % selcDropDown = ['', '', '', '']
-	
+<% 
+selectionMenu = [{'value':0, 'text':"Free text", 'selected':""},
+                 {'value':1, 'text':"Single choice", 'selected':""},
+                 {'value':2, 'text':"Multiple choice", 'selected':""},
+                 {'value':3, 'text':"Drag-n-drop", 'selected':""}
+]
+%>
 	
 %if questionID != -1:
     <p>Edit question <i>{{questionID}}</i> from quiz <b>{{quizID}}</b> in course <u>{{courseID}}</u></p>
@@ -41,10 +47,10 @@
 	</div>
     <div id="answers_area">
   % if questionContent['category'] == 0:
-      % selcDropDown[0] = 'selected'
+      % selectionMenu[0]['selected'] = 'selected'
       <input type="text" id="freeTextAns" style = "width: 100%;" value="{{questionContent['correctAnswer']}}">
   % elif questionContent['category'] == 3: #Drag-drop
-      % selcDropDown[3] = 'selected'
+      % selectionMenu[3]['selected'] = 'selected'
 		   <div id="select_answers">
 		   <p>Selectable answers</p>
 			%for idx, answer in enumerate(questionContent['answers']):
@@ -69,10 +75,10 @@
   % elif questionContent['category'] == 1 or questionContent['category'] == 2:
 		  <%
 		    if questionContent['category'] == 1:
-		       selcDropDown[1] = 'selected'
+		       selectionMenu[1]['selected'] = 'selected'
 		       type = "radio"
 		    elif questionContent['category'] == 2:
-		       selcDropDown[2] = 'selected'
+		       selectionMenu[2]['selected'] = 'selected'
 		       type = "checkbox"
 			end
 		    %>
@@ -86,11 +92,11 @@
 				</span><input type="text" class="textAns" style = "width: 100%;" name="answer" value="{{questionContent['answers'][key]}}">
 			  </div><br>
 			  % end
-	  % else:
+  % else:
+  % #Here add new type of questions
 			  <div class="showinline">
-				New type of question
+				Select type of question
 			  </div><br>
-	  % end
   % end
   </div>
   <p>Explanation</p>
@@ -109,12 +115,16 @@
     <p><b>Question settings:</b></p>
     <table id = "questionOptions">
     <tr>
+	  <%
+	  if questionID == -1:
+	     selectionMenu.insert(0, {'value':-1, 'text':"Please select", 'selected':""})
+	  end
+	  %>
       <td><span>Answert type:</span></td >
       <td><select id="questionType" onchange="changeAnswerType(this)">
-        <option value="0" {{selcDropDown[0]}}>Free text</option>
-        <option value="1" {{selcDropDown[1]}}>Single choice</option>
-        <option value="2" {{selcDropDown[2]}}>Multiple choice</option>
-        <option value="3" {{selcDropDown[3]}}>Drag-n-drop</option>
+	    % for opt in selectionMenu:
+            <option value="{{opt['value']}}" {{opt['selected']}}>{{opt['text']}}</option>
+		% end
         </select></td>
     </tr>
     <tr>
