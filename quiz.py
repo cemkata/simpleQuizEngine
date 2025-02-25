@@ -31,7 +31,7 @@ def favicon():
 @app.route('/')
 def new_index():
     if not showSelectionPage:
-        redirect("/main/")
+        redirect("./main/")
     return template('selectionpage')
 
 @app.route('/main/')

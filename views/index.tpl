@@ -1,3 +1,10 @@
+<%
+# comand - variable used in the page:
+#  1 - Shows course selection
+#  2 - Avalable quizes for this course
+#  3 - Edit: Shows course selection
+#  4 - Edit: Avalable quizes for this course
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,10 +28,10 @@
  <table>
  	%if comand == 4:
 		 <tr><td colspan="4"><input type="button" class="btnDarkRed" onclick="location.href='./addquiz?courseID={{cid}}';" value="&#10001; Add new quiz &#10002;" /></td></tr>
-    %end ##%if comand == 4:
+    %end
 	%if comand == 3:
 		 <tr><td colspan="3"><input type="button" class="btnDarkRed" onclick="location.href='./addcategory';" value="&#10001; Add new category &#10002;" /></td></tr>
-    %end ##%if comand == 3:
+    %end
 
 	% for i in items:
 	   <tr>
@@ -46,9 +53,9 @@
 	% end
 	
 	    %if comand == 2:
-		<tr><td colspan="3"><input type="button" id="backButton" onclick="window.history.back();" value="Back" /></td></tr>
+		<tr><td colspan="3"><input type="button" id="backButton" onclick="location.href='./';" value="Back" /></td></tr>
 		%elif  comand == 4:
-		<tr><td colspan="4"><input type="button" id="backButton" onclick="window.history.back();" value="Back" /></td></tr>
+		<tr><td colspan="4"><input type="button" id="backButton" onclick="location.href='./';" value="Back" /></td></tr>
 		% end
 		
 	    %if comand == 3 or comand == 4:

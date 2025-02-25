@@ -25,7 +25,7 @@
 % else:
 			<input type="hidden" id="cid" value="{{cid}}">
 			<input type="hidden" id="dump" value="{{dump}}">
-			<h1><a href="/main/" id="homeLink">Home</a> <b>|</b> Dump {{cid + " " + dump}}</h1>
+			<h1><a href="./showDumps?courseID={{cid}}" id="homeLink">Home</a> <b>|</b> Dump {{cid + " " + dump}}</h1>
 % end #% if defined('OFFLINE'):
 		</header>
 		<main class="main-content">
