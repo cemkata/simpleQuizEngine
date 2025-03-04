@@ -579,7 +579,7 @@ function restartQuiz(){
     timerTxt.textContent = "No limit";
     document.getElementById("showTimer").style = "display:none"
 
-    initPage();
+    initPage(true);
     resultsContainer.innerHTML = ""
     selectedQuestionContainer.innerText = ""
 }
@@ -613,6 +613,9 @@ function buildQuiz(){
                     numberOfQuestion.value = myQuestions.length;
                 }
             }
+        }
+        if(startOfQuestion.value == endOfQuestion.value){
+            endOfQuestion.value = '';
         }
 
         if(countDown.value == '' || countDown.value == 0){
@@ -756,15 +759,17 @@ var captionText = document.getElementById("caption");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
-function initPage(){
+function initPage(skip_total_questions_value){
       // Quiz settings
       startQuiz = document.getElementById("start");
       showHelp = document.getElementById("showHelp");
       randomQuestion = document.getElementById("random");
       randomAnswer = document.getElementById("random_answ");
       hideAnserBtn = document.getElementById("hide_answer_btn");
-      numberOfQuestion = document.getElementById("n_of_que");
-      numberOfQuestion.value = myQuestions.length;
+      if (typeof skip_total_questions_value === 'undefined') {
+          numberOfQuestion = document.getElementById("n_of_que");
+          numberOfQuestion.value = myQuestions.length;
+      }
       startOfQuestion = document.getElementById("start_of_que");
       endOfQuestion = document.getElementById("end_of_que");
       countDown = document.getElementById("timeInmunites");
