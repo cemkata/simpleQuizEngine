@@ -168,6 +168,7 @@ selectionDropDownMenu = [{'value':0, 'text':"Free text", 'selected':""},
  <li><code class="w3-codespan">&lt;sub&gt;</code> <sub>- Subscript text</sub></li>
  <li><code class="w3-codespan">&lt;sup&gt;</code> <sup>- Superscript text</sup></li>
  <li><code class="w3-codespan">&lt;br&gt;</code> - Will insert new line</li>
+ <li><code class="w3-codespan">class="s4"</code> - Mark the text as code:</br><code class="w3-codespan">&lt;span class="s4"&gt;text&lt;/span&gt;</code></li>
 </ul></td>
       </tr>
 	  <tr>
