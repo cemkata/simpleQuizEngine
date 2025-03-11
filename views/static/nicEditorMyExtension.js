@@ -570,6 +570,11 @@ function saveQuestion(content, id, instance) {
 			 }
 			 //answers[i] = tmp_ans[1].value
 			 answers[String.fromCharCode(65 + i)] = tmp_ans[1].value
+			 if(answers[String.fromCharCode(65 + i)].includes("&")){
+				 if(answers[String.fromCharCode(65 + i)][0] != "¶"){
+					 answers[String.fromCharCode(65 + i)] = "¶".concat(answers[String.fromCharCode(65 + i)]);
+				 }
+			 }
 		   }
 		 }else{
 		   var answers = {};
