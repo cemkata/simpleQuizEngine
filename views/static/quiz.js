@@ -593,7 +593,7 @@ function buildQuiz(){
             myQuestions = shuffle(myQuestions);
             randomQuestion.disabled=true;
         }
-        if(numberOfQuestion.value > myQuestions.length || numberOfQuestion.value < 0 || numberOfQuestion.value == ''){
+        if(numberOfQuestion.value > myQuestions.length || numberOfQuestion.value <= 0 || numberOfQuestion.value == ''){
             numberOfQuestion.value = myQuestions.length;
         }
         if(startOfQuestion.value > myQuestions.length || startOfQuestion.value < 0 || startOfQuestion.value == ''){
@@ -635,11 +635,13 @@ function buildQuiz(){
         restartButton = document.getElementById('restart');
         slidesContainer = document.getElementsByClassName("quiz-container")
 
-        nOfQuesions = parseInt(startOfQuestion.value) + parseInt(numberOfQuestion.value)
+        //Question array start at 0, if the value the questions will be more than expected
+        nOfQuesions = parseInt(startOfQuestion.value) + parseInt(numberOfQuestion.value) - 1
         if(nOfQuesions > myQuestions.length){
            nOfQuesions = myQuestions.length;
         }
         _beginOfQuesions = parseInt(startOfQuestion.value);
+		//Question array start at 0, but people will say from question 1 to XXX
         if (_beginOfQuesions > 0){
             _beginOfQuesions--;
         }
