@@ -8,7 +8,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Test engine</title>
+%if comand == 1:
+ <title>Test engine: select course</title>
+%elif comand == 2:
+ <title>Test engine: {{cid}}</title>
+%elif comand == 3:
+ <title>Test engine editor</title>
+%elif comand == 4:
+ <title>Test engine editor: {{cid}}</title>
+% end
+
 <link rel='stylesheet' href='/static/style_main.css'>
 	    %if comand == 4:
 <link rel='stylesheet' href='/static/progressbar.css'>
