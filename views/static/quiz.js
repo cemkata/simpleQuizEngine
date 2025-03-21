@@ -603,7 +603,7 @@ function buildQuiz(){
             if(numberOfQuestion.value == ''){
               endOfQuestion.value = myQuestions.length;
             }else{
-              endOfQuestion.value = numberOfQuestion.value;
+              endOfQuestion.value = parseInt(startOfQuestion.value) + parseInt(numberOfQuestion.value);
             }
         }
         if(startOfQuestion.value != '' && endOfQuestion.value != ''){
@@ -641,7 +641,7 @@ function buildQuiz(){
            nOfQuesions = myQuestions.length;
         }
         _beginOfQuesions = parseInt(startOfQuestion.value);
-		//Question array start at 0, but people will say from question 1 to XXX
+        //Question array start at 0, but people will say from question 1 to XXX
         if (_beginOfQuesions > 0){
             _beginOfQuesions--;
         }
