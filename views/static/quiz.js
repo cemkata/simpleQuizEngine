@@ -246,10 +246,12 @@ function prepareImgs(){
     }
 }
 
-function showResults(){
-    if (confirm("Grade the quiz?") != true) {
+function showResults(skipDialog){
+  if (skipDialog === undefined){
+    if (confirm("Grade the quiz?") != true){
       return
     }
+  }
   // keep track of user's answers
   let numCorrect = 0;
   clearTimeout(timer);
@@ -257,7 +259,7 @@ function showResults(){
   // for each question...
   var nextWrongAncor = "";
   var holdPrevWrong;
-  for(let i = _beginOfQuesions, j = 0; i<nOfQuesions; i++, j++){
+  for(let i = _beginOfQuesions, j = 0; i<(nOfQuesions+1); i++, j++){
       let answerContainer = answerContainers[j];
       let holderDiv = document.createElement("div")
       let childP = document.createElement("p");
@@ -331,9 +333,9 @@ function showResults(){
 
   // show number of correct answers out of total
   nQuests = nOfQuesions - _beginOfQuesions
-  resultsContainer.innerHTML = `Result: ${numCorrect} out of ${nQuests}`;
+  resultsContainer.innerHTML = `Result: ${numCorrect} out of ${nQuests+1}`;
   timerTxt.textContent = "";
-  let grade = numCorrect/nQuests * 100;
+  let grade = numCorrect/(nQuests + 1)* 100;
   pagesContainer.innerText = `Grade: `;
   // set color of the procent number
   let span = document.createElement("span");
@@ -704,8 +706,8 @@ function timedCount(){
         var result = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
         timerTxt.textContent = result;
         if(countDown == 0 ){
-            showResults();
-            return false;
+            showResults(true);
+            return;
         }
 
         countDown = countDown - 1;
