@@ -516,6 +516,11 @@ function showSlide(n){
     /*submitButton.style.display = 'none';*/
   }
   pagesContainer.innerText = "Questions: " + (n + 1) + " / " + slides.length;
+  if(_beginOfQuesions != 0 || nOfQuesions != myQuestions.length){
+    if(!randomQuestion.checked){
+      console.log("Real questions number " + (_beginOfQuesions + n));
+    }
+  }
   goToTop.scrollTop = 0;
   goToTop.scrollLeft=0;
 }
