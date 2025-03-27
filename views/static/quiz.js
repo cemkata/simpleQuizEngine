@@ -11,7 +11,7 @@ function prepareQuiz(){
   const output = [];
 
   // for each question...
-  for(let i = _beginOfQuesions; i<nOfQuesions; i++){
+  for(let i = _beginOfQuesions; i<=nOfQuesions; i++){
 
       if(typeof myQuestions[i].question == 'object' || myQuestions[i].category == 3){ //drag-drop question
             output.push(prepareQuestionDragDrop(i))
@@ -503,7 +503,7 @@ function showSlide(n){
     restartButton.classList.add("quzControl");
     /*restartButton.style.display = 'none';*/
   }
-  if(currentSlide === slides.length-1){
+  if(currentSlide === slides.length - 1){
     /*nextButton.style.display = 'none';*/
     nextButton.classList.add("quzControl");
     submitButton.classList.remove("quzControl");
@@ -642,9 +642,9 @@ function buildQuiz(){
         }
         _beginOfQuesions = parseInt(startOfQuestion.value);
         //Question array start at 0, but people will say from question 1 to XXX
-        if (_beginOfQuesions > 0){
+        /**if (_beginOfQuesions > 0){
             _beginOfQuesions--;
-        }
+        }*/
 
         prepareQuiz();
         prepareImgs();
@@ -682,7 +682,7 @@ function buildQuiz(){
             if(randomQuestion.checked){
                 selectedQuestionContainer.innerText = "Selected random questions";
             }else{
-                selectedQuestionContainer.innerText = "Selected questions between " + (_beginOfQuesions + 1) + " and " + (slides.length + _beginOfQuesions);
+                selectedQuestionContainer.innerText = "Selected questions between " + (_beginOfQuesions) + " and " + (slides.length + _beginOfQuesions - 1);
             }
         }
         goToTop = document.getElementsByClassName("quiz-container")[0];
