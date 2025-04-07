@@ -961,26 +961,26 @@ document.onkeydown = function(evt) {
                 timerTxt.textContent = "Paused!";
             }
         }else if(event.ctrlKey && event.altKey && evt.key === "e"){
-			if(resultsContainer.innerHTML.length != 0){return}
+            if(resultsContainer.innerHTML.length != 0){return}
             if(hideAnserBtn.checked) {return}
-			if(!randomQuestion.checked){
-				if(countDown != -1) {
-					paused = !paused;
-					timerTxt.textContent = "Paused!";
-				}
-				var url = `/editor/editQuestion?courseID=${cource}&quizID=${dump}&questionID=${_beginOfQuesions + currentSlide}`;
-				var win = window.open(url, '_blank');
-				win.focus();
-				var timer = setInterval(function() {
-					if (win.closed) {
-						clearInterval(timer);
-						if(countDown != -1) {
-							paused = !paused;
-							timerTxt.textContent = "Paused!";
-						}
-					}
-				}, 500);
-			}
+            if(!randomQuestion.checked){
+                if(countDown != -1) {
+                    paused = !paused;
+                    timerTxt.textContent = "Paused!";
+                }
+                var url = `/editor/editQuestion?courseID=${cource}&quizID=${dump}&questionID=${_beginOfQuesions + currentSlide}`;
+                var win = window.open(url, '_blank');
+                win.focus();
+                var timer = setInterval(function() {
+                    if (win.closed) {
+                        clearInterval(timer);
+                        if(countDown != -1) {
+                            paused = !paused;
+                            timerTxt.textContent = "Paused!";
+                        }
+                    }
+                }, 500);
+            }
         }
     }
 };
