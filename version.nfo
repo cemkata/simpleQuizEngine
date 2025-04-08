@@ -1,7 +1,7 @@
 {
 "app": 1.43,
 "loader": 1.4,
-"templates": 1.42,
+"templates": 1.43,
 "gui":0.3,
 "db_schema":0.4
 }
