@@ -348,7 +348,9 @@
     */
     span.style.color = getColor(grade);
     pagesContainer.appendChild(span);
-	restartButton.classList.remove("quzControl");
+    if(!hideRestart.checked){
+        restartButton.classList.remove("quzControl");
+    }
   }
   
   function getColor(value) {
@@ -519,7 +521,16 @@
       submitButton.classList.add("quzControl");
       /*submitButton.style.display = 'none';*/
     }
-    pagesContainer.innerText = "Questions: " + (n + 1) + " / " + slides.length;
+    if(hideProgressAsNumber.checked){
+        pagesContainer.innerText = "Questions: " + (n + 1) + " / " + slides.length;
+    }
+    if(hideProgressBar .checked){
+        if(n != 0){
+            let width = (n + 1) / slides.length * 100
+            progressBar.style.width = width.toFixed(2) + "%";
+            progressBar.innerHTML = width.toFixed(2) + "%";
+        }
+    }
     if(_beginOfQuesions != 0 || nOfQuesions != myQuestions.length){
       if(!randomQuestion.checked){
         console.log("Real questions number " + (_beginOfQuesions + n));
@@ -566,6 +577,7 @@
   }
   
   function restartQuiz(){
+      if(hideRestart.checked) {return}
       if (confirm("Restart the quiz?") != true) {
         return
       }
@@ -587,7 +599,9 @@
       //showSlide(currentSlide);
       timerTxt.textContent = "No limit";
       document.getElementById("showTimer").style = "display:none"
-  
+      document.getElementById("myProgress").style = "display:none"
+      progressBar.style.width = "0%";
+      progressBar.innerHTML = "0%";
       initPage(true);
       resultsContainer.innerHTML = ""
       selectedQuestionContainer.innerText = ""
@@ -633,6 +647,9 @@
               countDown = parseInt(countDown.value) * 60;
               if (!isNaN(countDown)) timedCount();
               document.getElementById("showTimer").style.display = "inline-block";
+          }
+          if(hideProgressBar.checked){
+              document.getElementById("myProgress").style.display = "inline-block";
           }
           // Variables
           quizContainer = document.getElementById('quiz');
@@ -750,7 +767,12 @@
   var endOfQuestion;
   var startQuiz;
   var showHelp;
-  
+  var hideRestart;
+  var hideProgressBar;
+  var hideProgressAsNumber;
+  var allowEdit;
+  var progressBar;
+
   var timerTxt;
   
   var slidesContainer;
@@ -777,6 +799,11 @@
         randomQuestion = document.getElementById("random");
         randomAnswer = document.getElementById("random_answ");
         hideAnserBtn = document.getElementById("hide_answer_btn");
+        hideRestart = document.getElementById("hide_restart");
+        hideProgressBar = document.getElementById("show_progress_bar");
+        hideProgressAsNumber = document.getElementById("show_progress_numbers");
+        allowEdit = document.getElementById("allow_edit");
+        progressBar = document.getElementById("myBar");
         if (typeof skip_total_questions_value === 'undefined') {
             numberOfQuestion = document.getElementById("n_of_que");
             numberOfQuestion.value = myQuestions.length;
@@ -811,9 +838,17 @@
       if(showHelp.classList.contains("tooltip")){
           showHelp.classList.add("tooltip_hidden");
           showHelp.classList.remove("tooltip");
+          Array.from(acc, (accordeon) => {
+              accordeon.click();
+          });
       }else{
           showHelp.classList.add("tooltip");
           showHelp.classList.remove("tooltip_hidden");
+          Array.from(acc, (accordeon) => {
+              if(!accordeon.classList.contains("active")){
+                  accordeon.click();
+              }
+          });
       }
   }
   
@@ -963,6 +998,8 @@
                   timerTxt.textContent = "Paused!";
               }
           }else if(event.ctrlKey && event.altKey && evt.key === "e"){
+			  if (location.protocol == 'file:'){alert("Not supported in offline mode!");return;}
+              if(!allowEdit.checked) {return}
               if(resultsContainer.innerHTML.length != 0){return}
               if(hideAnserBtn.checked) {return}
               if(!randomQuestion.checked){
@@ -986,4 +1023,21 @@
           }
       }
   };
+  
+  var acc = document.getElementsByClassName("accordion");
+  Array.from(acc, (accordeon) => {
+      accordeon.addEventListener("click", function() {
+        /* Toggle between adding and removing the "active" class,
+        to highlight the button that controls the panel */
+        this.classList.toggle("active");
+        /* Toggle between hiding and showing the active panel */
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+          panel.style.display = "none";
+        } else {
+          panel.style.display = "block";
+        }
+      });
+  });
+  
 })();

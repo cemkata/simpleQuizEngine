@@ -530,3 +530,41 @@ table td:first-child  {
   top: 100%;
   margin-left: 18em;
 }
+
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+  background-color: #f8f6f0;
+  color: #444;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .accordion:hover {
+  background-color: #ccc;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+  padding: 0 18px;
+  display: none;
+  border: thin dotted red;
+}
+
+#myProgress {
+  width: 100%;
+  background-color: #ddd;
+}
+
+#myBar {
+  width: 0%;
+  height: 30px;
+  background-color: #389;
+  text-align: center;
+  line-height: 30px;
+  color: white;
+}

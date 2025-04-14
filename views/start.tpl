@@ -52,17 +52,26 @@
 					</g>
 					</svg>
 			  </div>
+				<button class="accordion">&#9881; Gui settings &#9881;</button>
+				<div class="panel">
+					<span><i>Possible settings:</i></span><br>
+					<label class="tooltip_hidden">Hide restart answer:<span class="tooltiptext">Hide restart button at the end! (will disable keyboard short cut as well).</span></label><input type="checkbox" id="hide_restart"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<label class="tooltip_hidden">Show progress bar:<span class="tooltiptext">Hides progress bar.</span></label><input type="checkbox" id="show_progress_bar">
+					<br>
+					<label class="tooltip_hidden">Show progress as numbers:<span class="tooltiptext">Hides progress like 1/50.</span></label><input type="checkbox" id="show_progress_numbers" checked><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					% if not defined('OFFLINE'):
+					<label class="tooltip_hidden">Allow edit from quiz:<span class="tooltiptext">ALT+CTRL+E will not open the page in editor.</span></label><input type="checkbox" id="allow_edit" checked>
+					% end #% if not defined('OFFLINE'):
+				</div>
 				<label class="tooltip_hidden">Randomize questions:<span class="tooltiptext">Important once enabled can not be disbaled until page is reload!</span></label><input type="checkbox" id="random"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				<label class="tooltip_hidden">Randomize answers:<span class="tooltiptext">Important once enabled can not be disbaled until page is reload!</span></label><input type="checkbox" id="random_answ"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				<label class="tooltip_hidden">Exsam mode:<span class="tooltiptext">Hides the check answer button.</span></label><input type="checkbox" id="hide_answer_btn">
-				<button id="showHelp" class="tooltip_hidden">Show Help<div class="tooltiptext">Keyboard short-cuts:<br><br>ALT+CTRL+R restarts the quiz<br><br>ALT+CTRL+P pause/unpause the quiz (if time limit is set)<br><br>ALT+CTRL+D allows jumps to question (mostly for debug)<br><br>ALT+CTRL+E open current question in editor (disabled in exsam mode)<br><br>Space/Enter show the answer (disabled in exsam mode)<br><br>Left/rigth arrow move between questions</div></button><br>
+			  	<button id="showHelp" class="tooltip_hidden">Show Help<div class="tooltiptext">Keyboard short-cuts:<br><br>ALT+CTRL+R restarts the quiz<br><br>ALT+CTRL+P pause/unpause the quiz (if time limit is set)<br><br>ALT+CTRL+D allows jumps to question (mostly for debug)<br><br>ALT+CTRL+E open current question in editor (disabled in exsam mode)<br><br>Space/Enter show the answer (disabled in exsam mode)<br><br>Left/rigth arrow move between questions</div></button><br>
 				<label class="tooltip_hidden">How many questions:<span class="tooltiptext">Mostly used with 'Random questions'.</span></label><input type="number" id="n_of_que"><br>
 				<label class="tooltip_hidden">Starting question:<span class="tooltiptext">The questions start at 0.</span></label><input type="number" id="start_of_que"><br>
 				<label class="tooltip_hidden">Ending question:<span class="tooltiptext">Togethers with Starting question you can select questions between the two.</span></label><input type="number" id="end_of_que"><br>
 				<label class="tooltip_hidden">Time in minutes:<span class="tooltiptext">Duration of the quiz, before automatic submit.</span></label><input type="number" min="0" id="timeInmunites">
 				<button id="start">Start Quiz</button>
-
-
 			</div>
 		</div>
 		</main>
@@ -79,6 +88,7 @@
 			<br>
 			<div id="pages"></div>
 			<div id="results"></div>
+			<div id="myProgress" style="display:none"><div id="myBar">0%</div></div>
 		</section>
 % if defined('OFFLINE'):
 <script>
