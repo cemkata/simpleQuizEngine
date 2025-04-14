@@ -328,6 +328,10 @@
     previousButton.classList.add("quzControl");
     answerButton.classList.add("quzControl");
   
+    if(hideProgressBar.checked){
+        document.getElementById("myProgress").style.display = "none";
+    }
+  
     //resultsContainer.classList.add('hidden');
     pagesContainer.classList.add('hidden');
     selectedQuestionContainer.classList.add('hidden');
