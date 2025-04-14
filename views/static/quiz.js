@@ -1002,7 +1002,7 @@
                   timerTxt.textContent = "Paused!";
               }
           }else if(event.ctrlKey && event.altKey && evt.key === "e"){
-			  if (location.protocol == 'file:'){alert("Not supported in offline mode!");return;}
+              if (location.protocol == 'file:'){alert("Not supported in offline mode!");return;}
               if(!allowEdit.checked) {return}
               if(resultsContainer.innerHTML.length != 0){return}
               if(hideAnserBtn.checked) {return}
