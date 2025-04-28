@@ -631,7 +631,6 @@
                 endOfQuestion.value = myQuestions.length;
               }else{
                 endOfQuestion.value = parseInt(startOfQuestion.value) + parseInt(numberOfQuestion.value);
-                endOfQuestion.value = parseInt(startOfQuestion.value) + parseInt(numberOfQuestion.value);
                 if(endOfQuestion.value > myQuestions.length){
                     endOfQuestion.value = myQuestions.length;
                 }
