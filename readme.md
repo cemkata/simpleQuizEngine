@@ -80,6 +80,11 @@ To configure edit the file config_files\config.ini
 - allow_selection_page - boolean to enable selection page. If not enabled opens the quiz selector. And the edditor is hidden check bellow point **Access in browser**
 - FileSize - Size in bytes of the DB file to generate warning if the file is too big
 
+This configures the quiz page "Gui settings"
+- Hide_restart_answer
+- Show_progress_bar
+- Show_progress_as_numbers
+- Allow_edit_from_inside_a_quiz
 
 ***set_python_path.txt (windows)***
 - here you can point to python path to be used. Usually C:\Users\\%username%\AppData\Local\Programs\Python\Python3XXX
@@ -106,8 +111,8 @@ To configure edit the file config_files\config.ini
   - By deafailt - [http://127.0.0.1:8080/editor/](http://127.0.0.1:8080/editor/)
 
 ***Versions***  
-*Server app 1.43*  
+*Server app 1.44*  
 *Cli menu/loader 1.4*  
-*Web page templates (css/js) 1.45*  
+*Web page templates (css/js) 1.46*  
 *Gui 0.3*  
 *Database 0.4*  

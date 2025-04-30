@@ -2,7 +2,7 @@
 from bottle import Bottle, request, redirect, template, static_file, abort, ServerAdapter
 from importQuestionsHelper import proccesFile, saveFile
 import os
-from config import serverAddres, serverPort, examFolder, showSelectionPage # App config is loaded here
+from config import serverAddres, serverPort, examFolder, showSelectionPage, webconf # App config is loaded here
 from versionGetter import fullVersion
 import json
 
@@ -60,7 +60,7 @@ def start_dump():
     examID = request.query.examID or -1
     if examID == -1:
         redirect("/") 
-    return template('start', cid = courseID, dump = examID)
+    return template('start', cid = courseID, dump = examID, page_config = webconf)
 
 @app.route('/main/get')
 def get_json_dump():

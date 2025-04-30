@@ -55,12 +55,12 @@
 				<button class="accordion">&#9881; Gui settings &#9881;</button>
 				<div class="panel">
 					<span><i>Possible settings:</i></span><br>
-					<label class="tooltip_hidden">Hide restart answer:<span class="tooltiptext">Hide restart button at the end! (will disable keyboard short cut as well).</span></label><input type="checkbox" id="hide_restart"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-					<label class="tooltip_hidden">Show progress bar:<span class="tooltiptext">Hides progress bar.</span></label><input type="checkbox" id="show_progress_bar">
+					<label class="tooltip_hidden">Hide restart answer:<span class="tooltiptext">Hide restart button at the end! (will disable keyboard short cut as well).</span></label><input type="checkbox" id="hide_restart" {{page_config['Hide_restart_answer']}}><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<label class="tooltip_hidden">Show progress bar:<span class="tooltiptext">Hides progress bar.</span></label><input type="checkbox" id="show_progress_bar" {{page_config['Show_progress_bar']}}>
 					<br>
-					<label class="tooltip_hidden">Show progress as numbers:<span class="tooltiptext">Hides progress like 1/50.</span></label><input type="checkbox" id="show_progress_numbers" checked><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<label class="tooltip_hidden">Show progress as numbers:<span class="tooltiptext">Hides progress like 1/50.</span></label><input type="checkbox" id="show_progress_numbers" {{page_config['Show_progress_as_numbers']}}><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					% if not defined('OFFLINE'):
-					<label class="tooltip_hidden">Allow edit from quiz:<span class="tooltiptext">ALT+CTRL+E will not open the page in editor.</span></label><input type="checkbox" id="allow_edit" checked>
+					<label class="tooltip_hidden">Allow edit from quiz:<span class="tooltiptext">ALT+CTRL+E will not open the page in editor.</span></label><input type="checkbox" id="allow_edit" {{page_config['Allow_edit_from_inside_a_quiz']}}>
 					% end #% if not defined('OFFLINE'):
 				</div>
 				<label class="tooltip_hidden">Randomize questions:<span class="tooltiptext">Important once enabled can not be disbaled until page is reload!</span></label><input type="checkbox" id="random"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>

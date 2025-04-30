@@ -63,6 +63,33 @@ if os.path.isfile(os.path.abspath(cnfgFile)):
             maxSizeWarning = config.getint('DEFAULT', 'FileSize')
         except ValueError as e:
             pass
+
+    webconf = {}
+    webconf['Hide_restart_answer'] = False
+    webconf['Show_progress_bar'] = True
+    webconf['Show_progress_as_numbers'] = True
+    webconf['Allow_edit_from_inside_a_quiz'] = False
+    if config.has_option('QUIZ_WEB_PAGE', "Hide_restart_answer"):
+        try:
+            webconf['Hide_restart_answer'] = config.getboolean('QUIZ_WEB_PAGE', "Hide_restart_answer")
+        except ValueError as e:
+            pass
+    if config.has_option('QUIZ_WEB_PAGE', "Show_progress_bar"):
+        try:
+            webconf['Show_progress_bar'] = config.getboolean('QUIZ_WEB_PAGE', "Show_progress_bar")
+        except ValueError as e:
+            pass
+    if config.has_option('QUIZ_WEB_PAGE', "Show_progress_as_numbers"):
+        try:
+            webconf['Show_progress_as_numbers'] = config.getboolean('QUIZ_WEB_PAGE', "Show_progress_as_numbers")
+        except ValueError as e:
+            pass
+    if config.has_option('QUIZ_WEB_PAGE', "Allow_edit_from_inside_a_quiz"):
+        try:
+            webconf['Allow_edit_from_inside_a_quiz'] = config.getboolean('QUIZ_WEB_PAGE', "Allow_edit_from_inside_a_quiz")
+        except ValueError as e:
+            pass            
+            
 else:
     print("Warning!!")
     print("Using default config")
@@ -81,6 +108,17 @@ else:
     autoOpenInBrowser = False
     showSelectionPage = False
     maxSizeWarning = 26214400 # 26214400 bytes == 25 MB
+    webconf = {}
+    webconf['Hide_restart_answer'] = False
+    webconf['Show_progress_bar'] = True
+    webconf['Show_progress_as_numbers'] = True
+    webconf['Allow_edit_from_inside_a_quiz'] = False
+
+for key in webconf.keys():
+    if webconf[key]:
+        webconf[key] = 'checked'
+    else:
+        webconf[key] = ''
 
 if not os.path.exists(examFolder):
     os.makedirs(examFolder)
