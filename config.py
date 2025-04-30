@@ -69,6 +69,10 @@ if os.path.isfile(os.path.abspath(cnfgFile)):
     webconf['Show_progress_bar'] = True
     webconf['Show_progress_as_numbers'] = True
     webconf['Allow_edit_from_inside_a_quiz'] = False
+    webconf['Exsam_mode'] = False
+    webconf['Exsam_mode_read_only'] = False
+    webconf['Randomize_questions'] = False
+    webconf['Randomize_answers'] = False
     if config.has_option('QUIZ_WEB_PAGE', "Hide_restart_answer"):
         try:
             webconf['Hide_restart_answer'] = config.getboolean('QUIZ_WEB_PAGE', "Hide_restart_answer")
@@ -88,8 +92,27 @@ if os.path.isfile(os.path.abspath(cnfgFile)):
         try:
             webconf['Allow_edit_from_inside_a_quiz'] = config.getboolean('QUIZ_WEB_PAGE', "Allow_edit_from_inside_a_quiz")
         except ValueError as e:
-            pass            
-            
+            pass
+    if config.has_option('QUIZ_WEB_PAGE', "Exsam_mode"):
+        try:
+            webconf['Exsam_mode'] = config.getboolean('QUIZ_WEB_PAGE', "Exsam_mode")
+        except ValueError as e:
+            pass
+    if config.has_option('QUIZ_WEB_PAGE', "Exsam_mode_read_only"):
+        try:
+            webconf['Exsam_mode_read_only'] = config.getboolean('QUIZ_WEB_PAGE', "Exsam_mode_read_only")
+        except ValueError as e:
+            pass
+    if config.has_option('QUIZ_WEB_PAGE', "Randomize_questions"):
+        try:
+            webconf['Randomize_questions'] = config.getboolean('QUIZ_WEB_PAGE', "Randomize_questions")
+        except ValueError as e:
+            pass
+    if config.has_option('QUIZ_WEB_PAGE', "Randomize_answers"):
+        try:
+            webconf['Randomize_answers'] = config.getboolean('QUIZ_WEB_PAGE', "Randomize_answers")
+        except ValueError as e:
+            pass
 else:
     print("Warning!!")
     print("Using default config")
@@ -113,10 +136,15 @@ else:
     webconf['Show_progress_bar'] = True
     webconf['Show_progress_as_numbers'] = True
     webconf['Allow_edit_from_inside_a_quiz'] = False
+    webconf['Exsam_mode'] = False
+    webconf['Exsam_mode_read_only'] = False
 
 for key in webconf.keys():
     if webconf[key]:
-        webconf[key] = 'checked'
+        if key == 'Exsam_mode_read_only':
+            webconf[key] = 'disabled'
+        else:
+            webconf[key] = 'checked'
     else:
         webconf[key] = ''
 

@@ -63,9 +63,9 @@
 					<label class="tooltip_hidden">Allow edit from quiz:<span class="tooltiptext">ALT+CTRL+E will not open the page in editor.</span></label><input type="checkbox" id="allow_edit" {{page_config['Allow_edit_from_inside_a_quiz']}}>
 					% end #% if not defined('OFFLINE'):
 				</div>
-				<label class="tooltip_hidden">Randomize questions:<span class="tooltiptext">Important once enabled can not be disbaled until page is reload!</span></label><input type="checkbox" id="random"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-				<label class="tooltip_hidden">Randomize answers:<span class="tooltiptext">Important once enabled can not be disbaled until page is reload!</span></label><input type="checkbox" id="random_answ"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-				<label class="tooltip_hidden">Exsam mode:<span class="tooltiptext">Hides the check answer button.</span></label><input type="checkbox" id="hide_answer_btn">
+				<label class="tooltip_hidden">Randomize questions:<span class="tooltiptext">Important once enabled can not be disbaled until page is reload!</span></label><input type="checkbox" id="random" {{page_config['Randomize_questions']}}><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<label class="tooltip_hidden">Randomize answers:<span class="tooltiptext">Important once enabled can not be disbaled until page is reload!</span></label><input type="checkbox" id="random_answ" {{page_config['Randomize_answers']}}><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<label class="tooltip_hidden">Exsam mode:<span class="tooltiptext">Hides the check answer button.</span></label><input type="checkbox" id="hide_answer_btn" {{page_config['Exsam_mode']}} {{page_config['Exsam_mode_read_only']}}>
 			  	<button id="showHelp" class="tooltip_hidden">Show Help<div class="tooltiptext">Keyboard short-cuts:<br><br>ALT+CTRL+R restarts the quiz<br><br>ALT+CTRL+P pause/unpause the quiz (if time limit is set)<br><br>ALT+CTRL+D allows jumps to question (mostly for debug)<br><br>ALT+CTRL+E open current question in editor (disabled in exsam mode)<br><br>Space/Enter show the answer (disabled in exsam mode)<br><br>Left/rigth arrow move between questions</div></button><br>
 				<label class="tooltip_hidden">How many questions:<span class="tooltiptext">Mostly used with 'Random questions'.</span></label><input type="number" id="n_of_que"><br>
 				<label class="tooltip_hidden">Starting question:<span class="tooltiptext">The questions start at 0.</span></label><input type="number" id="start_of_que"><br>
