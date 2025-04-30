@@ -64,7 +64,6 @@
     }
     if(randomAnswer.checked){
       answers = shuffle(answers);
-      randomAnswer.disabled=true;
     }
     const answer_box = `<div class="answers_container" id="drag_drop-answer_slide${i}"><p>Answers:</p>${answers.join("")}</div>`
   
@@ -619,6 +618,9 @@
           if(randomQuestion.checked){
               myQuestions = shuffle(myQuestions);
               randomQuestion.disabled=true;
+          }
+          if(randomAnswer.checked){
+              randomAnswer.disabled=true;
           }
           if(numberOfQuestion.value > myQuestions.length || numberOfQuestion.value <= 0 || numberOfQuestion.value == ''){
               numberOfQuestion.value = myQuestions.length;
