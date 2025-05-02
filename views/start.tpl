@@ -52,19 +52,26 @@
 					</g>
 					</svg>
 			  </div>
-				<button class="accordion">&#9881; Gui settings &#9881;</button>
-				<div class="panel">
-					<span><i>Possible settings:</i></span><br>
-					<label class="tooltip_hidden">Hide restart answer:<span class="tooltiptext">Hide restart button at the end! (will disable keyboard short cut as well).</span></label><input type="checkbox" id="hide_restart" {{page_config['Hide_restart_answer']}}><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-					<label class="tooltip_hidden">Show progress bar:<span class="tooltiptext">Hides progress bar.</span></label><input type="checkbox" id="show_progress_bar" {{page_config['Show_progress_bar']}}>
-					<br>
-					<label class="tooltip_hidden">Show progress as numbers:<span class="tooltiptext">Hides progress like 1/50.</span></label><input type="checkbox" id="show_progress_numbers" {{page_config['Show_progress_as_numbers']}}><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-					% if not defined('OFFLINE'):
-					<label class="tooltip_hidden">Allow edit from quiz:<span class="tooltiptext">ALT+CTRL+E will not open the page in editor.</span></label><input type="checkbox" id="allow_edit" {{page_config['Allow_edit_from_inside_a_quiz']}}>
-					% end #% if not defined('OFFLINE'):
+			  % if page_config['Display_GUI']:
+			    % cssHidden = '''style="display:none !important;'''
+			  %else:
+			    % cssHidden = ''' '''
+			  % end #% if page_config['Display_GUI']:
+			    <div  {{!cssHidden}}>
+					<button class="accordion">&#9881; Gui settings &#9881;</button>
+					<div class="panel">
+						<span><i>Possible settings:</i></span><br>
+						<label class="tooltip_hidden">Hide restart answer:<span class="tooltiptext">Hide restart button at the end! (will disable keyboard short cut as well).</span></label><input type="checkbox" id="hide_restart" {{page_config['Hide_restart_answer']}}><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						<label class="tooltip_hidden">Show progress bar:<span class="tooltiptext">Hides progress bar.</span></label><input type="checkbox" id="show_progress_bar" {{page_config['Show_progress_bar']}}>
+						<br>
+						<label class="tooltip_hidden">Show progress as numbers:<span class="tooltiptext">Hides progress like 1/50.</span></label><input type="checkbox" id="show_progress_numbers" {{page_config['Show_progress_as_numbers']}}><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						% if not defined('OFFLINE'):
+						<label class="tooltip_hidden">Allow edit from quiz:<span class="tooltiptext">ALT+CTRL+E will not open the page in editor.</span></label><input type="checkbox" id="allow_edit" {{page_config['Allow_edit_from_inside_a_quiz']}}>
+						% end #% if not defined('OFFLINE'):
+					</div>
 				</div>
-				<label class="tooltip_hidden">Randomize questions:<span class="tooltiptext">Important once enabled can not be disbaled until page is reload!</span></label><input type="checkbox" id="random" {{page_config['Randomize_questions']}}><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-				<label class="tooltip_hidden">Randomize answers:<span class="tooltiptext">Important once enabled can not be disbaled until page is reload!</span></label><input type="checkbox" id="random_answ" {{page_config['Randomize_answers']}}><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<label class="tooltip_hidden">Randomize questions:<span class="tooltiptext">Important once enabled can not be disbaled until page is reload!</span></label><input type="checkbox" id="random" {{page_config['Randomize_questions']}} {{page_config['Randomize_questions_read_only']}}><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<label class="tooltip_hidden">Randomize answers:<span class="tooltiptext">Important once enabled can not be disbaled until page is reload!</span></label><input type="checkbox" id="random_answ" {{page_config['Randomize_answers']}} {{page_config['Randomize_answers_read_only']}}><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				<label class="tooltip_hidden">Exsam mode:<span class="tooltiptext">Hides the check answer button.</span></label><input type="checkbox" id="hide_answer_btn" {{page_config['Exsam_mode']}} {{page_config['Exsam_mode_read_only']}}>
 			  	<button id="showHelp" class="tooltip_hidden">Show Help<div class="tooltiptext">Keyboard short-cuts:<br><br>ALT+CTRL+R restarts the quiz<br><br>ALT+CTRL+P pause/unpause the quiz (if time limit is set)<br><br>ALT+CTRL+D allows jumps to question (mostly for debug)<br><br>ALT+CTRL+E open current question in editor (disabled in exsam mode)<br><br>Space/Enter show the answer (disabled in exsam mode)<br><br>Left/rigth arrow move between questions</div></button><br>
 				<label class="tooltip_hidden">How many questions:<span class="tooltiptext">Mostly used with 'Random questions'.</span></label><input type="number" id="n_of_que"><br>

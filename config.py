@@ -65,6 +65,7 @@ if os.path.isfile(os.path.abspath(cnfgFile)):
             pass
 
     webconf = {}
+    webconf['Display_GUI'] = False
     webconf['Hide_restart_answer'] = False
     webconf['Show_progress_bar'] = True
     webconf['Show_progress_as_numbers'] = True
@@ -72,7 +73,14 @@ if os.path.isfile(os.path.abspath(cnfgFile)):
     webconf['Exsam_mode'] = False
     webconf['Exsam_mode_read_only'] = False
     webconf['Randomize_questions'] = False
+    webconf['Randomize_questions_read_only'] = False
     webconf['Randomize_answers'] = False
+    webconf['Randomize_answers_read_only'] = False
+    if config.has_option('QUIZ_WEB_PAGE', "Hide_GUI_options"):
+        try:
+            webconf['Display_GUI'] = config.getboolean('QUIZ_WEB_PAGE', "Hide_GUI_options")
+        except ValueError as e:
+            pass
     if config.has_option('QUIZ_WEB_PAGE', "Hide_restart_answer"):
         try:
             webconf['Hide_restart_answer'] = config.getboolean('QUIZ_WEB_PAGE', "Hide_restart_answer")
@@ -108,9 +116,19 @@ if os.path.isfile(os.path.abspath(cnfgFile)):
             webconf['Randomize_questions'] = config.getboolean('QUIZ_WEB_PAGE', "Randomize_questions")
         except ValueError as e:
             pass
+    if config.has_option('QUIZ_WEB_PAGE', "Randomize_questions_read_only"):
+        try:
+            webconf['Randomize_questions_read_only'] = config.getboolean('QUIZ_WEB_PAGE', "Randomize_questions_read_only")
+        except ValueError as e:
+            pass
     if config.has_option('QUIZ_WEB_PAGE', "Randomize_answers"):
         try:
             webconf['Randomize_answers'] = config.getboolean('QUIZ_WEB_PAGE', "Randomize_answers")
+        except ValueError as e:
+            pass
+    if config.has_option('QUIZ_WEB_PAGE', "Randomize_answers_read_only"):
+        try:
+            webconf['Randomize_answers_read_only'] = config.getboolean('QUIZ_WEB_PAGE', "Randomize_answers_read_only")
         except ValueError as e:
             pass
 else:
@@ -132,16 +150,23 @@ else:
     showSelectionPage = False
     maxSizeWarning = 26214400 # 26214400 bytes == 25 MB
     webconf = {}
+    webconf['Display_GUI'] = False
     webconf['Hide_restart_answer'] = False
     webconf['Show_progress_bar'] = True
     webconf['Show_progress_as_numbers'] = True
     webconf['Allow_edit_from_inside_a_quiz'] = False
     webconf['Exsam_mode'] = False
     webconf['Exsam_mode_read_only'] = False
+    webconf['Randomize_questions'] = False
+    webconf['Randomize_questions_read_only'] = False
+    webconf['Randomize_answers'] = False
+    webconf['Randomize_answers_read_only'] = False
 
 for key in webconf.keys():
+    if key == 'Display_GUI':
+        continue
     if webconf[key]:
-        if key == 'Exsam_mode_read_only':
+        if key.endswith('_read_only'):
             webconf[key] = 'disabled'
         else:
             webconf[key] = 'checked'

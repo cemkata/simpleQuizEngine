@@ -81,6 +81,7 @@ To configure edit the file config_files\config.ini
 - FileSize - Size in bytes of the DB file to generate warning if the file is too big
 
 This configures the default settings of the quiz page "Gui settings"
+- Hide_GUI_options - hides the GUI setings as progress bar and etc
 - Hide_restart_answer
 - Show_progress_bar
 - Show_progress_as_numbers
@@ -88,7 +89,9 @@ This configures the default settings of the quiz page "Gui settings"
 - Exsam_mode
 - Exsam_mode_read_only
 - Randomize_questions
+- Randomize_questions_read_only
 - Randomize_answers
+- Randomize_answers_read_only
 
 ***set_python_path.txt (windows)***
 - here you can point to python path to be used. Usually C:\Users\\%username%\AppData\Local\Programs\Python\Python3XXX
@@ -117,6 +120,6 @@ This configures the default settings of the quiz page "Gui settings"
 ***Versions***  
 *Server app 1.45*  
 *Cli menu/loader 1.4*  
-*Web page templates (css/js) 1.47*  
+*Web page templates (css/js) 1.48*  
 *Gui 0.3*  
 *Database 0.4*  
