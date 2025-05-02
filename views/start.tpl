@@ -53,7 +53,7 @@
 					</svg>
 			  </div>
 			  % if page_config['Display_GUI']:
-			    % cssHidden = '''style="display:none !important;'''
+			    % cssHidden = '''style="display:none !important;"'''
 			  %else:
 			    % cssHidden = ''' '''
 			  % end #% if page_config['Display_GUI']:
