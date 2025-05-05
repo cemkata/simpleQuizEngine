@@ -527,7 +527,7 @@
     if(hideProgressAsNumber.checked){
         pagesContainer.innerText = "Questions: " + (n + 1) + " / " + slides.length;
     }
-    if(hideProgressBar .checked){
+    if(hideProgressBar.checked){
         if(n != 0){
             let width = (n + 1) / slides.length * 100
             progressBar.style.width = width.toFixed(2) + "%";
