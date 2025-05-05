@@ -227,7 +227,7 @@ def SaveQuestion():
     dump_file["lastID"] = i + 1
     return saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
 
-@app.route('/editor/deleteQuestion')
+@app.route('/editor/deleteQuestion', method="DELETE")
 def deleteQuestion():
     courseID = request.query.courseID
     quizID = request.query.quizID

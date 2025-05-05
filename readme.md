@@ -118,8 +118,8 @@ This configures the default settings of the quiz page "Gui settings"
   - By deafailt - [http://127.0.0.1:8080/editor/](http://127.0.0.1:8080/editor/)
 
 ***Versions***  
-*Server app 1.45*  
+*Server app 1.46*  
 *Cli menu/loader 1.4*  
-*Web page templates (css/js) 1.48*  
+*Web page templates (css/js) 1.49*  
 *Gui 0.3*  
 *Database 0.4*  
