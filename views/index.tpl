@@ -70,7 +70,7 @@
 	    %if comand == 3 or comand == 4:
 		<script>
 		function confirmDelete(url) {
-			if (confirm('Are you sure you want to delete this question?')) {
+			if (confirm('Are you sure you want to delete this?')) {
 			  const xhr = new XMLHttpRequest();
 			  xhr.open("DELETE", url);
 			  xhr.send();
