@@ -70,8 +70,18 @@
 	    %if comand == 3 or comand == 4:
 		<script>
 		function confirmDelete(url) {
-			if (confirm('Are you sure you want to delete this?')) {
-			  location.href = url;
+			if (confirm('Are you sure you want to delete this question?')) {
+			  const xhr = new XMLHttpRequest();
+			  xhr.open("DELETE", url);
+			  xhr.send();
+			  xhr.onload = () => {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					location.reload();
+				} else {
+					alert(`Error: ${xhr.status}`);
+				}
+			  };
+			  //window.location.href = url
 			}
 		}
 		</script>

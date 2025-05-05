@@ -5,6 +5,7 @@ import os
 from config import serverAddres, serverPort, examFolder, showSelectionPage, webconf # App config is loaded here
 from versionGetter import fullVersion
 import json
+import shutil
 
 try:
     from paste import httpserver
@@ -284,7 +285,7 @@ def editDump_process_post():
                   os.path.join(examFolder, courseID, newName))
     redirect("/editor/showDumps?courseID="+courseID)
 
-@app.route('/editor/deleteDump')
+@app.route('/editor/deleteDump', method="DELETE")
 def deleteDump():
     courseID = request.query.courseID or -1
     if courseID == -1:
@@ -293,22 +294,47 @@ def deleteDump():
     if examID == -1:
         redirect("/editor/" + courseID + "/")
     os.remove(os.path.join(examFolder, courseID, examID))
-    redirect("/editor/showDumps?courseID=" + courseID)
+    if os.path.exists(os.path.join(examFolder, courseID, examID)):
+        abort(500, "Not deleted")
+    else:
+        return
 
 @app.route('/editor/editCategory')
 def editCategory():
     courseID = request.query.courseID
     return template("editCourseDeck", action = "addcategory", name=courseID, cid = courseID)
     
-@app.route('/editor/deleteCategory')
+@app.route('/editor/deleteCategory', method="DELETE")
 def deleteCategory():
     courseID = request.query.courseID or -1
     if courseID == -1:
         redirect("/editor/")
     for f in os.listdir(os.path.join(examFolder, courseID)):
         os.remove(os.path.join(examFolder, courseID, f))
-    os.rmdir(os.path.join(examFolder, courseID))
-    redirect("/editor/")
+    os.remove(os.path.join(examFolder, courseID))
+    #shutil.rmtree(os.path.join(examFolder, courseID), ignore_errors=True, onerror=rmtree_onerror)
+    if os.path.exists(os.path.join(examFolder, courseID)):
+        abort(500, "Not deleted")
+    else:
+        return
+
+def rmtree_onerror(func, path, exc_info):
+    """
+    Error handler for ``shutil.rmtree``.
+
+    If the error is due to an access error (read only file)
+    it attempts to add write permission and then retries.
+
+    If the error is for another reason it re-raises the error.
+    """
+    print(path)
+    import stat
+    # Is the error an access error?
+    if not os.access(path, os.W_OK):
+        os.chmod(path, stat.S_IWUSR)
+        func(path)
+    else:
+        raise
 
 @app.route('/editor/importFile', method="POST")
 def uploadFile():
