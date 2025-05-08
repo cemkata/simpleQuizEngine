@@ -20,7 +20,7 @@
 		}, 500);
 	}
 	function confirmDelete(qid) {
-		if (confirm('Are you sure you want to delete this question?')) {
+		if (confirm(`Are you sure you want to delete question ${qid}?`)) {
 		  var cource = document.getElementById("courseID").value;
 		  var quiz = document.getElementById("quizID").value;
 		  url = '/editor/deleteQuestion?courseID=' + cource + "&quizID=" + quiz + "&questionID=" + qid;
