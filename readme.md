@@ -120,6 +120,6 @@ This configures the default settings of the quiz page "Gui settings"
 ***Versions***  
 *Server app 1.46*  
 *Cli menu/loader 1.4*  
-*Web page templates (css/js) 1.50*  
+*Web page templates (css/js) 1.51*  
 *Gui 0.3*  
 *Database 0.4*  

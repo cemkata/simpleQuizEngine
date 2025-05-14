@@ -31,12 +31,14 @@
 		  xhr.onload = () => {
 		    if (xhr.readyState == 4 && xhr.status == 200) {
 		  	    alert(xhr.response);
-				location.reload();
+				//location.reload();
+				let questionRow = document.getElementById("q_" + qid)
+				questionRow.nextElementSibling.outerHTML=""
+				questionRow.outerHTML=""
 		    } else {
 		  	    alert(`Error: ${xhr.status}`);
 		    }
 		  };
-		  //window.location.href = url
 		}
 	}
 	
