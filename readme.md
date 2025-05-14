@@ -93,6 +93,9 @@ This configures the default settings of the quiz page "Gui settings"
 - Randomize_answers
 - Randomize_answers_read_only
 
+The section *EDITOR_WEB_PAGE* configures the editor settings
+- RELOAD_ON_DELETE = off - This is enabled the page will reload after deleteing a question.  Otherwise it will use javascript to hide the question and all needed chnages
+
 ***set_python_path.txt (windows)***
 - here you can point to python path to be used. Usually C:\Users\\%username%\AppData\Local\Programs\Python\Python3XXX
 - Set when installing python
@@ -118,8 +121,8 @@ This configures the default settings of the quiz page "Gui settings"
   - By deafailt - [http://127.0.0.1:8080/editor/](http://127.0.0.1:8080/editor/)
 
 ***Versions***  
-*Server app 1.46*  
+*Server app 1.47*  
 *Cli menu/loader 1.4*  
-*Web page templates (css/js) 1.51*  
+*Web page templates (css/js) 1.52*  
 *Gui 0.3*  
 *Database 0.4*  

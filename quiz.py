@@ -2,7 +2,7 @@
 from bottle import Bottle, request, redirect, template, static_file, abort, ServerAdapter
 from importQuestionsHelper import proccesFile, saveFile
 import os
-from config import serverAddres, serverPort, examFolder, showSelectionPage, webconf # App config is loaded here
+from config import serverAddres, serverPort, examFolder, showSelectionPage, webconf, web_editor_conf # App config is loaded here
 from versionGetter import fullVersion
 import json
 import shutil
@@ -103,7 +103,7 @@ def editor_listquestions():
     if examID == -1:
         redirect("/editor/") 
     q_list = proccesFile(os.path.join(examFolder, courseID, examID))
-    return template('showquestions', questions = q_list['dump'], comand = 4, cid = courseID, dump = examID) #comand 4 shows the dump in given folder
+    return template('showquestions', questions = q_list['dump'], comand = 4, cid = courseID, dump = examID, web_editor_conf = web_editor_conf) #comand 4 shows the dump in given folder
 
 @app.route('/editor/editQuestion')
 def questionEditor():

@@ -131,6 +131,18 @@ if os.path.isfile(os.path.abspath(cnfgFile)):
             webconf['Randomize_answers_read_only'] = config.getboolean('QUIZ_WEB_PAGE', "Randomize_answers_read_only")
         except ValueError as e:
             pass
+    web_editor_conf = {}
+    web_editor_conf['RELOAD_ON_DELETE'] = 'false'
+    if config.has_option('EDITOR_WEB_PAGE', "RELOAD_ON_DELETE"):
+        try:
+            web_editor_conf['RELOAD_ON_DELETE'] = config.getboolean('EDITOR_WEB_PAGE', "RELOAD_ON_DELETE")
+            if web_editor_conf['RELOAD_ON_DELETE']:
+                web_editor_conf['RELOAD_ON_DELETE'] = 'true'
+            else:
+                web_editor_conf['RELOAD_ON_DELETE'] = 'false'
+        except ValueError as e:
+            pass
+
 else:
     print("Warning!!")
     print("Using default config")
@@ -161,6 +173,8 @@ else:
     webconf['Randomize_questions_read_only'] = False
     webconf['Randomize_answers'] = False
     webconf['Randomize_answers_read_only'] = False
+    web_editor_conf = {}
+    web_editor_conf['RELOAD_ON_DELETE'] = 'false'
 
 for key in webconf.keys():
     if key == 'Display_GUI':

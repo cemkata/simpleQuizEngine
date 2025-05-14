@@ -5,6 +5,7 @@
 	  <meta name="robots" content="noindex">
 	  <link rel='stylesheet' href='/static/style.css'>
 	<script>
+	const RELOAD_ON_DELETE = {{web_editor_conf['RELOAD_ON_DELETE']}};
 	function confirmEdit(qid) {
 		var cource = document.getElementById("courseID").value;
 		var quiz = document.getElementById("quizID").value;
@@ -31,15 +32,31 @@
 		  xhr.onload = () => {
 		    if (xhr.readyState == 4 && xhr.status == 200) {
 		  	    //alert(xhr.response);
-				//location.reload();
-				let questionRow = document.getElementById("q_" + qid);
-				questionRow.nextElementSibling.outerHTML="";
-				questionRow.outerHTML="";
-				let questionCount = document.getElementById("question_count");
-				let text_str_list = questionCount.innerText.split(":")
-				totalCount = parseInt(text_str_list[1]);
-				totalCount--;
-				questionCount.innerText = text_str_list[0] + ": " + totalCount;
+				if(RELOAD_ON_DELETE){
+					location.reload();
+				}else{
+					let questionRow = document.getElementById("q_" + qid);
+					var currentRow = questionRow.nextElementSibling.nextElementSibling;
+					questionRow.nextElementSibling.outerHTML="";
+					questionRow.outerHTML="";
+					let questionCount = document.getElementById("question_count");
+					let text_str_list = questionCount.innerText.split(":")
+					totalCount = parseInt(text_str_list[1]);
+					totalCount--;
+					questionCount.innerText = text_str_list[0] + ": " + totalCount;
+					while(currentRow != null){
+						if(currentRow.classList.contains("question_rows")){
+							let new_id = parseInt(currentRow.id.split("_")[1]) - 1;
+							currentRow.id = "q_" + new_id;
+							let cells = currentRow.getElementsByTagName("td");
+							q_number = parseInt(cells[0].childNodes[1].innerText.replace("Question ", "").replace(":", "")) - 1;
+							cells[0].childNodes[1].innerText = "Question " + q_number + ":";
+							cells[1].childNodes[0].setAttribute('onclick',`confirmEdit(${q_number})`)
+							cells[2].childNodes[0].setAttribute('onclick',`confirmDelete(${q_number})`)
+						}
+						currentRow = currentRow.nextElementSibling.nextElementSibling;
+					}
+				}
 		    } else {
 		  	    alert(`Error: ${xhr.status}`);
 		    }
