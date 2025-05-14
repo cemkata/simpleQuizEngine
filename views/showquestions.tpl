@@ -30,11 +30,16 @@
 		  xhr.send();
 		  xhr.onload = () => {
 		    if (xhr.readyState == 4 && xhr.status == 200) {
-		  	    alert(xhr.response);
+		  	    //alert(xhr.response);
 				//location.reload();
-				let questionRow = document.getElementById("q_" + qid)
-				questionRow.nextElementSibling.outerHTML=""
-				questionRow.outerHTML=""
+				let questionRow = document.getElementById("q_" + qid);
+				questionRow.nextElementSibling.outerHTML="";
+				questionRow.outerHTML="";
+				let questionCount = document.getElementById("question_count");
+				let text_str_list = questionCount.innerText.split(":")
+				totalCount = parseInt(text_str_list[1]);
+				totalCount--;
+				questionCount.innerText = text_str_list[0] + ": " + totalCount;
 		    } else {
 		  	    alert(`Error: ${xhr.status}`);
 		    }
@@ -58,7 +63,7 @@
 <table style="width:100%" class="pretyPrint">
   <tr><button class="newQuestion_btn" style="width:100%" onclick="confirmEdit(-1)">&#10001; New question &#10002;</button> </tr>
   <tr>
-    <th colspan="3" class="w3-dark-grey">Total number of question(s): {{len(questions)}}</th>
+    <th colspan="3" class="w3-dark-grey" id="question_count">Total number of question(s): {{len(questions)}}</th>
   </tr>
   <tr><td colspan="3"><hr></td></tr>
   <tr>
