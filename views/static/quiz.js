@@ -708,7 +708,7 @@
               answerButton.classList.remove("quzControl");
           }
           restartButton.classList.remove("quzControl");
-          slidesContainer[0].style.height = '95%';
+          slidesContainer[0].style.height = '80vh';
           document.getElementById("config").classList.add("quzControl");
           // Show the first slide
           document.getElementById("loader").style.display = "none";

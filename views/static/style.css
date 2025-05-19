@@ -88,17 +88,20 @@ button:hover{
 }
 
 .slide{
-  position: absolute;
+  /*position: absolute;*/
   left: 0px;
   top: 0px;
   width: 100%;
   z-index: 1;
   opacity: 0;
+  display: none;
   transition: opacity 0.5s;
+  overflow-y: auto;
 }
 .active-slide{
   opacity: 1;
   z-index: 2;
+  display: block !important;
 }
 
 .popImage{  
@@ -108,8 +111,8 @@ button:hover{
 }
  
 .quiz-container{
-  position: relative;
-  /*height: 700px;
+  /*position: relative;
+  height: 700px;
   width: 600px;
   height: 75%;
   height: 50%;
@@ -568,4 +571,9 @@ table td:first-child  {
   text-align: center;
   line-height: 30px;
   color: white;
+}
+
+.table_cell_div{
+  padding-bottom: 25px;
+  padding-top: 15px;
 }
