@@ -534,11 +534,7 @@
             progressBar.innerHTML = width.toFixed(2) + "%";
         }
     }
-    if(_beginOfQuesions != 0 || nOfQuesions != myQuestions.length){
-      if(!randomQuestion.checked){
-        console.log("Real questions number " + (_beginOfQuesions + n));
-      }
-    }
+	console.log("Real questions number " + myQuestions[currentSlide].id);
     goToTop.scrollTop = 0;
     goToTop.scrollLeft=0;
   }
@@ -608,6 +604,7 @@
       initPage(true);
       resultsContainer.innerHTML = ""
       selectedQuestionContainer.innerText = ""
+      console.log("Restarting quiz")
   }
   
   function buildQuiz(){
@@ -722,6 +719,7 @@
           }
           goToTop = document.getElementsByClassName("quiz-container")[0];
           showSlide(currentSlide);
+          console.log("Starting quiz")
           setTimeout(function(){quizStarted = true;}, timeout_in_ms/10)
     }, timeout_in_ms);
   }
@@ -1011,24 +1009,22 @@
               if(!allowEdit.checked) {return}
               if(resultsContainer.innerHTML.length != 0){return}
               if(hideAnserBtn.checked) {return}
-              if(!randomQuestion.checked){
-                  if(countDown != -1) {
-                      paused = !paused;
-                      timerTxt.textContent = "Paused!";
-                  }
-                  var url = `/editor/editQuestion?courseID=${cource}&quizID=${dump}&questionID=${_beginOfQuesions + currentSlide}`;
-                  var win = window.open(url, '_blank');
-                  win.focus();
-                  var timer = setInterval(function() {
-                      if (win.closed) {
-                          clearInterval(timer);
-                          if(countDown != -1) {
-                              paused = !paused;
-                              timerTxt.textContent = "Paused!";
-                          }
-                      }
-                  }, 500);
-              }
+			  if(countDown != -1) {
+				  paused = !paused;
+				  timerTxt.textContent = "Paused!";
+			  }
+			  var url = `/editor/editQuestion?courseID=${cource}&quizID=${dump}&questionID=${myQuestions[currentSlide].id}`;
+			  var win = window.open(url, '_blank');
+			  win.focus();
+			  var timer = setInterval(function() {
+				  if (win.closed) {
+					  clearInterval(timer);
+					  if(countDown != -1) {
+						  paused = !paused;
+						  timerTxt.textContent = "Paused!";
+					  }
+				  }
+			  }, 500);
           }
       }
   };

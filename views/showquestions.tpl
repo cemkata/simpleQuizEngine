@@ -162,7 +162,7 @@
 				%end ##if type(qstn["question"]) is list:
 		  %end ##if len(qstn["answers"]) == 0:
 		  <br><br><h3>Explanation:</h3><hr>
-		  <div style="width: 75%;">{{!qstn["explanation"]}}</div>
+		  <div>{{!qstn["explanation"]}}</div>
 		  <br><h3>Extenls URL:</h3><hr>
 		  <input type="text" size="80" value="{{qstn["referenceLink"]}}" readonly>
 		</div>
