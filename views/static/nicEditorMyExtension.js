@@ -660,10 +660,10 @@ function saveQuestion(content, id, instance) {
 		html = document.documentElement;
 	var width = tmpHolder[0].clientWidth;
 
-	var height = Math.max( body.scrollHeight, body.offsetHeight,
-						   html.clientHeight, html.scrollHeight, html.offsetHeight ) / 4;
+	var height = Math.round(Math.max( body.scrollHeight, body.offsetHeight,
+						   html.clientHeight, html.scrollHeight, html.offsetHeight ) / 4);
 	for (let i = 0; i < tmpHolder.length; i++){
-		tmpHolder[i].style.setProperty('max-height',height,'');
+		tmpHolder[i].style.setProperty('max-height',height+'px','');
 		tmpHolder[i].style.setProperty('overflow-y','scroll','');
 		//tmpHolder[i].style.setProperty('max-width',width,'');
 		//tmpHolder[i].style.setProperty('overflow-x','scroll','');
