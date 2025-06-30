@@ -88,9 +88,9 @@ function changeAnswerCount(){
 				for(let i = 0; i < lineToAdd; i++){
 					newHtml += `<div class="showinline">`;
 					if(j == 1){
-						newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">Group:<input type="number" value="`+ (parseInt(numLines) + i - 1) +`" min="0" max="99">`;
+						newHtml += `<input type="text" class="textAns" style = "width: 100%;" value="">Group:<input type="number" value="`+ (parseInt(numLines) + i - 1) +`" min="0" max="99">`;
 					}else{
-						newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">`+countStr;
+						newHtml += `<input type="text" class="textAns" style = "width: 100%;" value="">`+countStr;
 					}
 					newHtml += `</div><br>`;
 				}
