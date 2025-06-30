@@ -142,6 +142,21 @@ selectionDropDownMenu = [{'value':0, 'text':"Free text", 'selected':""},
 	  <tr>
         <td></td>
       </tr>
+      <tr>
+        <td><b>Keyboard shortcuts:<b></td>
+	  </tr>
+	  <tr>
+        <td><em>Ctrl+s</em> = Save question</td>
+      </tr>
+	  <tr>
+        <td><em>Ctrl+q</em> = Clear question</td>
+      </tr>
+	  <tr>
+        <td><em>Ctrl+shift+v</em> = paste as text (built-in in most browsers)</td>
+      </tr>
+	  <tr>
+        <td></td>
+      </tr>
 	  <tr>
         <td><b>Applys only to Single/Multiple choice<b></td>
       </tr>

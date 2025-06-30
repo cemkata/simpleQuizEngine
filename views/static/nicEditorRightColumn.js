@@ -95,7 +95,7 @@ function changeAnswerCount(){
 					newHtml += `</div><br>`;
 				}
 			}else{
-				var newHtml = `<p>` + linesHolders[j].firstChild.innerHTML + `</p>`;
+				var newHtml = `<p>` + linesHolders[j].children[0].innerHTML + `</p>`;
 				for(let i = 0; i < numLines; i++){
 					newHtml += `<div class="showinline">`;
 					newHtml += lines[i].innerHTML;
@@ -129,17 +129,17 @@ function changeAnswerCount(){
 			var lineToAdd = numLines - lines.length;
 			var newHtml = ansArea.innerHTML;
 			for(let i = 0; i < lineToAdd; i++){
-			newHtml += `<div class="showinline">`;
-			newHtml += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
-			newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">`;
-			newHtml += `</div><br>`;
+				newHtml += `<div class="showinline">`;
+				newHtml += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
+				newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">`;
+				newHtml += `</div><br>`;
 			}
 		}else{
 			var newHtml = "";
 			for(let i = 0; i < numLines; i++){
-			newHtml += `<div class="showinline">`;
-			newHtml += lines[i].innerHTML;
-			newHtml += `</div><br>`;
+				newHtml += `<div class="showinline">`;
+				newHtml += lines[i].innerHTML.replace(`value=""`, `value="${lines[i].childNodes[1].value}"`);
+				newHtml += `</div><br>`;
 			}
 		}
 	}

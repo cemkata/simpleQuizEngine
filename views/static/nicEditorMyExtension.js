@@ -536,24 +536,25 @@ function saveQuestion(content, id, instance) {
 		correctAnswer = [];
 		groups = [];
 		for(let i = 0; i < answers_html.length; i++){
+			if (answers_html[i].firstChild.value == ""){continue;}
 			correctAnswer.push(answers_html[i].firstChild.value)
 			groups.push(answers_html[i].childNodes[2].value)
 		}
-		correctAnswer = JSON.stringify(correctAnswer)
 		
 		if(!questionTxt.includes("$?__")){
-			for(let i = 0; i < answers_html.length; i++){
+			for(let i = 0; i < correctAnswer.length; i++){
 				questionTxt+="<div>&nbsp;$?__</div>"
 			}
 		}else{
 			var count = (questionTxt.match(/\$\?__/g) || []).length;
-			if(count != answers_html.length){
+			if(count != correctAnswer.length){
 			   alert("Drop darget count diffrent than correct answers!")
 			   errorDiv = document.getElementById("error_no_answer");
 			   errorDiv.style.setProperty('display','block','')
 			   return;
 			}
 		}
+		correctAnswer = JSON.stringify(correctAnswer)
 	}else{ //free text
 		 var freetext = document.getElementById("freeTextAns");
 		 if(freetext == null){
@@ -564,6 +565,12 @@ function saveQuestion(content, id, instance) {
 		   // -1 becasue the reference link adds one more line
 		   for(let i = 0; i < answers_html.length - 1; i++){
 			 var tmp_ans = answers_html[i].getElementsByTagName("input");
+			 if(tmp_ans.length <= 0){ //add validation
+			   alert("Please fill the correct answer!")
+			   errorDiv = document.getElementById("error_no_answer");
+			   errorDiv.style.setProperty('display','block','')
+			   return;
+			 }
 			 if(tmp_ans[0].checked){
 			   //correctAnswer+=i;
 			   correctAnswer+=String.fromCharCode(65 + i);
@@ -614,7 +621,11 @@ function saveQuestion(content, id, instance) {
 	 }
 
 	 var xhr = new XMLHttpRequest();
-	 xhr.open("POST", "./saveQuestion");
+	 if(questionID == -1){
+		 xhr.open("POST", "./saveQuestion");
+	 }else{
+		 xhr.open("PATCH", "./saveQuestion");
+	 }
 
 	 xhr.onload = function() {
 			 alert("Status: " + xhr.responseText);
@@ -660,10 +671,10 @@ function saveQuestion(content, id, instance) {
 		html = document.documentElement;
 	var width = tmpHolder[0].clientWidth;
 
-	var height = Math.round(Math.max( body.scrollHeight, body.offsetHeight,
-						   html.clientHeight, html.scrollHeight, html.offsetHeight ) / 4);
+	var height = Math.max( body.scrollHeight, body.offsetHeight,
+						   html.clientHeight, html.scrollHeight, html.offsetHeight ) / 4;
 	for (let i = 0; i < tmpHolder.length; i++){
-		tmpHolder[i].style.setProperty('max-height',height+'px','');
+		tmpHolder[i].style.setProperty('max-height',height,'');
 		tmpHolder[i].style.setProperty('overflow-y','scroll','');
 		//tmpHolder[i].style.setProperty('max-width',width,'');
 		//tmpHolder[i].style.setProperty('overflow-x','scroll','');

@@ -138,6 +138,15 @@ def questionEditor():
         courseID = courseID, quizID=quizID, questionContent = targetQuestion)
 
 @app.route('/editor/saveQuestion', method='POST')
+def SaveNewQuestion():
+    #if needed for additional processing
+    return SaveQuestion()
+
+@app.route('/editor/saveQuestion', method='PATCH')
+def UpdateQuestion():
+    #if needed for additional processing
+    return SaveQuestion()
+
 def SaveQuestion():
     courseID = request.forms.get('courseID')
     questionID = int(request.forms.get("questionID"))
@@ -196,19 +205,20 @@ def SaveQuestion():
         pass
         # 5 and more futur use
 
-    for i in range(len(dump_file["dump"])):
-        if dump_file["dump"][i]["id"] == questionID:
-            dump_file["dump"][i]['explanation'] = explnTxt
-            dump_file["dump"][i]['referenceLink'] = referenceLink
-            dump_file["dump"][i]['question'] = questionTxt
-            dump_file["dump"][i]['category'] = questionCat
-            dump_file["dump"][i]['correctAnswer'] = correctAnswer
-            dump_file["dump"][i]['answers'] = answers
-            if answersGroups:
-                dump_file["dump"][i]['answersGroups'] = json.loads(answersGroups)
-            if answersCount:
-                dump_file["dump"][i]['answersCount'] = json.loads(answersCount)
-            return saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
+    if questionID != -1:
+        for i in range(len(dump_file["dump"])):
+            if dump_file["dump"][i]["id"] == questionID:
+                dump_file["dump"][i]['explanation'] = explnTxt
+                dump_file["dump"][i]['referenceLink'] = referenceLink
+                dump_file["dump"][i]['question'] = questionTxt
+                dump_file["dump"][i]['category'] = questionCat
+                dump_file["dump"][i]['correctAnswer'] = correctAnswer
+                dump_file["dump"][i]['answers'] = answers
+                if answersGroups:
+                    dump_file["dump"][i]['answersGroups'] = json.loads(answersGroups)
+                if answersCount:
+                    dump_file["dump"][i]['answersCount'] = json.loads(answersCount)
+                return saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
 
     i = int(dump_file["lastID"])
     dump_file["dump"].append({})
