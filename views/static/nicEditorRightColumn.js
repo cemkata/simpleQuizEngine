@@ -81,16 +81,22 @@ function changeAnswerCount(){
 			countStr = `Count:<input type="number" value="1" min="1" max="99">`;
 		}
         for(let j = 0; j<linesHolders.length; j++){
+			numLines = parseInt(numLines);
 			lines = linesHolders[j].getElementsByClassName("showinline");
 			if(lines.length < numLines){
-				var lineToAdd = parseInt(numLines) - lines.length;
-				var newHtml = linesHolders[j].innerHTML;
-				for(let i = 0; i < lineToAdd; i++){
+				var lineToAdd = numLines - lines.length;
+				var newHtml = `<p>` + linesHolders[j].children[0].innerHTML + `</p>`;
+				for(let i = 0; i < numLines; i++){
+					if(lines.length > i){
+						var old_value = lines[i].childNodes[0].value;
+					}else{
+						var old_value = "";
+					}
 					newHtml += `<div class="showinline">`;
 					if(j == 1){
-						newHtml += `<input type="text" class="textAns" style = "width: 100%;" value="">Group:<input type="number" value="`+ (parseInt(numLines) + i - 1) +`" min="0" max="99">`;
+						newHtml += `<input type="text" class="textAns" style = "width: 100%;" value="${old_value}">Group:<input type="number" value="`+ (numLines + i - 1) +`" min="0" max="99">`;
 					}else{
-						newHtml += `<input type="text" class="textAns" style = "width: 100%;" value="">`+countStr;
+						newHtml += `<input type="text" class="textAns" style = "width: 100%;" value="${old_value}">`+countStr;
 					}
 					newHtml += `</div><br>`;
 				}
