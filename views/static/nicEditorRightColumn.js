@@ -117,36 +117,44 @@ function changeAnswerCount(){
 		}*/
 	}else{
 		lines = ansArea.getElementsByClassName("showinline");
-		var type = lines[0].children[0].firstChild.type;
-		if(type == 'checkbox'){
-			if(numLines<3){ //In multiple choise we need at least 3
-				numLines = 3;
+		if(lines.length != 0){
+			var type = lines[0].children[0].firstChild.type;
+			if(type == 'checkbox'){
+				if(numLines<3){ //In multiple choise we need at least 3
+					numLines = 3;
+				}
+			}else{
+				if(numLines < 2){ //In single choise we need at least 2
+					numLines = 2;
+				}
 			}
-		}else{
-			if(numLines < 2){ //In single choise we need at least 2
-				numLines = 2;
-			}
-		}
 
-		if (numLines <= 0){
-			numLines = 4;
-		}
-		if(lines.length < numLines){
-			var lineToAdd = numLines - lines.length;
-			var newHtml = ansArea.innerHTML;
-			for(let i = 0; i < lineToAdd; i++){
-				newHtml += `<div class="showinline">`;
-				newHtml += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
-				newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">`;
-				newHtml += `</div><br>`;
+
+			if (numLines <= 0){
+				numLines = 4;
+			}
+			if(lines.length < numLines){
+				var lineToAdd = numLines - lines.length;
+				var newHtml = ansArea.innerHTML;
+				for(let i = 0; i < lines.length; i++){
+					newHtml = newHtml.replace(`value=""`, `value="${lines[i].childNodes[1].value}"`);
+				}
+				for(let i = 0; i < lineToAdd; i++){
+					newHtml += `<div class="showinline">`;
+					newHtml += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
+					newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">`;
+					newHtml += `</div><br>`;
+				}
+			}else{
+				var newHtml = "";
+				for(let i = 0; i < numLines; i++){
+					newHtml += `<div class="showinline">`;
+					newHtml += lines[i].innerHTML.replace(`value=""`, `value="${lines[i].childNodes[1].value}"`);
+					newHtml += `</div><br>`;
+				}
 			}
 		}else{
-			var newHtml = "";
-			for(let i = 0; i < numLines; i++){
-				newHtml += `<div class="showinline">`;
-				newHtml += lines[i].innerHTML.replace(`value=""`, `value="${lines[i].childNodes[1].value}"`);
-				newHtml += `</div><br>`;
-			}
+			return;
 		}
 	}
     ansArea.innerHTML = newHtml;

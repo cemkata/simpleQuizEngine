@@ -95,11 +95,14 @@
   
   function prepareQuestionFreetext(i){
       const answers = [];
-      answers.push(
-        `<label>
-          <input name="question${i}">
-        </label>`
-      );
+	  let corect_anw = myQuestions[i].correctAnswer.split("🠇");
+	  for(let j = 0; j<corect_anw.length; j++){
+		  answers.push(
+			`<label>
+			  <input name="question${i}">
+			</label>`
+		  );
+	  }
       // add this question and its answers to the output
       if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
       else{reftxt = ""}
@@ -107,7 +110,7 @@
         <div class="question"> ${myQuestions[i].question} </div>
         <div class="answers"> ${answers.join("")} </div>
   
-        <div class="explanation hidden"> Correct answer: ${myQuestions[i].correctAnswer}</br>${myQuestions[i].explanation} ${reftxt}</div><hr>
+        <div class="explanation hidden"> Correct answer: <br>${corect_anw.join("<br>")}</br>${myQuestions[i].explanation} ${reftxt}</div><hr>
       </div>`
     return resultingHtml
   }
@@ -441,13 +444,17 @@
   }
   
   function checkAnswerFreetext(answerContainer, currentQuestion, tmpQuestion){
-    if(tmpQuestion[0].value === currentQuestion.correctAnswer){
-        tmpQuestion[0].style.color = 'lightgreen'; // color the answers green
-        return true;
-    }else{
-        tmpQuestion[0].style.color = 'red'; // color the answers red
-        return false;
-    }
+	  let corect_anw = currentQuestion.correctAnswer.split("🠇");
+	  var result = 0;
+	  for(let j = 0; j<corect_anw.length; j++){
+		if(tmpQuestion[j].value === corect_anw[j]){
+			tmpQuestion[j].style.color = 'lightgreen'; // color the answers green
+			result++;
+		}else{
+			tmpQuestion[j].style.color = 'red'; // color the answers red
+		}
+	  }
+	  return result == corect_anw.length;
   }
   
   function checkAnswerSelection(answerContainer, currentQuestion, selector, selectorAll){
@@ -534,7 +541,7 @@
             progressBar.innerHTML = width.toFixed(2) + "%";
         }
     }
-	console.log("Real questions number " + myQuestions[currentSlide].id);
+    console.log("Real questions number " + myQuestions[currentSlide].id);
     goToTop.scrollTop = 0;
     goToTop.scrollLeft=0;
   }

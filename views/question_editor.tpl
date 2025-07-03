@@ -157,21 +157,22 @@ selectionDropDownMenu = [{'value':0, 'text':"Free text", 'selected':""},
 	  <tr>
         <td></td>
       </tr>
-	  <tr>
+	  <tr class = "selectable_answ">
         <td><b>Applys only to Single/Multiple choice<b></td>
       </tr>
-	  <tr>
+	  <tr class = "selectable_answ">
         <td>Supports manual html in following format</td>
-	  <tr>
+	  </tr>
+	  <tr class = "selectable_answ">
         <td>&lt;tag&gt;Some text&lt;/tag&gt;</td>
       </tr>
-	  <tr>
+	  <tr class = "selectable_answ">
         <td>To use this formatoing the answer needs to start with ¶</td>
-	  <tr>
-	  <tr>
+	  </tr>
+	  <tr class = "selectable_answ">
         <td>Supported formats:</td>
       </tr>
-	  <tr>
+	  <tr class = "selectable_answ">
         <td><ul>
  <li><code class="w3-codespan">&lt;b&gt;</code> <b>- Bold text</b></li>
  <li><code class="w3-codespan">&lt;strong&gt;</code> <strong>- Important text</strong></li>
@@ -187,32 +188,41 @@ selectionDropDownMenu = [{'value':0, 'text':"Free text", 'selected':""},
  <li><code class="w3-codespan">class="s4"</code> - Mark the text as code:</br><code class="w3-codespan">&lt;span class="s4"&gt;text&lt;/span&gt;</code></li>
 </ul></td>
       </tr>
-	  <tr>
+	  <tr class = "selectable_answ">
         <td></td>
       </tr>
-      <tr>
+      <tr class = "dragNdrop_answ">
         <td><b>Applys only to drag and drop<b></td>
 	  </tr>
-	  <tr>
+	  <tr class = "dragNdrop_answ">
         <td>If the order of answers should be grouped set same number</td>
       </tr>
-	  <tr>
+	  <tr class = "dragNdrop_answ">
         <td>Otherwise</td>
       </tr>
-	  <tr>
+	  <tr class = "dragNdrop_answ">
         <td>The questions and the answers are in order</td>
 	  </tr>
-	  <tr>
+	  <tr class = "dragNdrop_answ">
         <td>You can have more posible answers than answers</td>
 	  </tr>
-	  <tr>
+	  <tr class = "dragNdrop_answ">
         <td><u>!!The questions must end with</u> $?__</td>
       </tr>
-	  <tr>
+	  <tr class = "dragNdrop_answ">
         <td>Put  at least one empty space bofore <em>$?__</em></td>
       </tr>
-	  <tr>
+	  <tr class = "dragNdrop_answ">
         <td>Or else you will get unexpected results.</td>
+      </tr>
+     <tr class = "freetext_answ">
+        <td><b>Applys only to free text<b></td>
+	  </tr>
+	  <tr class = "freetext_answ">
+        <td>If you want multiple line answer use 🠇 to mark end of</td>
+      </tr>
+	  <tr class = "freetext_answ">
+        <td>answer (divider)</em></td>
       </tr>
      </table>
   </div>

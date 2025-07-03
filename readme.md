@@ -121,8 +121,8 @@ The section *EDITOR_WEB_PAGE* configures the editor settings
   - By deafailt - [http://127.0.0.1:8080/editor/](http://127.0.0.1:8080/editor/)
 
 ***Versions***  
-*Server app 1.48*  
+*Server app 1.47*  
 *Cli menu/loader 1.4*  
-*Web page templates (css/js) 1.53*  
+*Web page templates (css/js) 1.54*  
 *Gui 0.3*  
 *Database 0.4*  
