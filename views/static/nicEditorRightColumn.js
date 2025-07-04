@@ -7,6 +7,7 @@ function changeAnswerType(selct){
         ansArea.innerHTML = newHtml;
         document.getElementById("noQuestion").value = 0;
 	}
+    show_help(selected);
     if(selected == '0'){ //freetext
         newHtml += `<input type="text" id="freeTextAns" style = "width: 100%;" value="">`;
         ansArea.innerHTML = newHtml;
@@ -158,4 +159,43 @@ function changeAnswerCount(){
 		}
 	}
     ansArea.innerHTML = newHtml;
+}
+
+function show_help(selected){
+    if(selected == '0'){ //freetext
+		show_class("freetext_answ");
+		hide_class("selectable_answ");
+		hide_class("dragNdrop_answ");
+        return;
+    } else if(selected == '1'){ //one choice
+		hide_class("freetext_answ");
+		show_class("selectable_answ");
+		hide_class("dragNdrop_answ");
+    } else if(selected == '2'){ //multiple
+		hide_class("freetext_answ");
+		show_class("selectable_answ");
+		hide_class("dragNdrop_answ");
+    } else if(selected == '3'){ //drag-n-drop
+		hide_class("freetext_answ");
+		hide_class("selectable_answ");
+		show_class("dragNdrop_answ");
+	} else {
+		show_class("freetext_answ");
+		show_class("selectable_answ");
+		show_class("dragNdrop_answ");
+	}
+}
+
+function show_class(class_name){
+	let tableRows = document.getElementsByClassName(class_name);
+	for(let i = 0; i<tableRows.length; i++){
+		tableRows[i].style.display = "table-row";
+	}	
+}
+
+function hide_class(class_name){
+	let tableRows = document.getElementsByClassName(class_name);
+	for(let i = 0; i<tableRows.length; i++){
+		tableRows[i].style.display = "none";
+	}	
 }

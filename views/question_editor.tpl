@@ -265,6 +265,8 @@ selectionDropDownMenu = [{'value':0, 'text':"Free text", 'selected':""},
 		tmpHolder[0].innerHTML = value_0;
 		tmpHolder[1].innerHTML = value_1;
 	  }, true);
+	  
+	  show_help(document.getElementById("questionType").value);
     </script>
   </body>
 </html>
