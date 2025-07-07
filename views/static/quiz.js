@@ -818,7 +818,7 @@
   var hideProgressAsNumber;
   var allowEdit;
   var progressBar;
-  var makeAnswerReadOnly = false; // TODO -- load from page
+  var makeAnswerReadOnly;
 
   var timerTxt;
   
@@ -846,6 +846,7 @@
         randomQuestion = document.getElementById("random");
         randomAnswer = document.getElementById("random_answ");
         hideAnserBtn = document.getElementById("hide_answer_btn");
+        makeAnswerReadOnly = document.getElementById("readonly_answer");
         hideRestart = document.getElementById("hide_restart");
         hideProgressBar = document.getElementById("show_progress_bar");
         hideProgressAsNumber = document.getElementById("show_progress_numbers");
