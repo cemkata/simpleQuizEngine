@@ -76,6 +76,8 @@ if os.path.isfile(os.path.abspath(cnfgFile)):
     webconf['Randomize_questions_read_only'] = False
     webconf['Randomize_answers'] = False
     webconf['Randomize_answers_read_only'] = False
+    webconf['Read_only_answers'] = False
+    webconf['Read_only_answers_read_only'] = False
     if config.has_option('QUIZ_WEB_PAGE', "Hide_GUI_options"):
         try:
             webconf['Display_GUI'] = config.getboolean('QUIZ_WEB_PAGE', "Hide_GUI_options")
@@ -130,7 +132,17 @@ if os.path.isfile(os.path.abspath(cnfgFile)):
         try:
             webconf['Randomize_answers_read_only'] = config.getboolean('QUIZ_WEB_PAGE', "Randomize_answers_read_only")
         except ValueError as e:
+            pass 
+    if config.has_option('QUIZ_WEB_PAGE', "Read_only_answers"):
+        try:
+            webconf['Read_only_answers'] = config.getboolean('QUIZ_WEB_PAGE', "Read_only_answers")
+        except ValueError as e:
             pass
+    if config.has_option('QUIZ_WEB_PAGE', "Read_only_answers_read_only"):
+        try:
+            webconf['Read_only_answers_read_only'] = config.getboolean('QUIZ_WEB_PAGE', "Read_only_answers_read_only")
+        except ValueError as e:
+            pass  
     web_editor_conf = {}
     web_editor_conf['RELOAD_ON_DELETE'] = 'false'
     if config.has_option('EDITOR_WEB_PAGE', "RELOAD_ON_DELETE"):
@@ -173,6 +185,9 @@ else:
     webconf['Randomize_questions_read_only'] = False
     webconf['Randomize_answers'] = False
     webconf['Randomize_answers_read_only'] = False
+    webconf['Read_only_answers'] = False
+    webconf['Read_only_answers_read_only'] = False
+ 
     web_editor_conf = {}
     web_editor_conf['RELOAD_ON_DELETE'] = 'false'
 

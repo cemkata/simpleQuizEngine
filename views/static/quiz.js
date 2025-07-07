@@ -442,14 +442,26 @@
             currentAnswer = currentAnswer[0];
             if (correctAnswers[i]){
                 currentAnswer.style.color = 'lightgreen'; // color the answers green
+				if(makeAnswerReadOnly){
+					currentAnswer.draggable = false;
+					currentAnswer.classList.remove("dragtarget_cursor");
+				}
             }else{
                 if (currentAnswer !== undefined){
                     currentAnswer.style.color = 'red'; // color the answers red
+                    currentAnswer.classList.remove("dragtarget_cursor");
                 }
                 result = false;
             }
         }
     }
+	if(makeAnswerReadOnly){
+		let unusedAnswers = answerContainer.nextSibling.nextSibling.querySelectorAll(".dragtarget");
+		for (let i = 0; i < unusedAnswers.length; i++) {
+			unusedAnswers[i].classList.remove("dragtarget_cursor");
+			unusedAnswers[i].draggable = false;
+		}
+	}
     return result;
   }
   
@@ -463,6 +475,9 @@
         }else{
             tmpQuestion[j].style.color = 'red'; // color the answers red
         }
+		if(makeAnswerReadOnly){
+			tmpQuestion[j].readOnly = true;
+		}
       }
       return result == corect_anw.length;
   }
@@ -479,6 +494,9 @@
                 if(currentQuestion.correctAnswer.includes((ans.querySelector(selector) || {}).value)){
                       ans.style.color = 'lightgreen'; // color the answers green
                 }
+				if(makeAnswerReadOnly){
+					ans.childNodes[1].disabled = true;
+				}
             }
           );
         return true;
@@ -800,6 +818,7 @@
   var hideProgressAsNumber;
   var allowEdit;
   var progressBar;
+  var makeAnswerReadOnly = false; // TODO -- load from page
 
   var timerTxt;
   
