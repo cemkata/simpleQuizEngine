@@ -1,17 +1,17 @@
 /* START CONFIG */
 var nicUploadOptions = {
-	buttons : {
-		'upload' : {name : 'Upload Image', type : 'nicUploadButton'}
-	}
-	
+    buttons : {
+        'upload' : {name : 'Upload Image', type : 'nicUploadButton'}
+    }
+
 };
 /* END CONFIG */
 
-var nicUploadButton = nicEditorAdvancedButton.extend({	
-	//nicURI : 'https://api.imgur.com/3/image',
+var nicUploadButton = nicEditorAdvancedButton.extend({
+    //nicURI : 'https://api.imgur.com/3/image',
   errorText : 'Failed to upload image',
 
-	addPane : function() {
+    addPane : function() {
     if(typeof window.FormData === "undefined") {
       return this.onError("Image uploads are not supported in this browser, use Chrome, Firefox, or Safari instead.");
     }
@@ -21,7 +21,7 @@ var nicUploadButton = nicEditorAdvancedButton.extend({
       .setStyle({ padding: '10px' })
       .appendTo(this.pane.pane);
 
-		new bkElement('div')
+        new bkElement('div')
       .setStyle({ fontSize: '14px', fontWeight : 'bold', paddingBottom: '5px' })
       .setContent('Insert an Image')
       .appendTo(container);
@@ -36,7 +36,7 @@ var nicUploadButton = nicEditorAdvancedButton.extend({
       .appendTo(container);
 
     this.fileInput.onchange = this.uploadFile.closure(this);
-	},
+    },
 
   onError : function(msg) {
     this.removePane();
@@ -112,88 +112,88 @@ if (typeof initPageEditor !== 'undefined'){
 }
 
 var nicCodeOptions = {
-	buttons : {
-		'table' : {name : 'Insert table', type : 'nicAddTableButton'},
-		'xhtml' : {name : 'Edit HTML', type : 'nicCodeButton'},
-	}
-	
+    buttons : {
+        'table' : {name : 'Insert table', type : 'nicAddTableButton'},
+        'xhtml' : {name : 'Edit HTML', type : 'nicCodeButton'},
+    }
+
 };
 
 var nicCodeButton = nicEditorAdvancedButton.extend({
-	width : '350px',
-		
-	addPane : function() {
-		this.addForm({
-			'' : {type : 'title', txt : 'Edit HTML'},
-			'code' : {type : 'content', 'value' : this.ne.selectedInstance.getContent(), style : {width: '340px', height : '200px'}}
-		});
-	},
-	
-	submit : function(e) {
-		var code = this.inputs['code'].value;
-		this.ne.selectedInstance.setContent(code);
-		this.removePane();
-	}
+    width : '350px',
+
+    addPane : function() {
+        this.addForm({
+            '' : {type : 'title', txt : 'Edit HTML'},
+            'code' : {type : 'content', 'value' : this.ne.selectedInstance.getContent(), style : {width: '340px', height : '200px'}}
+        });
+    },
+
+    submit : function(e) {
+        var code = this.inputs['code'].value;
+        this.ne.selectedInstance.setContent(code);
+        this.removePane();
+    }
 });
 
 var nicAddTableButton = nicEditorAdvancedButton.extend({
-	addPane : function () {
-		this.addForm({
-			    '': { type: 'title', txt: 'Insert Table' },
-			    'rows': { type: 'text', txt: 'Rows', value: '5', style: { width: '150px'} },
-			    'cols': { type: 'text', txt: 'Columns', value: '2', style: { width: '150px'} },
-			    'border': { type: 'text', txt: 'Border', value: '1', style: { width: '150px'} },
-			    'width': { type: 'text', txt: 'Width', value: '100%', style: { width: '150px'} }
-		});
-	},
-	
-	submit: function (e) {
-		var rows = parseInt(this.inputs['rows'].value);
-		if(isNaN(rows)){
-			alert("Check rows value")
-			return false;
-		}
-		var cols = parseInt(this.inputs['cols'].value);
-		if(isNaN(cols)){
-			alert("Check columns value")
-			return false;
-		}
-		var border = parseInt(this.inputs['border'].value);
-		if(isNaN(border)){
-			alert("Check border value")
-			return false;
-		}
-		var width = parseInt(this.inputs['width'].value);
-		if(isNaN(width)){
-			alert("Check width value")
-			return false;
-		}
-		var cellw = (1/cols)*100;
-		var TableCode = '<table width="'+ width +'%" border="'+ border +'"><thead><tr>';
-	
-		for (i=1;i<=cols;i++) {
-			TableCode += '<th width="'+ cellw +'%">Header</th>';
-		}
-		
-		TableCode += '</tr></thead><tbody>';
-		
-		var alternate = 'even';
-		
-		for (j=1;j<=rows;j++)	{
+    addPane : function () {
+        this.addForm({
+                '': { type: 'title', txt: 'Insert Table' },
+                'rows': { type: 'text', txt: 'Rows', value: '5', style: { width: '150px'} },
+                'cols': { type: 'text', txt: 'Columns', value: '2', style: { width: '150px'} },
+                'border': { type: 'text', txt: 'Border', value: '1', style: { width: '150px'} },
+                'width': { type: 'text', txt: 'Width', value: '100%', style: { width: '150px'} }
+        });
+    },
 
-			TableCode += '<tr>';
+    submit: function (e) {
+        var rows = parseInt(this.inputs['rows'].value);
+        if(isNaN(rows)){
+            alert("Check rows value")
+            return false;
+        }
+        var cols = parseInt(this.inputs['cols'].value);
+        if(isNaN(cols)){
+            alert("Check columns value")
+            return false;
+        }
+        var border = parseInt(this.inputs['border'].value);
+        if(isNaN(border)){
+            alert("Check border value")
+            return false;
+        }
+        var width = parseInt(this.inputs['width'].value);
+        if(isNaN(width)){
+            alert("Check width value")
+            return false;
+        }
+        var cellw = (1/cols)*100;
+        var TableCode = '<table width="'+ width +'%" border="'+ border +'"><thead><tr>';
 
-			for (i=1;i<=cols;i++)	{
-				TableCode += '<td width="'+ cellw +'%">Content</td>';
-			}
+        for (i=1;i<=cols;i++) {
+            TableCode += '<th width="'+ cellw +'%">Header</th>';
+        }
 
-			TableCode += '</tr>';		
-		}
-		
-		TableCode += '</tbody></table>'; 
-		this.removePane();
-		this.ne.nicCommand('insertHTML', TableCode);
-	}
+        TableCode += '</tr></thead><tbody>';
+
+        var alternate = 'even';
+
+        for (j=1;j<=rows;j++)    {
+
+            TableCode += '<tr>';
+
+            for (i=1;i<=cols;i++)    {
+                TableCode += '<td width="'+ cellw +'%">Content</td>';
+            }
+
+            TableCode += '</tr>';
+        }
+
+        TableCode += '</tbody></table>';
+        this.removePane();
+        this.ne.nicCommand('insertHTML', TableCode);
+    }
 });
 
 if (typeof initPageEditor !== 'undefined'){
@@ -203,7 +203,7 @@ if (typeof initPageEditor !== 'undefined'){
 var nicUploadFile = nicEditorAdvancedButton.extend({
   errorText : 'Failed to upload',
 
-	addPane : function() {
+    addPane : function() {
     if(typeof window.FormData === "undefined") {
       return this.onError("Failed to upload.");
     }
@@ -212,7 +212,7 @@ var nicUploadFile = nicEditorAdvancedButton.extend({
       .setStyle({ padding: '10px' })
       .appendTo(this.pane.pane);
 
-		new bkElement('div')
+        new bkElement('div')
       .setStyle({ fontSize: '14px', fontWeight : 'bold', paddingBottom: '5px' })
       .setContent('Upload file')
       .appendTo(container);
@@ -227,7 +227,7 @@ var nicUploadFile = nicEditorAdvancedButton.extend({
       }
     }
     htmlStr += `<br><label for="usFendly">User friendly name:</label><input type="text" id="usfrname" name="usfrname"><br>`
-		container.innerHTML += `<div style="font-size: 12px; font-weight: bold; padding-bottom: 5px;">` + htmlStr;
+        container.innerHTML += `<div style="font-size: 12px; font-weight: bold; padding-bottom: 5px;">` + htmlStr;
 
     this.fileInput = new bkElement('input')
       .setAttributes({ 'type' : 'file' })
@@ -239,7 +239,7 @@ var nicUploadFile = nicEditorAdvancedButton.extend({
       .appendTo(container);
 
     this.fileInput.onchange = this.uploadFile.closure(this);
-	},
+    },
 
   onError : function(msg) {
     this.removePane();
@@ -252,9 +252,9 @@ var nicUploadFile = nicEditorAdvancedButton.extend({
       this.onError("Sothing went wrong.");
       return;
     }
-	
-	  fileType = document.querySelector('input[name=type]:checked').defaultValue;
-	
+
+      fileType = document.querySelector('input[name=type]:checked').defaultValue;
+
     this.fileInput.setStyle({ display: 'none' });
     this.setProgress(0);
 
@@ -270,9 +270,9 @@ var nicUploadFile = nicEditorAdvancedButton.extend({
     xhr.onload = function() {
       try {
         var data = JSON.parse(xhr.responseText);
-		var table = document.getElementById("files");
-		var row = table.insertRow(0);
-		var tabl = `<tr><td>` + data.name + `</td><td><a href="`+ data.link +`"  target="_blank">Link to file</a></td><td> <button onclick="copyToClipboard('`+data.link+`')">Copy link</button> </td></tr>`;
+        var table = document.getElementById("files");
+        var row = table.insertRow(0);
+        var tabl = `<tr><td>` + data.name + `</td><td><a href="`+ data.link +`"  target="_blank">Link to file</a></td><td> <button onclick="copyToClipboard('`+data.link+`')">Copy link</button> </td></tr>`;
         row.innerHTML = tabl;
       } catch(e) {
         return this.onError();
@@ -305,9 +305,9 @@ var nicUploadFile = nicEditorAdvancedButton.extend({
 });
 
 var nicUploadFileOptions = {
-	buttons : {
-		'uploadFile' : {name : 'Upload file', type : 'nicUploadFile'},
-	},
+    buttons : {
+        'uploadFile' : {name : 'Upload file', type : 'nicUploadFile'},
+    },
     iconFiles: {
         'uploadFile': '/static/nic/test_nicEditorClip.png'
     }
@@ -332,17 +332,17 @@ function copyToClipboard (str) {
 
 /* START CONFIG */
 var nicImageOptionsBase64 = {
-	buttons : {
-		'image' : {name : 'Add Image', type : 'nicImageButtonBase64', tags : ['IMG']}
-	}
+    buttons : {
+        'image' : {name : 'Add Image', type : 'nicImageButtonBase64', tags : ['IMG']}
+    }
 };
 /* END CONFIG */
 
 var tmp_holder = 0;
 var nicImageButtonBase64 = nicEditorAdvancedButton.extend({
 
-	//mouseClick : this.addPane(),
-  
+    //mouseClick : this.addPane(),
+
   addPane : function() {
     this.im = this.ne.selectedInstance.selElm().parentTag('IMG');
     this.fileInput = new bkElement('input')
@@ -353,7 +353,7 @@ var nicImageButtonBase64 = nicEditorAdvancedButton.extend({
 
     this.fileInput.onchange = this.setBase64Image;
     this.fileInput.click();
-	},
+    },
 
   setBase64Image : function(e) {
     if (this.files[0]) {
@@ -402,36 +402,36 @@ var confirmationMessage = "You have unsaved changes. Are you sure you want to le
 
 var isModified = function () {
       let tmpHolder = document.getElementsByClassName(' nicEdit-main ');
-	  let changeQuestion = false;
-	  let changeDescription= false;
-	  let changeAnwers = false;
-	  
-	  if(questiontextLength == tmpHolder[0].innerHTML.length){
-		 new_sum_question = calc_checksum(tmpHolder[0].innerHTML);
-		 if(new_sum_question != sum_question){
-			changeQuestion = true;
-		 }
-	  }else{
-		  changeQuestion = true;
-	  }
-	  if(descriptiontextLength == tmpHolder[1].innerHTML.length){
-		 new_sum_description = calc_checksum(tmpHolder[1].innerHTML);
-		 if(new_sum_description != sum_description){
-			changeDescription = true;
-		 }
-	  }else{
-		  changeDescription = true;
-	  }
-	  if(answertextLength == document.getElementById("answers_area").innerHTML.length){
-		 new_sum_answer = calc_checksum(document.getElementById("answers_area").innerHTML);
-		 if(new_sum_answer != sum_answer){
-			changeAnwers = true;
-		 }
-	  }else{
-		  changeAnwers = true;
-	  }
-	  
-	var tmpResult = changeQuestion || changeDescription || changeAnwers;
+      let changeQuestion = false;
+      let changeDescription= false;
+      let changeAnwers = false;
+
+      if(questiontextLength == tmpHolder[0].innerHTML.length){
+         new_sum_question = calc_checksum(tmpHolder[0].innerHTML);
+         if(new_sum_question != sum_question){
+            changeQuestion = true;
+         }
+      }else{
+          changeQuestion = true;
+      }
+      if(descriptiontextLength == tmpHolder[1].innerHTML.length){
+         new_sum_description = calc_checksum(tmpHolder[1].innerHTML);
+         if(new_sum_description != sum_description){
+            changeDescription = true;
+         }
+      }else{
+          changeDescription = true;
+      }
+      if(answertextLength == document.getElementById("answers_area").innerHTML.length){
+         new_sum_answer = calc_checksum(document.getElementById("answers_area").innerHTML);
+         if(new_sum_answer != sum_answer){
+            changeAnwers = true;
+         }
+      }else{
+          changeAnwers = true;
+      }
+
+    var tmpResult = changeQuestion || changeDescription || changeAnwers;
     return tmpResult;
 }
 
@@ -439,9 +439,9 @@ var isModified = function () {
 document.body.addEventListener(
   "click",
     function(event){
-	 return;
-	 // This trigers on any button click but all buttons are js functions
-     //	there are no links on the page so we skipp the check
+     return;
+     // This trigers on any button click but all buttons are js functions
+     //    there are no links on the page so we skipp the check
      if (event.target.tagName === "BUTTON" || event.target.tagName === "A") {
         var associatedWithForm = event.target.form
         var isInProtectedForm = associatedWithForm && event.target.form.id ===  $parameters.FormId
@@ -453,7 +453,7 @@ document.body.addEventListener(
              }
           }
         }
-  }   
+  }
 )
 
 // Catch navigating back
@@ -483,11 +483,11 @@ if (typeof initPageEditor !== 'undefined'){
   var questiontextLength = tmpHolder[0].innerHTML.length;
   var descriptiontextLength = tmpHolder[1].innerHTML.length;
   var answertextLength = document.getElementById("answers_area").innerHTML.length;
-  
+
   var sum_question = calc_checksum(tmpHolder[0].innerHTML);
   var sum_description = calc_checksum(tmpHolder[1].innerHTML);
   var sum_answer = calc_checksum(document.getElementById("answers_area").innerHTML);
-  
+
 }else{
   var questiontextLength = 0;
   var descriptiontextLength = 0;
@@ -503,236 +503,236 @@ function setCheckValues(){
   questiontextLength = tmpHolder[0].innerHTML.length;
   descriptiontextLength = tmpHolder[1].innerHTML.length;
   answertextLength = document.getElementById("answers_area").innerHTML.length;
-  
+
   sum_question = calc_checksum(tmpHolder[0].innerHTML);
   sum_description = calc_checksum(tmpHolder[1].innerHTML);
   sum_answer = calc_checksum(document.getElementById("answers_area").innerHTML);
 }
 
 function saveQuestion(content, id, instance) {
-	 var questionID = document.getElementById("questionID").value;
-	 var courseID = document.getElementById("courseID").value;
-	 var quizID = document.getElementById("quizID").value;
-	
-	 let tmpHolder = document.getElementsByClassName(' nicEdit-main ');
+     var questionID = document.getElementById("questionID").value;
+     var courseID = document.getElementById("courseID").value;
+     var quizID = document.getElementById("quizID").value;
 
-	 //var questionTxt = document.getElementById("area_question").value; //do not use the area, but the div and the inner text
-	 var questionTxt = tmpHolder[0].innerHTML;
-	 //var explnTxt = document.getElementById("area_explanation").value; //do not use the area, but the div and the inner text
-	 var explnTxt = tmpHolder[1].innerHTML;
-	 var referenceLink = document.getElementById("referenceLink").value;
-	
-	if(document.getElementById("select_answers") != null){ //Drag-drop answers
-		selc_ans = document.getElementById("select_answers");
-		posb_ans = document.getElementById("correct_answers");
-		var answers_html = selc_ans.getElementsByClassName("showinline");
-		answers = [];
-		answerCount = [];
-		for(let i = 0; i < answers_html.length; i++){
-			answers.push(answers_html[i].firstChild.value)
-			answerCount.push(answers_html[i].childNodes[2].value)
-		}
-		var answers_html = posb_ans.getElementsByClassName("showinline");
-		correctAnswer = [];
-		groups = [];
-		for(let i = 0; i < answers_html.length; i++){
-			if (answers_html[i].firstChild.value == ""){continue;}
-			correctAnswer.push(answers_html[i].firstChild.value)
-			groups.push(answers_html[i].childNodes[2].value)
-		}
-		
-		if(!questionTxt.includes("$?__")){
-			for(let i = 0; i < correctAnswer.length; i++){
-				questionTxt+="<div>&nbsp;$?__</div>"
-			}
-		}else{
-			var count = (questionTxt.match(/\$\?__/g) || []).length;
-			if(count != correctAnswer.length){
-			   alert("Drop darget count diffrent than correct answers!")
-			   errorDiv = document.getElementById("error_no_answer");
-			   errorDiv.style.setProperty('display','block','')
-			   return;
-			}
-		}
-		correctAnswer = JSON.stringify(correctAnswer)
-	}else{ //free text
-		 var freetext = document.getElementById("freeTextAns");
-		 if(freetext == null){
-		   //Not free text question
-		   var answers_html = document.getElementsByClassName("showinline");
-		   var correctAnswer = ""
-		   var answers = {};
-		   // -1 becasue the reference link adds one more line
-		   for(let i = 0; i < answers_html.length - 1; i++){
-			 var tmp_ans = answers_html[i].getElementsByTagName("input");
-			 if(tmp_ans.length <= 0){ //add validation
-			   alert("Please fill the correct answer!")
-			   errorDiv = document.getElementById("error_no_answer");
-			   errorDiv.style.setProperty('display','block','')
-			   return;
-			 }
-			 if(tmp_ans[0].checked){
-			   //correctAnswer+=i;
-			   correctAnswer+=String.fromCharCode(65 + i);
-			 }
-			 //answers[i] = tmp_ans[1].value
-			 answers[String.fromCharCode(65 + i)] = tmp_ans[1].value
-			 if(answers[String.fromCharCode(65 + i)].includes("&")){
-				 if(answers[String.fromCharCode(65 + i)][0] != "¶"){
-					 answers[String.fromCharCode(65 + i)] = "¶".concat(answers[String.fromCharCode(65 + i)]);
-				 }
-			 }
-		   }
-		 }else{
-		   var answers = {};
-		   var correctAnswer = document.getElementById("freeTextAns").value;
-		 }
-	 }
+     let tmpHolder = document.getElementsByClassName(' nicEdit-main ');
 
-	 var fd = new FormData(); // https://hacks.mozilla.org/2011/01/how-to-develop-a-html5-image-uploader/
-	 fd.append("courseID", courseID);
-	 fd.append("quizID", quizID);
-	 fd.append("questionID", questionID);
-	 fd.append("questionTxt",  questionTxt);
-	 fd.append("questionCat", document.getElementById("questionType").value);
-	 fd.append("explnTxt", explnTxt);
-	 fd.append("referenceLink", referenceLink);
-	 fd.append("answers", JSON.stringify(answers));
-	 if(typeof groups !== 'undefined'){
-		for(let j = 0; j < groups.length; j++){
-			if(groups[j] == j){continue}
-			fd.append("answers_grp", JSON.stringify(groups));
-			break;
-		}
-	 }
-	 if(typeof answerCount !== 'undefined'){
-		for(let j = 0; j < answerCount.length; j++){
-			if(answerCount[j] == "1"){continue}
-			fd.append("answers_cnt", JSON.stringify(answerCount));
-			break;
-		}
-	 }
-	 fd.append("correctAnswer", correctAnswer);
-	 if(correctAnswer.length <= 0){ //add validation
-	   alert("Please fill the correct answer!")
-	   errorDiv = document.getElementById("error_no_answer");
-	   errorDiv.style.setProperty('display','block','')
-	   return;
-	 }
+     //var questionTxt = document.getElementById("area_question").value; //do not use the area, but the div and the inner text
+     var questionTxt = tmpHolder[0].innerHTML;
+     //var explnTxt = document.getElementById("area_explanation").value; //do not use the area, but the div and the inner text
+     var explnTxt = tmpHolder[1].innerHTML;
+     var referenceLink = document.getElementById("referenceLink").value;
 
-	 var xhr = new XMLHttpRequest();
-	 if(questionID == -1){
-		 xhr.open("POST", "./saveQuestion");
-	 }else{
-		 xhr.open("PATCH", "./saveQuestion");
-	 }
+    if(document.getElementById("select_answers") != null){ //Drag-drop answers
+        selc_ans = document.getElementById("select_answers");
+        posb_ans = document.getElementById("correct_answers");
+        var answers_html = selc_ans.getElementsByClassName("showinline");
+        answers = [];
+        answerCount = [];
+        for(let i = 0; i < answers_html.length; i++){
+            answers.push(answers_html[i].firstChild.value)
+            answerCount.push(answers_html[i].childNodes[2].value)
+        }
+        var answers_html = posb_ans.getElementsByClassName("showinline");
+        correctAnswer = [];
+        groups = [];
+        for(let i = 0; i < answers_html.length; i++){
+            if (answers_html[i].firstChild.value == ""){continue;}
+            correctAnswer.push(answers_html[i].firstChild.value)
+            groups.push(answers_html[i].childNodes[2].value)
+        }
 
-	 xhr.onload = function() {
-			 alert("Status: " + xhr.responseText);
-			 if(xhr.status == 200){
-			   setCheckValues();
-			 }
-			 errorDiv = document.getElementById("error_no_answer");
-			 errorDiv.style.display='none'
-	 };
-	 xhr.onerror = xhr.onload;
-	 //xhr.setRequestHeader('Authorization', 'Client-ID c37fc05199a05b7');
-	 xhr.send(fd);
+        if(!questionTxt.includes("$?__")){
+            for(let i = 0; i < correctAnswer.length; i++){
+                questionTxt+="<div>&nbsp;$?__</div>"
+            }
+        }else{
+            var count = (questionTxt.match(/\$\?__/g) || []).length;
+            if(count != correctAnswer.length){
+               alert("Drop darget count diffrent than correct answers!")
+               errorDiv = document.getElementById("error_no_answer");
+               errorDiv.style.setProperty('display','block','')
+               return;
+            }
+        }
+        correctAnswer = JSON.stringify(correctAnswer)
+    }else{ //free text
+         var freetext = document.getElementById("freeTextAns");
+         if(freetext == null){
+           //Not free text question
+           var answers_html = document.getElementsByClassName("showinline");
+           var correctAnswer = ""
+           var answers = {};
+           // -1 becasue the reference link adds one more line
+           for(let i = 0; i < answers_html.length - 1; i++){
+             var tmp_ans = answers_html[i].getElementsByTagName("input");
+             if(tmp_ans.length <= 0){ //add validation
+               alert("Please fill the correct answer!")
+               errorDiv = document.getElementById("error_no_answer");
+               errorDiv.style.setProperty('display','block','')
+               return;
+             }
+             if(tmp_ans[0].checked){
+               //correctAnswer+=i;
+               correctAnswer+=String.fromCharCode(65 + i);
+             }
+             //answers[i] = tmp_ans[1].value
+             answers[String.fromCharCode(65 + i)] = tmp_ans[1].value
+             if(answers[String.fromCharCode(65 + i)].includes("&")){
+                 if(answers[String.fromCharCode(65 + i)][0] != "¶"){
+                     answers[String.fromCharCode(65 + i)] = "¶".concat(answers[String.fromCharCode(65 + i)]);
+                 }
+             }
+           }
+         }else{
+           var answers = {};
+           var correctAnswer = document.getElementById("freeTextAns").value;
+         }
+     }
+
+     var fd = new FormData(); // https://hacks.mozilla.org/2011/01/how-to-develop-a-html5-image-uploader/
+     fd.append("courseID", courseID);
+     fd.append("quizID", quizID);
+     fd.append("questionID", questionID);
+     fd.append("questionTxt",  questionTxt);
+     fd.append("questionCat", document.getElementById("questionType").value);
+     fd.append("explnTxt", explnTxt);
+     fd.append("referenceLink", referenceLink);
+     fd.append("answers", JSON.stringify(answers));
+     if(typeof groups !== 'undefined'){
+        for(let j = 0; j < groups.length; j++){
+            if(groups[j] == j){continue}
+            fd.append("answers_grp", JSON.stringify(groups));
+            break;
+        }
+     }
+     if(typeof answerCount !== 'undefined'){
+        for(let j = 0; j < answerCount.length; j++){
+            if(answerCount[j] == "1"){continue}
+            fd.append("answers_cnt", JSON.stringify(answerCount));
+            break;
+        }
+     }
+     fd.append("correctAnswer", correctAnswer);
+     if(correctAnswer.length <= 0){ //add validation
+       alert("Please fill the correct answer!")
+       errorDiv = document.getElementById("error_no_answer");
+       errorDiv.style.setProperty('display','block','')
+       return;
+     }
+
+     var xhr = new XMLHttpRequest();
+     if(questionID == -1){
+         xhr.open("POST", "./saveQuestion");
+     }else{
+         xhr.open("PATCH", "./saveQuestion");
+     }
+
+     xhr.onload = function() {
+             alert("Status: " + xhr.responseText);
+             if(xhr.status == 200){
+               setCheckValues();
+             }
+             errorDiv = document.getElementById("error_no_answer");
+             errorDiv.style.display='none'
+     };
+     xhr.onerror = xhr.onload;
+     //xhr.setRequestHeader('Authorization', 'Client-ID c37fc05199a05b7');
+     xhr.send(fd);
   }
 
   function clearPage(){
-	if(isModified()) {
-		if(!confirm("The question is not saved.\nDo you want to clear the page?")) {
-			 event.stopPropagation();
-			 event.preventDefault()
-			 return;
-		}
-	}
-	var options = document.getElementById("questionType").options;
-	options[0].selected = true;
-	let tmpHolder = document.getElementsByClassName(' nicEdit-main ');
-	//var questionTxt = document.getElementById("area_question").value; //do not use the area, but the div and the inner text
-	tmpHolder[0].innerHTML = "";
-	//var explnTxt = document.getElementById("area_explanation").value; //do not use the area, but the div and the inner text
-	tmpHolder[1].innerHTML = "";
-	var ansArea = document.getElementById("answers_area");
-	newHtml = `<input type="text" id="freeTextAns" style = "width: 100%;" value="">`;
-	ansArea.innerHTML = newHtml;
-	document.getElementById("noQuestion").value = 0;
-	document.getElementById("referenceLink").value = ""
-	errorDiv = document.getElementById("error_no_answer");
-	errorDiv.style.display='none'
-	setCheckValues();
+    if(isModified()) {
+        if(!confirm("The question is not saved.\nDo you want to clear the page?")) {
+             event.stopPropagation();
+             event.preventDefault()
+             return;
+        }
+    }
+    var options = document.getElementById("questionType").options;
+    options[0].selected = true;
+    let tmpHolder = document.getElementsByClassName(' nicEdit-main ');
+    //var questionTxt = document.getElementById("area_question").value; //do not use the area, but the div and the inner text
+    tmpHolder[0].innerHTML = "";
+    //var explnTxt = document.getElementById("area_explanation").value; //do not use the area, but the div and the inner text
+    tmpHolder[1].innerHTML = "";
+    var ansArea = document.getElementById("answers_area");
+    newHtml = `<input type="text" id="freeTextAns" style = "width: 100%;" value="">`;
+    ansArea.innerHTML = newHtml;
+    document.getElementById("noQuestion").value = 0;
+    document.getElementById("referenceLink").value = ""
+    errorDiv = document.getElementById("error_no_answer");
+    errorDiv.style.display='none'
+    setCheckValues();
   }
 
   function nicEdit_Scroll_Patch(){
-	let tmpHolder = document.getElementsByClassName(' nicEdit-main ')
-	var body = document.body,
-		html = document.documentElement;
-	var width = tmpHolder[0].clientWidth;
+    let tmpHolder = document.getElementsByClassName(' nicEdit-main ')
+    var body = document.body,
+        html = document.documentElement;
+    var width = tmpHolder[0].clientWidth;
 
-	var height = Math.max( body.scrollHeight, body.offsetHeight,
-						   html.clientHeight, html.scrollHeight, html.offsetHeight ) / 4;
-	for (let i = 0; i < tmpHolder.length; i++){
-		tmpHolder[i].style.setProperty('max-height',height,'');
-		tmpHolder[i].style.setProperty('overflow-y','scroll','');
-		//tmpHolder[i].style.setProperty('max-width',width,'');
-		//tmpHolder[i].style.setProperty('overflow-x','scroll','');
-	}
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+                           html.clientHeight, html.scrollHeight, html.offsetHeight ) / 4;
+    for (let i = 0; i < tmpHolder.length; i++){
+        tmpHolder[i].style.setProperty('max-height',height,'');
+        tmpHolder[i].style.setProperty('overflow-y','scroll','');
+        //tmpHolder[i].style.setProperty('max-width',width,'');
+        //tmpHolder[i].style.setProperty('overflow-x','scroll','');
+    }
   }
 
   function nicEdit_Padding_Patch(){
-	let tmpHolder = document.getElementsByClassName(' nicEdit-main ')
-	for (let i = 0; i < tmpHolder.length; i++){
-		tmpHolder[i].style.setProperty('padding-left','5px','');
-	}
+    let tmpHolder = document.getElementsByClassName(' nicEdit-main ')
+    for (let i = 0; i < tmpHolder.length; i++){
+        tmpHolder[i].style.setProperty('padding-left','5px','');
+    }
   }
-  
+
   var selectedColor = '#fff';
   function nicEdit_BackgroundColor_Patch(){
-	let tmpHolder = document.getElementsByClassName('editor_holder')
-	for (let i = 0; i < tmpHolder.length; i++){
-		tmpHolder[i].children[1].style.setProperty('background-color',selectedColor,'');
-		//tmpHolder[i].children[1].style.setProperty('background-color','#fff','');
-	}
+    let tmpHolder = document.getElementsByClassName('editor_holder')
+    for (let i = 0; i < tmpHolder.length; i++){
+        tmpHolder[i].children[1].style.setProperty('background-color',selectedColor,'');
+        //tmpHolder[i].children[1].style.setProperty('background-color','#fff','');
+    }
   }
-  
-  function initEditors(){
-	  new nicEditor({fullPanel : true, /*uploadImgURI : '/be/nicUploadImg',*/
-	  onSave : saveQuestion,
-	  iconsPath : '/static/nic/new_nicEditorIcons.png',
-	  tableURL : '/be/nicShowFiles'}).panelInstance('area_question');
 
-	  new nicEditor({fullPanel : true, /*uploadImgURI : '/be/nicUploadImg',*/
-	  onSave : saveQuestion,
-	  iconsPath : '/static/nic/new_nicEditorIcons.png',
-	  tableURL : '/be/nicShowFiles'}).panelInstance('area_explanation');
-	  nicEdit_Padding_Patch();
-	  nicEdit_Scroll_Patch();
-	  //nicEdit_BackgroundColor_Patch();
+  function initEditors(){
+      new nicEditor({fullPanel : true, /*uploadImgURI : '/be/nicUploadImg',*/
+      onSave : saveQuestion,
+      iconsPath : '/static/nic/new_nicEditorIcons.png',
+      tableURL : '/be/nicShowFiles'}).panelInstance('area_question');
+
+      new nicEditor({fullPanel : true, /*uploadImgURI : '/be/nicUploadImg',*/
+      onSave : saveQuestion,
+      iconsPath : '/static/nic/new_nicEditorIcons.png',
+      tableURL : '/be/nicShowFiles'}).panelInstance('area_explanation');
+      nicEdit_Padding_Patch();
+      nicEdit_Scroll_Patch();
+      //nicEdit_BackgroundColor_Patch();
  }
 
 function calc_checksum(in_str){
-	return calculateCRC(in_str);
+    return calculateCRC(in_str);
 }
 
 function calculateCRC(data) {
     const polynomial = 0xEDB88320;
     let crc = 0xFFFFFFFF;
- 
+
     // Iterate through each character in the data
     for (let i = 0; i < data.length; i++) {
-        // XOR the current character 
+        // XOR the current character
         // with the current CRC value
         crc ^= data.charCodeAt(i);
- 
-        // Perform bitwise operations 
+
+        // Perform bitwise operations
         // to calculate the new CRC value
         for (let j = 0; j < 8; j++) {
             crc = (crc >>> 1) ^ (crc & 1 ? polynomial : 0);
         }
     }
- 
+
     // Perform a final XOR operation and return the CRC value
     return crc ^ 0xFFFFFFFF;
 }

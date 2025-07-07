@@ -121,9 +121,9 @@ body{
 }
 
 #error_no_answer{
-	display: none;
+    display: none;
 }
 
 #buttonHolder{
-	padding-bottom: 10px;
+    padding-bottom: 10px;
 }

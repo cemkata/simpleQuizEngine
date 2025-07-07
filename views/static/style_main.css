@@ -66,27 +66,27 @@ input[type=submit]:hover{
 }
 
 .btnGreen{
-	background-color: #4CAF50;
+  background-color: #4CAF50;
 }
 
 .btnGreen:hover{
-	background-color: #00AA00;
+  background-color: #00AA00;
 }
 
 .btnRed{
-	background-color: red;
+  background-color: red;
 }
 
 .btnRed:hover{
-	background-color: #c0392b;
+  background-color: #c0392b;
 }
 
 .btnDarkRed{
-	background-color: darkred;
+  background-color: darkred;
 }
 
 .btnDarkRed:hover{
-	background-color: #641e16;
+  background-color: #641e16;
 }
 
 
