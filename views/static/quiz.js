@@ -58,7 +58,7 @@
       }
       for(let k = 0; k<totalSelection; k++){
           answers.push(
-            `<span draggable="true" ondragstart="dragStart(event)" class="dragtarget">${myQuestions[i].answers[j]}</span>`
+            `<span draggable="true" ondragstart="dragStart(event)" class="dragtarget dragtarget_cursor">${myQuestions[i].answers[j]}</span>`
           );
       }
     }
@@ -88,6 +88,7 @@
     return `<div class="slide">
         <div class="answers"> ${question_box} </div>
         <div class="question"> ${answer_box} </div>
+        </br>
   
         <div class="explanation hidden"> Correct answer: </br>${correctAnsweredQuestions.join("")}</br>${myQuestions[i].explanation} ${reftxt}</div><hr>
       </div>`
@@ -95,14 +96,14 @@
   
   function prepareQuestionFreetext(i){
       const answers = [];
-	  let corect_anw = myQuestions[i].correctAnswer.split("🠇");
-	  for(let j = 0; j<corect_anw.length; j++){
-		  answers.push(
-			`<label>
-			  <input name="question${i}">
-			</label>`
-		  );
-	  }
+      let corect_anw = myQuestions[i].correctAnswer.split("🠇");
+      for(let j = 0; j<corect_anw.length; j++){
+          answers.push(
+            `<label>
+              <input name="question${i}">
+            </label>`
+          );
+      }
       // add this question and its answers to the output
       if(myQuestions[i].referenceLink != ""){reftxt = `<p>Reference:</p><a href="${myQuestions[i].referenceLink}"  target="_blank">link</a>`}
       else{reftxt = ""}
@@ -364,14 +365,23 @@
     var hue = ((value/100) * 120).toString(10);
     return ["hsl(", hue, ",75%,50%)"].join("");
   }
+
+  function resetDragNDropQuestion(){
+          let questionContainer = document.getElementsByClassName("active-slide")[0];
+          const template = document.createElement('template');
+          template.innerHTML = prepareQuestionDragDrop(currentSlide + _beginOfQuesions);
+          questionContainer.innerHTML = template.content.firstChild.innerHTML;
+          answerContainers = quizContainer.querySelectorAll('.answers');
+  }
   
+
   function checkAnswer(currentQuestion, questionNumber){
       // find selected answer
       const answerContainer = answerContainers[questionNumber];
       const selector = `input[name=question${questionNumber + _beginOfQuesions}]:checked`;
       const selectorAll = `input[name=question${questionNumber + _beginOfQuesions}]`;
       var tmpQuestion = answerContainer.querySelectorAll(selectorAll);
-       if(tmpQuestion.length == 0 ||currentQuestion.category == 3){ //drag-drop question
+       if(tmpQuestion.length == 0 || currentQuestion.category == 3){ //drag-drop question
               return checkAnswerDragDrop(answerContainer, currentQuestion);
         }else if(tmpQuestion.length < 2 || currentQuestion.category == 0){ //Fill the blank question
               return checkAnswerFreetext(answerContainer, currentQuestion, tmpQuestion);
@@ -402,7 +412,7 @@
         correctAnswers.push(false)
         for (let i = 0; i < currentQuestion.correctAnswer.length; i++) {
             currentAnswer = dragDropQuestions[i].getElementsByClassName("dragtarget");
-            currentGroup = dragDropQuestions[i].dataset.groupId
+            currentGroup = dragDropQuestions[i].dataset.groupId;
             if(currentAnswer.length == 0){
                 currentAnswer = dragDropQuestions[i].getElementsByClassName("droptarget");
                 currentAnswer = currentAnswer[0];
@@ -444,17 +454,17 @@
   }
   
   function checkAnswerFreetext(answerContainer, currentQuestion, tmpQuestion){
-	  let corect_anw = currentQuestion.correctAnswer.split("🠇");
-	  var result = 0;
-	  for(let j = 0; j<corect_anw.length; j++){
-		if(tmpQuestion[j].value === corect_anw[j]){
-			tmpQuestion[j].style.color = 'lightgreen'; // color the answers green
-			result++;
-		}else{
-			tmpQuestion[j].style.color = 'red'; // color the answers red
-		}
-	  }
-	  return result == corect_anw.length;
+      let corect_anw = currentQuestion.correctAnswer.split("🠇");
+      var result = 0;
+      for(let j = 0; j<corect_anw.length; j++){
+        if(tmpQuestion[j].value === corect_anw[j]){
+            tmpQuestion[j].style.color = 'lightgreen'; // color the answers green
+            result++;
+        }else{
+            tmpQuestion[j].style.color = 'red'; // color the answers red
+        }
+      }
+      return result == corect_anw.length;
   }
   
   function checkAnswerSelection(answerContainer, currentQuestion, selector, selectorAll){
@@ -560,6 +570,10 @@
         if (slides[currentSlide].children[i].className == "explanation hidden") {
           slides[currentSlide].children[i].classList.remove("hidden");
           checkAnswer(myQuestions[currentSlide + _beginOfQuesions], currentSlide)
+          let rest_btn_list = slides[currentSlide].getElementsByClassName("__reset__btn__");
+          for(let i=0; i<rest_btn_list.length; i++){
+            rest_btn_list[i].remove();
+          }
         }
     }
   }
@@ -985,6 +999,16 @@
               if(dragTaggets[i].children.length == 0){
                   dragTaggets[i].style.removeProperty('border');
               }
+          }
+          questionContainer = document.getElementsByClassName("active-slide")[0];
+          const tag_selector = 'a'
+          if(questionContainer.getElementsByClassName('__reset__btn__').length == 0){
+              var tmpButton = document.createElement(tag_selector);
+              questionContainer = questionContainer.getElementsByClassName('question')[0];
+              tmpButton.text = "Reset answers";
+              tmpButton.classList.add('__reset__btn__');
+              tmpButton.addEventListener("click", resetDragNDropQuestion);
+              questionContainer.after(tmpButton);
           }
       }
   });

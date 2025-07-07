@@ -208,6 +208,10 @@ input[type=submit]:hover {
   margin-top:5px;
 }
 
+.dragtarget_cursor {
+  cursor: move;
+}
+
 .droptarget {
   display: inline-block;
   min-width: 50px;
@@ -580,4 +584,11 @@ table td:first-child  {
 .table_cell_div{
   padding-bottom: 25px;
   padding-top: 15px;
+}
+
+.__reset__btn__ {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  cursor: pointer;
 }
