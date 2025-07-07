@@ -442,7 +442,7 @@
             currentAnswer = currentAnswer[0];
             if (correctAnswers[i]){
                 currentAnswer.style.color = 'lightgreen'; // color the answers green
-                if(makeAnswerReadOnly){
+                if(makeAnswerReadOnly.checked){
                     currentAnswer.draggable = false;
                     currentAnswer.classList.remove("dragtarget_cursor");
                 }
@@ -455,7 +455,7 @@
             }
         }
     }
-    if(makeAnswerReadOnly){
+    if(makeAnswerReadOnly.checked){
         let unusedAnswers = answerContainer.nextSibling.nextSibling.querySelectorAll(".dragtarget");
         for (let i = 0; i < unusedAnswers.length; i++) {
             unusedAnswers[i].classList.remove("dragtarget_cursor");
@@ -475,7 +475,7 @@
         }else{
             tmpQuestion[j].style.color = 'red'; // color the answers red
         }
-        if(makeAnswerReadOnly){
+        if(makeAnswerReadOnly.checked){
             tmpQuestion[j].readOnly = true;
         }
       }
@@ -494,7 +494,7 @@
                 if(currentQuestion.correctAnswer.includes((ans.querySelector(selector) || {}).value)){
                       ans.style.color = 'lightgreen'; // color the answers green
                 }
-                if(makeAnswerReadOnly){
+                if(makeAnswerReadOnly.checked){
                     ans.childNodes[1].disabled = true;
                 }
             }
@@ -509,6 +509,9 @@
                       ans.style.color = 'lightgreen'; // color the answers green
                   }else{
                       ans.style.color = 'red'; // color the answers red
+                  }
+                  if(makeAnswerReadOnly.checked){
+                      ans.childNodes[1].disabled = true;
                   }
               }
           );
