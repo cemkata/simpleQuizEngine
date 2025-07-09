@@ -139,7 +139,6 @@ button:hover{
 }
 
 .question_rows{
-  border: 10px solid black;
   background-color:#f2f2f2;
   vertical-align: text-top;
 }
@@ -148,6 +147,7 @@ button:hover{
   tr>th:first-child,tr>td:first-child {
     word-break: break-all;
   }
+  border-collapse:collapse;
 }
 
 input[type=text], input[type=number], select, textarea {
