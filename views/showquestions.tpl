@@ -175,7 +175,7 @@
     <td>&nbsp;</td>
   </tr>
   <tr>
-  <td colspan="3"><hr>
+  <td colspan="5"><hr>
   </td>
   </tr>
 % end ##% for qstn in questions:
