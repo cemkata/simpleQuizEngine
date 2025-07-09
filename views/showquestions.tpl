@@ -48,12 +48,13 @@
 					while(currentRow != null){
 						if(currentRow.classList.contains("question_rows")){
 							let new_id = parseInt(currentRow.id.split("_")[1]) - 1;
+							const cell_index = 1;
 							currentRow.id = "q_" + new_id;
 							let cells = currentRow.getElementsByTagName("td");
-							q_number = parseInt(cells[0].childNodes[1].innerText.replace("Question ", "").replace(":", "")) - 1;
-							cells[0].childNodes[1].childNodes[1].innerText = "Question " + q_number + ":";
-							cells[1].childNodes[0].setAttribute('onclick',`confirmEdit(${q_number})`)
-							cells[2].childNodes[0].setAttribute('onclick',`confirmDelete(${q_number})`)
+							q_number = parseInt(cells[cell_index + 0].childNodes[1].innerText.replace("Question ", "").replace(":", "")) - 1;
+							cells[cell_index + 0].childNodes[1].childNodes[1].innerText = "Question " + q_number + ":";
+							cells[cell_index + 1].childNodes[0].childNodes[0].setAttribute('onclick',`confirmEdit(${q_number})`)
+							cells[cell_index + 2].childNodes[0].childNodes[0].setAttribute('onclick',`confirmDelete(${q_number})`)
 						}
 						currentRow = currentRow.nextElementSibling.nextElementSibling;
 					}
