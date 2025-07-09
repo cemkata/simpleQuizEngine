@@ -81,16 +81,19 @@
 <table style="width:100%" class="pretyPrint">
   <tr><button class="newQuestion_btn" style="width:100%" onclick="confirmEdit(-1)">&#10001; New question &#10002;</button> </tr>
   <tr>
-    <th colspan="3" class="w3-dark-grey" id="question_count">Total number of question(s): {{len(questions)}}</th>
+    <th class="w3-dark-grey">&nbsp;</th>
+    <th colspan="4" class="w3-dark-grey" id="question_count">Total number of question(s): {{len(questions)}}</th>
   </tr>
-  <tr><td colspan="3"><hr></td></tr>
+  <tr><td colspan="5"><hr></td></tr>
   <tr>
+    <th class="w3-dark-grey">&nbsp;</th>
     <th class="w3-dark-grey">Question</th>
-    <th class="w3-dark-grey" colspan="2">Action</th>
+    <th class="w3-dark-grey" colspan="3">Action</th>
   </tr>
-  <tr><td colspan="3"><hr></td></tr>
+  <tr><td colspan="5"><hr></td></tr>
 % for qstn in questions:
   <tr class="question_rows" id ="q_{{qstn["id"]}}">
+    <td>&nbsp;</td>
     <td>
 		<div class="table_cell_div">
 		<h2>Question {{qstn["id"]}}:</h2><hr>
@@ -167,8 +170,9 @@
 		  <input type="text" size="80" value="{{qstn["referenceLink"]}}" readonly>
 		</div>
 	</td>
-    <td><button style="width:100%" class="float" onclick="confirmEdit({{qstn["id"]}})">&#9998; Edit</button> </td>
-    <td><button style="width:100%" class="float" onclick="confirmDelete({{qstn["id"]}})">&#128465; Delete</button> </td>
+    <td><div class="float"><button style="width:100%" onclick="confirmEdit({{qstn["id"]}})">&#9998; Edit</button></div> </td>
+    <td><div class="float"><button style="width:100%" onclick="confirmDelete({{qstn["id"]}})">&#128465; Delete</button></div> </td>
+    <td>&nbsp;</td>
   </tr>
   <tr>
   <td colspan="3"><hr>
