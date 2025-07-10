@@ -48,13 +48,24 @@
 					while(currentRow != null){
 						if(currentRow.classList.contains("question_rows")){
 							let new_id = parseInt(currentRow.id.split("_")[1]) - 1;
-							const cell_index = 1;
 							currentRow.id = "q_" + new_id;
+							let cell_index = -1;
 							let cells = currentRow.getElementsByTagName("td");
-							q_number = parseInt(cells[cell_index + 0].childNodes[1].innerText.replace("Question ", "").replace(":", "")) - 1;
-							cells[cell_index + 0].childNodes[1].childNodes[1].innerText = "Question " + q_number + ":";
-							cells[cell_index + 1].childNodes[0].childNodes[0].setAttribute('onclick',`confirmEdit(${q_number})`)
-							cells[cell_index + 2].childNodes[0].childNodes[0].setAttribute('onclick',`confirmDelete(${q_number})`)
+							for(let i = 0; i<cells.length; i++){
+								let tmaEl = cells[i].getElementsByClassName("table_cell_div");
+								if(tmaEl.length != 0){
+									cell_index = i;
+									break;
+								}
+							}
+							if(cell_index == -1) {return;}
+							let questionText = cells[cell_index + 0].getElementsByTagName("h2")[0];
+							let editButton = cells[cell_index + 1].getElementsByTagName("button")[0];
+							let delButton = cells[cell_index + 2].getElementsByTagName("button")[0];
+							q_number = parseInt(questionText.innerText.replace("Question ", "").replace(":", "")) - 1;
+							questionText.innerText = "Question " + q_number + ":";
+							editButton.setAttribute('onclick',`confirmEdit(${q_number})`);
+							delButton.setAttribute('onclick',`confirmDelete(${q_number})`);
 						}
 						currentRow = currentRow.nextElementSibling.nextElementSibling;
 					}
