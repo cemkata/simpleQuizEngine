@@ -404,7 +404,7 @@
             currentAnswer = dragDropAnswers[i].getElementsByClassName("droptarget");
             currentAnswer = currentAnswer[0];
             currentAnswer.textContent = currentQuestion.correctAnswer[i];
-            currentAnswer.style.color = 'red'; // color the answers red
+            currentAnswer.style.color = wrongAnswerColor; // color the answers red
         }
         result = false
     }else{
@@ -417,7 +417,7 @@
                 currentAnswer = dragDropQuestions[i].getElementsByClassName("droptarget");
                 currentAnswer = currentAnswer[0];
                 currentAnswer.textContent = currentQuestion.correctAnswer[i];
-                currentAnswer.style.color = 'red'; // color the answers red
+                currentAnswer.style.color = wrongAnswerColor; // color the answers red
                 result = false;
                 continue;
             }else{
@@ -441,14 +441,14 @@
             currentAnswer = dragDropQuestions[i].getElementsByClassName("dragtarget");
             currentAnswer = currentAnswer[0];
             if (correctAnswers[i]){
-                currentAnswer.style.color = 'lightgreen'; // color the answers green
+                currentAnswer.style.color = correctAnswerColor; // color the answers green
                 if(makeAnswerReadOnly.checked){
                     currentAnswer.draggable = false;
                     currentAnswer.classList.remove("dragtarget_cursor");
                 }
             }else{
                 if (currentAnswer !== undefined){
-                    currentAnswer.style.color = 'red'; // color the answers red
+                    currentAnswer.style.color = wrongAnswerColor; // color the answers red
                     currentAnswer.classList.remove("dragtarget_cursor");
                 }
                 result = false;
@@ -470,10 +470,10 @@
       var result = 0;
       for(let j = 0; j<corect_anw.length; j++){
         if(tmpQuestion[j].value === corect_anw[j]){
-            tmpQuestion[j].style.color = 'lightgreen'; // color the answers green
+            tmpQuestion[j].style.color = correctAnswerColor; // color the answers green
             result++;
         }else{
-            tmpQuestion[j].style.color = 'red'; // color the answers red
+            tmpQuestion[j].style.color = wrongAnswerColor; // color the answers red
         }
         if(makeAnswerReadOnly.checked){
             tmpQuestion[j].readOnly = true;
@@ -492,7 +492,7 @@
       if(userAnswer === currentQuestion.correctAnswer){
         answerContainer.querySelectorAll('label').forEach(ans => {
                 if(currentQuestion.correctAnswer.includes((ans.querySelector(selector) || {}).value)){
-                      ans.style.color = 'lightgreen'; // color the answers green
+                      ans.style.color = correctAnswerColor; // color the answers green
                 }
                 if(makeAnswerReadOnly.checked){
                     ans.childNodes[1].disabled = true;
@@ -506,9 +506,9 @@
           answerContainer.querySelectorAll('label').forEach(ans => {
                   //if answer is in the correct color it green
                   if(currentQuestion.correctAnswer.includes((ans.querySelector(selectorAll) || {}).value)){
-                      ans.style.color = 'lightgreen'; // color the answers green
+                      ans.style.color = correctAnswerColor; // color the answers green
                   }else{
-                      ans.style.color = 'red'; // color the answers red
+                      ans.style.color = wrongAnswerColor; // color the answers red
                   }
                   if(makeAnswerReadOnly.checked){
                       ans.childNodes[1].disabled = true;
@@ -805,6 +805,12 @@
     textFieldFocus = false;
   }
 
+  //Test new colors 
+  //const correctAnswerColor = 'MediumSeaGreen';
+  //const wrongAnswerColor = 'Tomato';
+  const correctAnswerColor = 'lightgreen';
+  const wrongAnswerColor = 'red';
+
   var countDown=-1; //time in seconds
   var timer;
   var paused = true;
@@ -926,7 +932,7 @@
       document.getElementById("loader").style.display = "none";
       document.getElementById("error_loader").style.display = "block";
       numberOfQuestion = document.getElementById("n_of_que");
-      numberOfQuestion.style.color = 'red'; // color the answers red
+      numberOfQuestion.style.color = wrongAnswerColor; // color the answers red
       numberOfQuestion.type = 'text';
       numberOfQuestion.value = "Error loading quiz";
       alert("Something went wrong! :(")
