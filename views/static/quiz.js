@@ -100,7 +100,7 @@
       for(let j = 0; j<corect_anw.length; j++){
           answers.push(
             `<label>
-              <input name="question${i}">
+              <input name="question${i}" class="free_input_text">
             </label>`
           );
       }
@@ -725,6 +725,14 @@
           // gather answer containers from our quiz
           answerContainers = quizContainer.querySelectorAll('.answers');
 
+          // add event to diable page navigation while the text field is focused
+          let tmpArray = quizContainer.querySelectorAll('.free_input_text');
+          for(let i = 0; i < tmpArray.length; i++){
+              tmpArray[i].addEventListener("onfocus", freeTextFocus);
+              tmpArray[i].addEventListener("focusin", freeTextFocus);
+              tmpArray[i].addEventListener("onblur", freeTextLossFocus);
+              tmpArray[i].addEventListener("focusout", freeTextLossFocus);
+          }
 
           // Pagination
           previousButton = document.getElementById("previous");
@@ -789,6 +797,14 @@
       }
   }
 
+  function freeTextFocus(){
+    textFieldFocus = true;
+  }
+  
+  function freeTextLossFocus(){
+    textFieldFocus = false;
+  }
+
   var countDown=-1; //time in seconds
   var timer;
   var paused = true;
@@ -824,6 +840,8 @@
   var makeAnswerReadOnly;
 
   var timerTxt;
+
+  var textFieldFocus = false;
 
   var slidesContainer;
 
@@ -1040,10 +1058,10 @@
       if(!quizStarted){return};
       evt = evt || window.event;
       switch(evt.keyCode){
-          case 37: showPreviousSlide(); evt.preventDefault(); return; //left arrow
-          case 39: showNextSlide(); evt.preventDefault(); return; //rigth arrow
-          case 13:                                                                        //enter
-          case 32: if(!hideAnserBtn.checked){showAnswer();} evt.preventDefault(); return; //spacebar
+          case 37: if(!textFieldFocus){showPreviousSlide(); evt.preventDefault();} return; //left arrow
+          case 39: if(!textFieldFocus){showNextSlide(); evt.preventDefault();} return;     //rigth arrow
+          case 13:                                                                         //enter
+          case 32: if(!hideAnserBtn.checked){showAnswer();} evt.preventDefault(); return;  //spacebar
           default: if(event.ctrlKey && event.altKey && evt.key === "d"){
               var selection = parseInt(prompt("Jump to question:", "Type a number!"), 10);
               if (isNaN(selection)){
