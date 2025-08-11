@@ -712,7 +712,7 @@
           //Question array start at 0, if the value the questions will be more than expected
           nOfQuesions = parseInt(startOfQuestion.value) + parseInt(numberOfQuestion.value) - 1
           if(nOfQuesions > myQuestions.length){
-             nOfQuesions = myQuestions.length;
+             nOfQuesions = myQuestions.length - 1;
           }
           _beginOfQuesions = parseInt(startOfQuestion.value);
           //Question array start at 0, but people will say from question 1 to XXX
