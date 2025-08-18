@@ -35,11 +35,11 @@
     const questions = [];
     let k = 0;
     for(let j = 0; j < myQuestions[i].question.length; j++){
-          if (myQuestions[i].question[j].includes("$?__")){
+          if (myQuestions[i].question[j].includes("↨")){
               if (Object.hasOwn(myQuestions[i], 'answersGroups')){
-                var questionStr = `<div class="dragdrop_question" data-group-id="${myQuestions[i].answersGroups[k]}"><span>${myQuestions[i].question[j].replace("$?__", `</span><div class="droptarget"></div><span>`)}&nbsp;</span></div>`
+                var questionStr = `<div class="dragdrop_question" data-group-id="${myQuestions[i].answersGroups[k]}"><span>${myQuestions[i].question[j].replace("↨", `</span><div class="droptarget"></div><span>`)}&nbsp;</span></div>`
               }else{
-                var questionStr = `<div class="dragdrop_question" data-group-id="${j}">${myQuestions[i].question[j].replace("$?__", "")}&nbsp;<div class="droptarget"></div></div>`
+                var questionStr = `<div class="dragdrop_question" data-group-id="${j}">${myQuestions[i].question[j].replace("↨", "")}&nbsp;<div class="droptarget"></div></div>`
               }
               questions.push(questionStr);
               k++;
@@ -75,9 +75,9 @@
     const correctAnsweredQuestions = []
     k = 0;
     for(let j = 0; j < myQuestions[i].question.length; j++){
-          if (myQuestions[i].question[j].includes("$?__")){
+          if (myQuestions[i].question[j].includes("↨")){
               correctAnsweredQuestions.push(
-                `<div class="dragdrop_question">${myQuestions[i].question[j].replace("$?__", `</span><div class="droptarget">${myQuestions[i].correctAnswer[k]}</div><span>`)}&nbsp;</span></div>`
+                `<div class="dragdrop_question">${myQuestions[i].question[j].replace("↨", `</span><div class="droptarget">${myQuestions[i].correctAnswer[k]}</div><span>`)}&nbsp;</span></div>`
               );
                k++;
           }else{

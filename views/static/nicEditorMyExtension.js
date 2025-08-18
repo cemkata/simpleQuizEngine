@@ -565,9 +565,9 @@ function saveQuestion(content, id, instance) {
              correctAnswer.push(answers_html[i].firstChild.value);
          }
 
-          /*if(!questionTxt.includes("$?__")){
+          /*if(!questionTxt.includes("↨")){
              for(let i = 0; i < correctAnswer.length; i++){
-                 questionTxt+="<div>&nbsp;$?__</div>"
+                 questionTxt+="<div>&nbsp;↨</div>"
              }
          }else{
              var count = (questionTxt.match(/\$\?__/g) || []).length;
@@ -598,12 +598,12 @@ function saveQuestion(content, id, instance) {
              groups.push(answers_html[i].childNodes[2].value)
          }
 
-         if(!questionTxt.includes("$?__")){
+         if(!questionTxt.includes("↨")){
              for(let i = 0; i < correctAnswer.length; i++){
-                 questionTxt+="<div>&nbsp;$?__</div>"
+                 questionTxt+="<div>&nbsp;↨</div>"
              }
          }else{
-             var count = (questionTxt.match(/\$\?__/g) || []).length;
+             var count = (questionTxt.match(/↨/g) || []).length;
              if(count != correctAnswer.length){
                 alert("Drop darget count diffrent than correct answers!")
                 errorDiv = document.getElementById("error_no_answer");

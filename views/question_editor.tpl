@@ -216,10 +216,10 @@ selectionDropDownMenu = [{'value':0, 'text':"Free text", 'selected':""},
         <td>You can have more posible answers than answers</td>
 	  </tr>
 	  <tr class = "dragNdrop_answ">
-        <td><u>!!The questions must end with</u> $?__</td>
+        <td><u>!!The drag target is specified with</u> ↨</td>
       </tr>
 	  <tr class = "dragNdrop_answ">
-        <td>Put  at least one empty space bofore <em>$?__</em></td>
+        <td>Put  at least one empty space bofore <em>↨</em></td>
       </tr>
 	  <tr class = "dragNdrop_answ">
         <td>Or else you will get unexpected results.</td>
