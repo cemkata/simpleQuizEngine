@@ -153,7 +153,7 @@ function changeAnswerCount(){
                 }
             }else if(selected == '4'){
                 var type = -2;
-                //var ansArea = document.getElementById("correct_answers");
+                var ansArea = document.getElementById("correct_answers");
                 if(numLines < 1){ //Drop down selection
                     numLines = 1;
                 }
