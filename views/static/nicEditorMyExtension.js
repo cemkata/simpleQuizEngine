@@ -522,71 +522,96 @@ function saveQuestion(content, id, instance) {
      var explnTxt = tmpHolder[1].innerHTML;
      var referenceLink = document.getElementById("referenceLink").value;
 
-    if(document.getElementById("select_answers") != null){ //Drag-drop answers
-        selc_ans = document.getElementById("select_answers");
-        posb_ans = document.getElementById("correct_answers");
-        var answers_html = selc_ans.getElementsByClassName("showinline");
-        answers = [];
-        answerCount = [];
-        for(let i = 0; i < answers_html.length; i++){
-            answers.push(answers_html[i].firstChild.value)
-            answerCount.push(answers_html[i].childNodes[2].value)
-        }
-        var answers_html = posb_ans.getElementsByClassName("showinline");
-        correctAnswer = [];
-        groups = [];
-        for(let i = 0; i < answers_html.length; i++){
-            if (answers_html[i].firstChild.value == ""){continue;}
-            correctAnswer.push(answers_html[i].firstChild.value)
-            groups.push(answers_html[i].childNodes[2].value)
-        }
-
-        if(!questionTxt.includes("$?__")){
-            for(let i = 0; i < correctAnswer.length; i++){
-                questionTxt+="<div>&nbsp;$?__</div>"
-            }
-        }else{
-            var count = (questionTxt.match(/\$\?__/g) || []).length;
-            if(count != correctAnswer.length){
-               alert("Drop darget count diffrent than correct answers!")
-               errorDiv = document.getElementById("error_no_answer");
-               errorDiv.style.setProperty('display','block','')
-               return;
-            }
-        }
-        correctAnswer = JSON.stringify(correctAnswer)
-    }else{ //free text
+     var selected = document.getElementById("questionType").value;
+     if(selected == '-1'){
+         return;
+     }else if(selected == '0'){ //freetext
          var freetext = document.getElementById("freeTextAns");
-         if(freetext == null){
-           //Not free text question
-           var answers_html = document.getElementsByClassName("showinline");
-           var correctAnswer = ""
-           var answers = {};
-           // -1 becasue the reference link adds one more line
-           for(let i = 0; i < answers_html.length - 1; i++){
-             var tmp_ans = answers_html[i].getElementsByTagName("input");
-             if(tmp_ans.length <= 0){ //add validation
-               alert("Please fill the correct answer!")
-               errorDiv = document.getElementById("error_no_answer");
-               errorDiv.style.setProperty('display','block','')
-               return;
-             }
-             if(tmp_ans[0].checked){
-               //correctAnswer+=i;
-               correctAnswer+=String.fromCharCode(65 + i);
-             }
-             //answers[i] = tmp_ans[1].value
-             answers[String.fromCharCode(65 + i)] = tmp_ans[1].value
-             if(answers[String.fromCharCode(65 + i)].includes("&")){
-                 if(answers[String.fromCharCode(65 + i)][0] != "¶"){
-                     answers[String.fromCharCode(65 + i)] = "¶".concat(answers[String.fromCharCode(65 + i)]);
-                 }
-             }
-           }
-         }else{
-           var answers = {};
-           var correctAnswer = document.getElementById("freeTextAns").value;
+         var answers = {};
+         var correctAnswer = document.getElementById("freeTextAns").value;
+     } else if(selected == '1' || selected == '2'){ //one choice or multiple choice
+        //Not free text question
+        var answers_html = document.getElementsByClassName("showinline");
+        var correctAnswer = ""
+        var answers = {};
+        // -1 becasue the reference link adds one more line
+        for(let i = 0; i < answers_html.length - 1; i++){
+          var tmp_ans = answers_html[i].getElementsByTagName("input");
+          if(tmp_ans.length <= 0){ //add validation
+            alert("Please fill the correct answer!")
+            errorDiv = document.getElementById("error_no_answer");
+            errorDiv.style.setProperty('display','block','')
+            return;
+          }
+          if(tmp_ans[0].checked){
+            //correctAnswer+=i;
+            correctAnswer+=String.fromCharCode(65 + i);
+          }
+          //answers[i] = tmp_ans[1].value
+          answers[String.fromCharCode(65 + i)] = tmp_ans[1].value
+          if(answers[String.fromCharCode(65 + i)].includes("&")){
+              if(answers[String.fromCharCode(65 + i)][0] != "¶"){
+                  answers[String.fromCharCode(65 + i)] = "¶".concat(answers[String.fromCharCode(65 + i)]);
+              }
+          }
+        }
+     } else if(selected == '4'){ //Dropdown
+         answers = ""
+         posb_ans = document.getElementById("correct_answers");
+         var answers_html = posb_ans.getElementsByClassName("showinline");
+         correctAnswer = [];
+         for(let i = 0; i < answers_html.length; i++){
+             if (answers_html[i].firstChild.value == ""){continue;}
+             correctAnswer.push(answers_html[i].firstChild.value);
          }
+
+          /*if(!questionTxt.includes("$?__")){
+             for(let i = 0; i < correctAnswer.length; i++){
+                 questionTxt+="<div>&nbsp;$?__</div>"
+             }
+         }else{
+             var count = (questionTxt.match(/\$\?__/g) || []).length;
+             if(count != correctAnswer.length){
+                alert("Drop darget count diffrent than correct answers!")
+                errorDiv = document.getElementById("error_no_answer");
+                errorDiv.style.setProperty('display','block','')
+                return;
+             }
+         } */
+         correctAnswer = JSON.stringify(correctAnswer)
+     } else{ //drag-n-drop
+         selc_ans = document.getElementById("select_answers");
+         posb_ans = document.getElementById("correct_answers");
+         var answers_html = selc_ans.getElementsByClassName("showinline");
+         answers = [];
+         answerCount = [];
+         for(let i = 0; i < answers_html.length; i++){
+             answers.push(answers_html[i].firstChild.value)
+             answerCount.push(answers_html[i].childNodes[2].value)
+         }
+         var answers_html = posb_ans.getElementsByClassName("showinline");
+         correctAnswer = [];
+         groups = [];
+         for(let i = 0; i < answers_html.length; i++){
+             if (answers_html[i].firstChild.value == ""){continue;}
+             correctAnswer.push(answers_html[i].firstChild.value)
+             groups.push(answers_html[i].childNodes[2].value)
+         }
+
+         if(!questionTxt.includes("$?__")){
+             for(let i = 0; i < correctAnswer.length; i++){
+                 questionTxt+="<div>&nbsp;$?__</div>"
+             }
+         }else{
+             var count = (questionTxt.match(/\$\?__/g) || []).length;
+             if(count != correctAnswer.length){
+                alert("Drop darget count diffrent than correct answers!")
+                errorDiv = document.getElementById("error_no_answer");
+                errorDiv.style.setProperty('display','block','')
+                return;
+             }
+         }
+         correctAnswer = JSON.stringify(correctAnswer)
      }
 
      var fd = new FormData(); // https://hacks.mozilla.org/2011/01/how-to-develop-a-html5-image-uploader/
@@ -594,7 +619,7 @@ function saveQuestion(content, id, instance) {
      fd.append("quizID", quizID);
      fd.append("questionID", questionID);
      fd.append("questionTxt",  questionTxt);
-     fd.append("questionCat", document.getElementById("questionType").value);
+     fd.append("questionCat", selected);
      fd.append("explnTxt", explnTxt);
      fd.append("referenceLink", referenceLink);
      fd.append("answers", JSON.stringify(answers));

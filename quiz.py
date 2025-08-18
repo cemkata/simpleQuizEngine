@@ -173,26 +173,11 @@ def SaveQuestion():
         pass
     elif  questionCat == 3:
         # 3 = Drag-drop
-    #if "$?__" in questionTxt:
         resultingQuestionTxt = []
         removeDivStrings = ["<div>", "</div>"]
-        #NEW method
         for q in questionTxt.split(removeDivStrings[1]):
             q = q.replace(removeDivStrings[0], "")
             resultingQuestionTxt.append(q)
-        ##OLD method
-        #removeDivBr = ["<br>", "</br>"]
-        #for q in questionTxt.split("$?__"): 
-        #    for htmlElm in removeDivStrings:
-        #        q = q.replace(htmlElm, "")
-        #    for htmlElm in removeDivBr:
-        #        if q.startswith(htmlElm):
-        #            q = q.replace(htmlElm, "", 1)
-        #    if len(q) == 0:
-        #        q = removeDivBr[0]
-        #    else:
-        #        resultingQuestionTxt.append(q+"$?__")
-        #    resultingQuestionTxt.append(q+"$?__")
         questionTxt = resultingQuestionTxt
         newCorrectAnswer = []
         for answ in json.loads(correctAnswer):
@@ -201,6 +186,16 @@ def SaveQuestion():
         if len(newCorrectAnswer) == 0:
             newCorrectAnswer.append("  ")
         correctAnswer = newCorrectAnswer
+    elif  questionCat == 4:
+        # 4 = Drop down secection
+        newCorrectAnswer = []
+        for answ in json.loads(correctAnswer):
+            if len(answ) != 0:
+                newCorrectAnswer.append(answ)
+        if len(newCorrectAnswer) == 0:
+            newCorrectAnswer.append("  ")
+        correctAnswer = newCorrectAnswer
+        answers = "  "
     else:
         pass
         # 5 and more futur use

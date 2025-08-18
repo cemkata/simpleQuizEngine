@@ -21,7 +21,8 @@
 selectionDropDownMenu = [{'value':0, 'text':"Free text", 'selected':""},
                  {'value':1, 'text':"Single choice", 'selected':""},
                  {'value':2, 'text':"Multiple choice", 'selected':""},
-                 {'value':3, 'text':"Drag-n-drop", 'selected':""}
+                 {'value':3, 'text':"Drag-n-drop", 'selected':""},
+                 {'value':4, 'text':"Dropdown selection", 'selected':""}
 ]
 %>
 	
@@ -92,6 +93,14 @@ selectionDropDownMenu = [{'value':0, 'text':"Free text", 'selected':""},
 				</span><input type="text" class="textAns" style = "width: 100%;" name="answer" value="{{questionContent['answers'][key]}}">
 			  </div><br>
 			  % end
+  % elif questionContent['category'] == 4:
+      % selectionDropDownMenu[4]['selected'] = 'selected'
+		   <div id="correct_answers">
+		   <p>Correct answers</p>
+			%for answer in questionContent['correctAnswer']:
+			<div class="showinline"><input type="text" class="textAns" style="width: 100%;" value="{{answer}}"></div><br>
+			%end
+		   </div>
   % else:
   % #Here add new type of questions
 			  <div class="showinline">
@@ -128,7 +137,7 @@ selectionDropDownMenu = [{'value':0, 'text':"Free text", 'selected':""},
         </select></td>
     </tr>
     <tr>
-      <td><span>Number of choices:</span></td><td><input type="number" onchange="changeAnswerCount()" id="noQuestion" min="2" value="{{len(questionContent['answers'])}}"></td>
+      <td><span>Number of choices:</span></td><td><input type="number" onchange="changeAnswerCount()" id="noQuestion" min="1" value="{{len(questionContent['correctAnswer'])}}"></td>
     </tr>
     </table>
     <p><b>Help:</b></p>
@@ -215,7 +224,7 @@ selectionDropDownMenu = [{'value':0, 'text':"Free text", 'selected':""},
 	  <tr class = "dragNdrop_answ">
         <td>Or else you will get unexpected results.</td>
       </tr>
-     <tr class = "freetext_answ">
+      <tr class = "freetext_answ">
         <td><b>Applys only to free text<b></td>
 	  </tr>
 	  <tr class = "freetext_answ">
@@ -223,6 +232,24 @@ selectionDropDownMenu = [{'value':0, 'text':"Free text", 'selected':""},
       </tr>
 	  <tr class = "freetext_answ">
         <td>answer (divider)</em></td>
+      </tr>
+      <tr class = "dropdown_answ">
+        <td><b>Applys only drop down selection<b></td>
+	  </tr>
+	  <tr class = "dropdown_answ">
+        <td>To insert drop down selection:</td>
+      </tr>
+	  <tr class = "dropdown_answ">
+        <td>Encase the answers in &#8261; &#8262;</td>
+      </tr>
+	  <tr class = "dropdown_answ">
+        <td>Use &#10081; as delimator. Smaple:</td>
+      </tr>
+	  <tr class = "dropdown_answ">
+        <td>&#8261;a&#10081;b&#10081;c&#8262;</td>
+      </tr>
+	  <tr class = "dropdown_answ">
+        <td><u>Mind the spaces when entering answer (not needed)</u> </td>
       </tr>
      </table>
   </div>

@@ -17,10 +17,18 @@ function changeAnswerType(selct){
         var type = "radio"
     } else if(selected == '2'){ //multiple
         var type = "checkbox"
-    } else{ //drag-n-drop
+    } else if(selected == '4'){ //Dropdown
+        var type = -2;
+    }
+    else{ //drag-n-drop
         var type = -1;
     }
-    var numLines = document.getElementById("noQuestion").value;
+    if (type != -2){
+        var numLines = document.getElementById("noQuestion").value;
+    }else{
+        var numLines = 1;
+        document.getElementById("noQuestion").value = 1;
+    }
     if(document.getElementById("select_answers") == null){ //Drag-drop answers
         lines = ansArea.getElementsByClassName("showinline");
     }else{
@@ -35,35 +43,45 @@ function changeAnswerType(selct){
     if (document.getElementById("questionType").value == "3"){
         countStr = `Count:<input type="number" value="1" min="1" max="99">`;
     }
+
     for(let i = 0; i < lines.length; i++){
         newHtml += `<div class="showinline">`;
-        if (type != -1) newHtml += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
+        if(type != -1 && type != -2) newHtml += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
+        if(lines[i].children.length == 1){
+            var index_of_text_field = 0;
+        }else if(lines[i].children.length == 2){
+            var index_of_text_field = 1;
+        }
 
-
-        newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="` + lines[i].children[1].value + `">`+countStr;
+        newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="` + lines[i].children[index_of_text_field].value + `">`+countStr;
         newHtml += `</div><br>`;
 
+        if (type == -2) continue;
         newHtml_withgroup += `<div class="showinline">`;
-        if (type != -1) newHtml_withgroup += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
-        newHtml_withgroup += `</span><input type="text" class="textAns" style = "width: 100%;" value="` + lines[i].children[1].value + `">Group:<input type="number" value="`+ i +`" min="0" max="99">`;
+        if (type != -1 && type != -2) newHtml_withgroup += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
+        newHtml_withgroup += `</span><input type="text" class="textAns" style = "width: 100%;" value="` + lines[i].children[index_of_text_field].value + `">Group:<input type="number" value="`+ i +`" min="0" max="99">`;
         newHtml_withgroup += `</div><br>`;
     }
     if(lines.length < numLines){
         var lineToAdd = numLines - lines.length;
         for(let i = 0; i < lineToAdd; i++){
         newHtml += `<div class="showinline">`;
-        if (type != -1) newHtml += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
+        if (type != -1 && type != -2) newHtml += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
+        //if (type == -2) newHtml += `<span>`;
         newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">`+countStr;
         newHtml += `</div><br>`;
-
-        newHtml_withgroup += `<div class="showinline">`;
-        if (type != -1) newHtml_withgroup += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
-        newHtml_withgroup += `</span><input type="text" class="textAns" style = "width: 100%;" value="">Group:<input type="number" value="`+ i +`" min="0" max="99">`;
-        newHtml_withgroup += `</div><br>`;
+        if (type != -2){
+            newHtml_withgroup += `<div class="showinline">`;
+            if (type != -1 && type != -2) newHtml_withgroup += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
+                newHtml_withgroup += `</span><input type="text" class="textAns" style = "width: 100%;" value="">Group:<input type="number" value="`+ i +`" min="0" max="99">`;
+                newHtml_withgroup += `</div><br>`;
+            }
         }
     }
     if (type == -1) {
         newHtml = `<div id="select_answers"><p>Selectable answers</p>` + newHtml + `</div><div id="correct_answers"><p>Correct answers</p>` + newHtml_withgroup + `</div>`
+    }else if (type == -2) {
+        newHtml = `<div id="correct_answers"><p>Correct answers</p>` + newHtml + `</div>`
     }
     ansArea.innerHTML = newHtml;
 }
@@ -71,7 +89,9 @@ function changeAnswerType(selct){
 function changeAnswerCount(){
     var ansArea = document.getElementById("answers_area");
     var numLines = document.getElementById("noQuestion").value;
-    if(document.getElementById("select_answers") != null){ //Drag-drop answers
+    var selected = document.getElementById("questionType").value;
+
+    if(selected == '3'){ //Drag-drop answers
         linesHolders = [document.getElementById("select_answers"), document.getElementById("correct_answers")];
         lines = linesHolders[0].getElementsByClassName("showinline"); //Selectable options. More options to select then the questions
         if (numLines <= 0){
@@ -82,6 +102,7 @@ function changeAnswerCount(){
             countStr = `Count:<input type="number" value="1" min="1" max="99">`;
         }
         for(let j = 0; j<linesHolders.length; j++){
+            if(linesHolders[j] == null) continue;
             numLines = parseInt(numLines);
             lines = linesHolders[j].getElementsByClassName("showinline");
             if(lines.length < numLines){
@@ -119,18 +140,31 @@ function changeAnswerCount(){
     }else{
         lines = ansArea.getElementsByClassName("showinline");
         if(lines.length != 0){
-            var type = lines[0].children[0].firstChild.type;
-            if(type == 'checkbox'){
-                if(numLines<3){ //In multiple choise we need at least 3
-                    numLines = 3;
+            if (selected == '1' || selected == '2'){
+                var type = lines[0].children[0].firstChild.type;
+                if(type == 'checkbox'){
+                    if(numLines<3){ //In multiple choise we need at least 3
+                        numLines = 3;
+                    }
+                }else if (type == 'radio'){
+                    if(numLines < 2){ //In single choise we need at least 2
+                        numLines = 2;
+                    }
                 }
-            }else{
-                if(numLines < 2){ //In single choise we need at least 2
-                    numLines = 2;
+            }else if(selected == '4'){
+                var type = -2;
+                //var ansArea = document.getElementById("correct_answers");
+                if(numLines < 1){ //Drop down selection
+                    numLines = 1;
                 }
             }
+            document.getElementById("noQuestion").value = numLines;
 
-
+            if(selected == '4'){
+                var index_of_text_field = 0;
+            }else{
+                var index_of_text_field = 1;
+            }
             if (numLines <= 0){
                 numLines = 4;
             }
@@ -138,20 +172,26 @@ function changeAnswerCount(){
                 var lineToAdd = numLines - lines.length;
                 var newHtml = ansArea.innerHTML;
                 for(let i = 0; i < lines.length; i++){
-                    newHtml = newHtml.replace(`value=""`, `value="${lines[i].childNodes[1].value}"`);
+                    newHtml = newHtml.replace(`value=""`, `value="${lines[i].childNodes[index_of_text_field].value}"`);
                 }
                 for(let i = 0; i < lineToAdd; i++){
                     newHtml += `<div class="showinline">`;
-                    newHtml += `<span><input type="`+ type + `" name="chBoxGrup"/>`;
-                    newHtml += `</span><input type="text" class="textAns" style = "width: 100%;" value="">`;
+                    if (type != -2) newHtml += `<span><input type="`+ type + `" name="chBoxGrup"/></span>`;
+                    newHtml += `<input type="text" class="textAns" style = "width: 100%;" value="">`;
                     newHtml += `</div><br>`;
                 }
             }else{
                 var newHtml = "";
+                if (type == -2){
+                    newHtml +=`<div id="correct_answers"><p>Correct answers</p>`;
+                }
                 for(let i = 0; i < numLines; i++){
                     newHtml += `<div class="showinline">`;
-                    newHtml += lines[i].innerHTML.replace(`value=""`, `value="${lines[i].childNodes[1].value}"`);
+                    newHtml += lines[i].innerHTML.replace(`value=""`, `value="${lines[i].childNodes[index_of_text_field].value}"`);
                     newHtml += `</div><br>`;
+                }
+                if (type == -2){
+                    newHtml +=`</div>`;
                 }
             }
         }else{
@@ -166,23 +206,33 @@ function show_help(selected){
         show_class("freetext_answ");
         hide_class("selectable_answ");
         hide_class("dragNdrop_answ");
+        hide_class("dropdown_answ");
         return;
     } else if(selected == '1'){ //one choice
         hide_class("freetext_answ");
         show_class("selectable_answ");
         hide_class("dragNdrop_answ");
+        hide_class("dropdown_answ");
     } else if(selected == '2'){ //multiple
         hide_class("freetext_answ");
         show_class("selectable_answ");
         hide_class("dragNdrop_answ");
+        hide_class("dropdown_answ");
     } else if(selected == '3'){ //drag-n-drop
         hide_class("freetext_answ");
         hide_class("selectable_answ");
         show_class("dragNdrop_answ");
-    } else {
+        hide_class("dropdown_answ");
+    } else if(selected == '4'){ //drag-n-drop
+        hide_class("freetext_answ");
+        hide_class("selectable_answ");
+        hide_class("dragNdrop_answ");
+        show_class("dropdown_answ");
+    }  else {
         show_class("freetext_answ");
         show_class("selectable_answ");
         show_class("dragNdrop_answ");
+        show_class("dropdown_answ");
     }
 }
 

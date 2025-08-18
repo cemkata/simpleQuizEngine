@@ -49,23 +49,11 @@
 						if(currentRow.classList.contains("question_rows")){
 							let new_id = parseInt(currentRow.id.split("_")[1]) - 1;
 							currentRow.id = "q_" + new_id;
-							let cell_index = -1;
 							let cells = currentRow.getElementsByTagName("td");
-							for(let i = 0; i<cells.length; i++){
-								let tmaEl = cells[i].getElementsByClassName("table_cell_div");
-								if(tmaEl.length != 0){
-									cell_index = i;
-									break;
-								}
-							}
-							if(cell_index == -1) {return;}
-							let questionText = cells[cell_index + 0].getElementsByTagName("h2")[0];
-							let editButton = cells[cell_index + 1].getElementsByTagName("button")[0];
-							let delButton = cells[cell_index + 2].getElementsByTagName("button")[0];
-							q_number = parseInt(questionText.innerText.replace("Question ", "").replace(":", "")) - 1;
-							questionText.innerText = "Question " + q_number + ":";
-							editButton.setAttribute('onclick',`confirmEdit(${q_number})`);
-							delButton.setAttribute('onclick',`confirmDelete(${q_number})`);
+							q_number = parseInt(cells[0].childNodes[1].innerText.replace("Question ", "").replace(":", "")) - 1;
+							cells[0].childNodes[1].childNodes[1].innerText = "Question " + q_number + ":";
+							cells[1].childNodes[0].setAttribute('onclick',`confirmEdit(${q_number})`)
+							cells[2].childNodes[0].setAttribute('onclick',`confirmDelete(${q_number})`)
 						}
 						currentRow = currentRow.nextElementSibling.nextElementSibling;
 					}
@@ -93,19 +81,16 @@
 <table style="width:100%" class="pretyPrint">
   <tr><button class="newQuestion_btn" style="width:100%" onclick="confirmEdit(-1)">&#10001; New question &#10002;</button> </tr>
   <tr>
-    <th class="w3-dark-grey">&nbsp;</th>
-    <th colspan="4" class="w3-dark-grey" id="question_count">Total number of question(s): {{len(questions)}}</th>
+    <th colspan="3" class="w3-dark-grey" id="question_count">Total number of question(s): {{len(questions)}}</th>
   </tr>
-  <tr><td colspan="5"><hr></td></tr>
+  <tr><td colspan="3"><hr></td></tr>
   <tr>
-    <th class="w3-dark-grey">&nbsp;</th>
     <th class="w3-dark-grey">Question</th>
-    <th class="w3-dark-grey" colspan="3">Action</th>
+    <th class="w3-dark-grey" colspan="2">Action</th>
   </tr>
-  <tr><td colspan="5"><hr></td></tr>
+  <tr><td colspan="3"><hr></td></tr>
 % for qstn in questions:
   <tr class="question_rows" id ="q_{{qstn["id"]}}">
-    <td>&nbsp;</td>
     <td>
 		<div class="table_cell_div">
 		<h2>Question {{qstn["id"]}}:</h2><hr>
@@ -117,19 +102,9 @@
 			{{!qstn["question"]}}
 		  %end ## if type(qstn["question"]) is list:
 		<br><h3>Answer(s):</h3><hr>
-		  %if len(qstn["answers"]) == 0:
+		  %if qstn["category"] == 0:
 				<input type="text" size="80" value="{{qstn["correctAnswer"]}}" readonly>
-		  %else:
-				%if type(qstn["question"]) is list:
-					<p><u>Correct answers:</u></p>
-					%for answer in qstn["correctAnswer"]:
-					<label> {{answer}}</label><br>
-					%end ## for answer in qstn["correctAnswer"]:
-					<p><u>Possible answers:</u></p>
-					%for answer in qstn["answers"]:
-					<label> {{answer}}</label><br>
-					%end ## for answer in qstn["answers"]:
-				%else:
+		  %elif qstn["category"] == 1 or qstn["category"] == 2:
 					%if len(qstn["correctAnswer"]) != 1:
 						%j = 0
 						%for i in range(len(qstn["answers"])):
@@ -174,20 +149,33 @@
 						  %end ##%if str(i) == qstn["correctAnswer"]:
 						%end ##%for i in range(len(answers)):
 					%end ##if len(qstn["correctAnswer"]) != 1:
-				%end ##if type(qstn["question"]) is list:
-		  %end ##if len(qstn["answers"]) == 0:
+		  %elif qstn["category"] == 3:
+					<p><u>Correct answers:</u></p>
+					%for answer in qstn["correctAnswer"]:
+					<label> {{answer}}</label><br>
+					%end ## for answer in qstn["correctAnswer"]:
+					<p><u>Possible answers:</u></p>
+					%for answer in qstn["answers"]:
+					<label> {{answer}}</label><br>
+					%end ## for answer in qstn["answers"]:
+		  %elif qstn["category"] == 4:
+					%for answer in qstn["correctAnswer"]:
+					<label> {{answer}}</label><br>
+					%end ## for answer in qstn["correctAnswer"]:
+		  %else:
+					<p>New cat TODO</p>
+		  %end ##if qstn["category"] == 0:
 		  <br><br><h3>Explanation:</h3><hr>
 		  <div>{{!qstn["explanation"]}}</div>
 		  <br><h3>Extenls URL:</h3><hr>
 		  <input type="text" size="80" value="{{qstn["referenceLink"]}}" readonly>
 		</div>
 	</td>
-    <td><div class="float"><button style="width:100%" onclick="confirmEdit({{qstn["id"]}})">&#9998; Edit</button></div> </td>
-    <td><div class="float"><button style="width:100%" onclick="confirmDelete({{qstn["id"]}})">&#128465; Delete</button></div> </td>
-    <td>&nbsp;</td>
+    <td><button style="width:100%" class="float" onclick="confirmEdit({{qstn["id"]}})">&#9998; Edit</button> </td>
+    <td><button style="width:100%" class="float" onclick="confirmDelete({{qstn["id"]}})">&#128465; Delete</button> </td>
   </tr>
   <tr>
-  <td colspan="5"><hr>
+  <td colspan="3"><hr>
   </td>
   </tr>
 % end ##% for qstn in questions:

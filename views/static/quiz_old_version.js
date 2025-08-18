@@ -20,8 +20,6 @@
               output.push(prepareQuestionFreetext(i))
         }else if (myQuestions[i].category == 1 || myQuestions[i].category == 2){
               output.push(prepareQuestionSelection(i))
-        }else if (myQuestions[i].category == 4){
-              output.push(prepareQuestionDropDown(i))
         }else{
             //output.push(prepareQuestionNewCat(i))
             prepareQuestionNewCat(i)
@@ -113,7 +111,7 @@
         <div class="question"> ${myQuestions[i].question} </div>
         <div class="answers"> ${answers.join("")} </div>
 
-        <div class="explanation hidden"> Correct answer: <br>${corect_anw.join("<br>")}<br>${myQuestions[i].explanation} ${reftxt}</div><hr>
+        <div class="explanation hidden"> Correct answer: <br>${corect_anw.join("<br>")}</br>${myQuestions[i].explanation} ${reftxt}</div><hr>
       </div>`
     return resultingHtml
   }
@@ -172,53 +170,6 @@
         <div class="explanation hidden"> ${myQuestions[i].explanation} ${reftxt}</div><hr>
       </div>`
     return resultingHtml
-  }
-
-  function prepareQuestionDropDown(i){
-    var tmpStr = '';
-    var questionStr = '';
-    var correctAnswersStr = '';
-    var selectionFlag = false;
-    
-    for(let o = 0, k = 0; o < myQuestions[i].question.length; o++){ 
-        if(myQuestions[i].question[o] == '⁅'){ // symbol - &#8261;
-            selectionFlag = true;
-            continue;
-        }else{
-            if(!selectionFlag){
-                questionStr += myQuestions[i].question[o]
-                correctAnswersStr += myQuestions[i].question[o];
-            }
-        }
-        if(selectionFlag){
-            if(myQuestions[i].question[o] == "⁆"){ // symbol - &#8262;
-                selectionFlag = false;
-                options = tmpStr.split('❡')  // symbol - &#8262;
-                var newList = document.createElement("select");
-                if(randomAnswer.checked){
-                  options = shuffle(options);
-                }
-                for(let j = 0; j < options.length; j++){
-                  let escapeOptionStr = escapeHtml(options[j])
-                  newList.appendChild(new Option(escapeOptionStr, escapeOptionStr));
-                }
-                questionStr += newList.outerHTML;
-                correctAnswersStr += `<p class="droptarget">${myQuestions[i].correctAnswer[k]}</p>`;
-                k++;
-                tmpStr = '';
-            }else{
-                tmpStr += myQuestions[i].question[o];
-            }
-        }
-    }
-
-      resultingHtml = `<div class="slide">
-        <div class="answers"> ${questionStr} </div>
-        <div class="question"></div>
-
-        <div class="explanation hidden"> Correct answer: <br>${correctAnswersStr}<br> ${myQuestions[i].explanation} ${reftxt}</div><hr>
-      </div>`;
-    return resultingHtml;
   }
 
   function prepareQuestionNewCat(i){
@@ -430,40 +381,16 @@
       const selector = `input[name=question${questionNumber + _beginOfQuesions}]:checked`;
       const selectorAll = `input[name=question${questionNumber + _beginOfQuesions}]`;
       var tmpQuestion = answerContainer.querySelectorAll(selectorAll);
-        if(currentQuestion.category == 3){ //drag-drop question
+       if(tmpQuestion.length == 0 || currentQuestion.category == 3){ //drag-drop question
               return checkAnswerDragDrop(answerContainer, currentQuestion);
-        }else if(currentQuestion.category == 0){ //Fill the blank question
+        }else if(tmpQuestion.length < 2 || currentQuestion.category == 0){ //Fill the blank question
               return checkAnswerFreetext(answerContainer, currentQuestion, tmpQuestion);
         }else if (currentQuestion.category == 1 || currentQuestion.category == 2){
               return checkAnswerSelection(answerContainer, currentQuestion, selector, selectorAll)
-        }else if(currentQuestion.category == 4){
-              return checkAnswerDropDown(answerContainer, currentQuestion);
         }else{
             return checkAnswerNewCat(i)
         }
       return false;
-  }
-
-  function checkAnswerDropDown(answerContainer, currentQuestion){
-    // here should be the logic to check the drop down answer
-    let result = true;
-    dropDownAnswers = answerContainer.getElementsByTagName("select");
-    for(let i = 0; i < dropDownAnswers.length; i++){
-        if(dropDownAnswers[i].value === currentQuestion.correctAnswer[i]){
-            dropDownAnswers[i].style.color = correctAnswerColor; // color the answers green
-            if(makeAnswerReadOnly.checked){
-                dropDownAnswers[i].disabled=true;
-            }
-        }else{
-            result = false;
-            dropDownAnswers[i].style.color = wrongAnswerColor; // color the answers red
-            if(makeAnswerReadOnly.checked){
-                dropDownAnswers[i].disabled=true;
-            }
-        }
-    }
-    
-    return result;
   }
 
   function checkAnswerDragDrop(answerContainer, currentQuestion){

@@ -150,7 +150,7 @@ button:hover{
   border-collapse:collapse;
 }
 
-input[type=text], input[type=number], select, textarea {
+input[type=text], input[type=number], textarea {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
