@@ -183,6 +183,7 @@
     for(let o = 0, k = 0; o < myQuestions[i].question.length; o++){ 
         if(myQuestions[i].question[o] == '⁅'){ // symbol - &#8261;
             selectionFlag = true;
+            questionStr += `<laybel>`;
             continue;
         }else{
             if(!selectionFlag){
@@ -202,6 +203,7 @@
                   let escapeOptionStr = escapeHtml(options[j])
                   newList.appendChild(new Option(escapeOptionStr, escapeOptionStr));
                 }
+                questionStr += `</laybel>`;
                 questionStr += newList.outerHTML;
                 correctAnswersStr += `<p class="droptarget">${myQuestions[i].correctAnswer[k]}</p>`;
                 k++;
