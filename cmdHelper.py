@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from bottle import template
 from importQuestionsHelper import proccesFile, saveFile
-from config import examFolder
+from config import examFolder, webconf, exportHTMLFilesFolder
 import os
 import json
 
@@ -137,9 +137,10 @@ def export_to_offline_main():
 
     text = template('start', json_Output = \
                     get_json_dump(nextExamFolder, selected_dump_file),\
-                    tittle = f'{nextExamFolder}_{selected_dump_file}', OFFLINE = True)
+                    tittle = f'{nextExamFolder}_{selected_dump_file}', OFFLINE = True,\
+                    page_config = webconf)
 
-    outputFolder = os.path.join(examFolder, "html_output")
+    outputFolder = os.path.join(exportHTMLFilesFolder, "html_output")
     if not os.path.exists(outputFolder):
        # Create a new directory because it does not exist
        os.makedirs(outputFolder)

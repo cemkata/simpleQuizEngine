@@ -74,6 +74,7 @@ To configure edit the file config_files\config.ini
 - port - changes the server port
 - ip - the ip address where to listen
 - examFolder - the folder where to save the exam files
+- export_folder - In this folder a sug-folder 'html_output' will be created, where the exported html file (for ofline) will be stored.
 - Save_format_pkl - boolean to enable saving as pickle file. This comes with all security risk introduced in pickle library!
 - Save_format_sql - boolean to enable saving in sqlite db.
 - auto_open_in_browser - boolean to enable opening the page in the default browser. Used only by mainGUI.pyw
@@ -121,7 +122,7 @@ The section *EDITOR_WEB_PAGE* configures the editor settings
   - By deafailt - [http://127.0.0.1:8080/editor/](http://127.0.0.1:8080/editor/)
 
 ***Versions***  
-*Server app 1.49*  
+*Server app 1.50*  
 *Cli menu/loader 1.4*  
 *Web page templates (css/js) 1.63*  
 *Gui 0.3*  

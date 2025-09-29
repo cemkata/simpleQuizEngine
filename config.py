@@ -63,7 +63,11 @@ if os.path.isfile(os.path.abspath(cnfgFile)):
             maxSizeWarning = config.getint('DEFAULT', 'FileSize')
         except ValueError as e:
             pass
-
+    exportHTMLFilesFolder = "./"
+    try:
+        exportHTMLFilesFolder = config.getint('DEFAULT', 'export_folder')
+    except ValueError as e:
+        pass
     webconf = {}
     webconf['Display_GUI'] = False
     webconf['Hide_restart_answer'] = False
@@ -159,6 +163,7 @@ else:
     print("Warning!!")
     print("Using default config")
     examFolder = ".\exams"
+    exportHTMLFilesFolder = "./"
     if USEING_K8S:
         serverPort = 80
         serverAddres = '0.0.0.0'

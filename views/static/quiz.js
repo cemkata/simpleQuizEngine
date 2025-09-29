@@ -1035,6 +1035,7 @@
       window.onload = function() {
           // Quiz settings
           let timeout_in_ms = 1000; //1 second
+          myQuestions = window.myQuestions;
           setTimeout(function(){ //wait for few ms to render the waiting animation
                 initPage();
           }, timeout_in_ms);
