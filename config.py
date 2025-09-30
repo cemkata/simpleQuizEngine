@@ -65,7 +65,7 @@ if os.path.isfile(os.path.abspath(cnfgFile)):
             pass
     exportHTMLFilesFolder = "./"
     try:
-        exportHTMLFilesFolder = config.getint('DEFAULT', 'export_folder')
+        exportHTMLFilesFolder = os.path.abspath(config['DEFAULT']['export_folder'])
     except ValueError as e:
         pass
     webconf = {}
