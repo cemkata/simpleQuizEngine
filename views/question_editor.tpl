@@ -137,7 +137,7 @@ selectionDropDownMenu = [{'value':0, 'text':"Free text", 'selected':""},
         </select></td>
     </tr>
     <tr>
-      <td><span>Number of choices:</span></td><td><input type="number" onchange="changeAnswerCount()" id="noQuestion" min="1" value="{{len(questionContent['correctAnswer'])}}"></td>
+      <td><span>Number of choices:</span></td><td><input type="number" onchange="changeAnswerCount()" id="noQuestion" min="1" value="{{len(questionContent['answers'])}}"></td>
     </tr>
     </table>
     <p><b>Help:</b></p>
