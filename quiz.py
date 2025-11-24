@@ -316,8 +316,8 @@ def deleteCategory():
         redirect("/editor/")
     for f in os.listdir(os.path.join(examFolder, courseID)):
         os.remove(os.path.join(examFolder, courseID, f))
-    os.remove(os.path.join(examFolder, courseID))
-    #shutil.rmtree(os.path.join(examFolder, courseID), ignore_errors=True, onerror=rmtree_onerror)
+    #os.remove(os.path.join(examFolder, courseID))
+    shutil.rmtree(os.path.join(examFolder, courseID), ignore_errors=True, onerror=rmtree_onerror)
     if os.path.exists(os.path.join(examFolder, courseID)):
         abort(500, "Not deleted")
     else:
