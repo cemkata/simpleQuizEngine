@@ -72,7 +72,7 @@
 		function confirmDelete(url) {
 			if (confirm('Are you sure you want to delete this?')) {
 			  const xhr = new XMLHttpRequest();
-			  xhr.open("DELETE", url);
+			  xhr.open("GET", url);
 			  xhr.send();
 			  xhr.onload = () => {
 				if (xhr.readyState == 4 && xhr.status == 200) {

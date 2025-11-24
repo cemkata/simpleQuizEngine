@@ -649,7 +649,7 @@ function saveQuestion(content, id, instance) {
      if(questionID == -1){
          xhr.open("POST", "./saveQuestion");
      }else{
-         xhr.open("PATCH", "./saveQuestion");
+         xhr.open("POST", "./saveQuestion");
      }
 
      xhr.onload = function() {

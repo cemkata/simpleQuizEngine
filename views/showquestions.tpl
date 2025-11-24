@@ -28,7 +28,7 @@
 		  url = '/editor/deleteQuestion?courseID=' + cource + "&quizID=" + quiz + "&questionID=" + qid;
 		
 		  const xhr = new XMLHttpRequest();
-		  xhr.open("DELETE", url);
+		  xhr.open("GET", url);
 		  xhr.send();
 		  xhr.onload = () => {
 		    if (xhr.readyState == 4 && xhr.status == 200) {

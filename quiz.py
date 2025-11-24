@@ -142,7 +142,7 @@ def SaveNewQuestion():
     #if needed for additional processing
     return SaveQuestion()
 
-@app.route('/editor/saveQuestion', method='PATCH')
+@app.route('/editor/saveQuestion', method='POST')
 def UpdateQuestion():
     #if needed for additional processing
     return SaveQuestion()
@@ -233,7 +233,7 @@ def SaveQuestion():
     dump_file["lastID"] = i + 1
     return saveFile(os.path.join(examFolder, courseID, quizID), dump_file)
 
-@app.route('/editor/deleteQuestion', method="DELETE")
+@app.route('/editor/deleteQuestion', method="GET")
 def deleteQuestion():
     courseID = request.query.courseID
     quizID = request.query.quizID
@@ -290,7 +290,7 @@ def editDump_process_post():
                   os.path.join(examFolder, courseID, newName))
     redirect("/editor/showDumps?courseID="+courseID)
 
-@app.route('/editor/deleteDump', method="DELETE")
+@app.route('/editor/deleteDump', method="GET")
 def deleteDump():
     courseID = request.query.courseID or -1
     if courseID == -1:
@@ -309,7 +309,7 @@ def editCategory():
     courseID = request.query.courseID
     return template("editCourseDeck", action = "addcategory", name=courseID, cid = courseID)
     
-@app.route('/editor/deleteCategory', method="DELETE")
+@app.route('/editor/deleteCategory', method="GET")
 def deleteCategory():
     courseID = request.query.courseID or -1
     if courseID == -1:
