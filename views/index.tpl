@@ -18,6 +18,8 @@
  <title>Test engine editor: {{cid}}</title>
 % end
 
+<meta charset="UTF-8">
+
 <link rel='stylesheet' href='/static/style_main.css'>
 	    %if comand == 4:
 <link rel='stylesheet' href='/static/progressbar.css'>

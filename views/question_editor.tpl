@@ -7,6 +7,7 @@
     <title>Adding new question in {{quizID}}</title>
 %end
     <link rel="stylesheet" href="/static/editor.css">
+	<meta charset="UTF-8">
   </head>
   <body>
     <br />
