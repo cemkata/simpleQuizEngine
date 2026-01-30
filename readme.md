@@ -124,6 +124,6 @@ The section *EDITOR_WEB_PAGE* configures the editor settings
 ***Versions***  
 *Server app 1.50*  
 *Cli menu/loader 1.4*  
-*Web page templates (css/js) 1.66*  
+*Web page templates (css/js) 1.67*  
 *Gui 0.3*  
 *Database 0.4*  
