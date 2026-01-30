@@ -564,7 +564,8 @@
               userAnswer += (ans || {}).value;
           }
       );
-      if(userAnswer === currentQuestion.correctAnswer){
+      userAnswer = userAnswer.split("").sort().join("");
+      if(userAnswer === currentQuestion.correctAnswer.split("").sort().join("")){
         answerContainer.querySelectorAll('label').forEach(ans => {
                 if(currentQuestion.correctAnswer.includes((ans.querySelector(selector) || {}).value)){
                       ans.style.color = correctAnswerColor; // color the answers green
